@@ -6,3 +6,30 @@
 </div>
 {% endspaceless %}
 {% endblock neutron_autocomplete_widget %}
+
+{% block neutron_buttonset_widget %} 
+{% spaceless %}
+<div id="{{ id }}"> 
+    {{ form_widget(form) }} 
+    <span class="neutron-buttonset" data-options="{{ configs|merge({'id':id})|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_buttonset_widget %} 
+
+{% block neutron_toggle_button_widget %} 
+{% spaceless %}
+
+{% set extra = {
+    'id': id,
+    'checked_label': configs.checked_label|trans({}, translation_domain),
+    'unchecked_label': configs.unchecked_label|trans({}, translation_domain),
+} %}
+
+<div> 
+    {{ form_widget(form) }}
+    <span class="neutron-toggle-button" data-options="{{ configs|merge(extra)|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_toggle_button_widget %} 

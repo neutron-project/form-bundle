@@ -11,21 +11,23 @@ namespace Neutron\FormBundle\Form\Type;
 
 use Symfony\Component\Form\FormView;
 
+use Symfony\Component\OptionsResolver\Options;
+
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 use Symfony\Component\Form\FormInterface;
 
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates jquery autocomplete element
+ * This class creates jquery toggle button element
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class AutocompleteType extends AbstractType
+class ToggleButtonType extends AbstractType
 {
 
     /**
@@ -36,8 +38,7 @@ class AutocompleteType extends AbstractType
     {
         $view->vars['configs'] = $options['configs'];
     }
-    
-    
+
     /**
      * (non-PHPdoc)
      * @see Symfony\Component\Form.AbstractType::setDefaultOptions()
@@ -45,22 +46,21 @@ class AutocompleteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'configs' => array(
-                'use_categories' => false,        
-            ),
+            'configs' => array(),
         ));
     
         $resolver->setNormalizers(array(
             'configs' => function (Options $options, $value) {
+                $default = array(
+                    'checked_label' => 'label.checked',
+                    'unchecked_label' => 'label.unchecked',
+                );
 
-                if (!isset($value['source'])){
-                    throw new \InvalidArgumentException('Option "configs:source" is not defined');
-                }
-                
-                return $value;
+                return array_merge($default, $value);
             }
         ));
     }
+
 
     /**
      * (non-PHPdoc)
@@ -68,7 +68,7 @@ class AutocompleteType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return 'checkbox';
     }
 
     /**
@@ -77,7 +77,7 @@ class AutocompleteType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_autocomplete';
+        return 'neutron_toggle_button';
     }
 
 }

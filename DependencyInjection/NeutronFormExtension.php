@@ -2,6 +2,8 @@
 
 namespace Neutron\FormBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
+
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -24,5 +26,28 @@ class NeutronFormExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
+    }
+    
+    /**
+     * Loads extended form types.
+     *
+     * @param string           $serviceId Id of the abstract service
+     * @param string           $name      Name of the type
+     * @param ContainerBuilder $container A ContainerBuilder instance
+     */
+    private function loadExtendedTypes($serviceId, $name, ContainerBuilder $container)
+    {
+        foreach (array('choice', 'language', 'country', 'timezone', 'locale', 'entity') as $type) {
+            $typeDef = new DefinitionDecorator($serviceId);
+            $typeDef
+                ->addArgument($type)
+                ->setScope('request')
+                ->addTag('form.type', array('alias' => $name. '_' . $type))
+            ;
+    
+            $container->setDefinition($serviceId.'.'.$type, $typeDef);
+        }
     }
 }

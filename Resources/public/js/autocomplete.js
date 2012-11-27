@@ -24,7 +24,7 @@ jQuery(document).ready(function(){
     //Searching for autocomplete elements
     jQuery('.neutron_autocomplete').each(function(key, value){
         var options = jQuery(this).data('options'); 
-        var el = jQuery(this).prev();
+        var el = jQuery('#' + options.id);
 
         if(options.use_categories){
             el.catcomplete(options);

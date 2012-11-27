@@ -11,22 +11,39 @@ namespace Neutron\FormBundle\Form\Type;
 
 use Symfony\Component\Form\FormView;
 
+use Symfony\Component\OptionsResolver\Options;
+
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Form\FormInterface;
 
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates jquery autocomplete element
+ * This class creates jquery buttonset element
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class AutocompleteType extends AbstractType
+class ButtonsetType extends AbstractType
 {
+    
+    /**
+     * @var string
+     */
+    protected $widget;
+    
+    /**
+     * Construct
+     * 
+     * @param string $widget
+     */
+    public function __construct($widget)
+    {
+        $this->widget = $widget;
+    }
 
     /**
      * (non-PHPdoc)
@@ -35,8 +52,15 @@ class AutocompleteType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['configs'] = $options['configs'];
+        
+        // Adds a custom block prefix
+        array_splice(
+            $view->vars['block_prefixes'],
+            array_search($this->getName(), $view->vars['block_prefixes']),
+            0,
+            'neutron_buttonset'
+        );
     }
-    
     
     /**
      * (non-PHPdoc)
@@ -45,30 +69,27 @@ class AutocompleteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'configs' => array(
-                'use_categories' => false,        
-            ),
+            'multiple' => false,
+            'configs' => array()
         ));
-    
+        
         $resolver->setNormalizers(array(
+            'expanded' => function (Options $options, $value) {
+                return true;
+            },           
             'configs' => function (Options $options, $value) {
-
-                if (!isset($value['source'])){
-                    throw new \InvalidArgumentException('Option "configs:source" is not defined');
-                }
-                
                 return $value;
             }
         ));
     }
-
+    
     /**
      * (non-PHPdoc)
      * @see Symfony\Component\Form.AbstractType::getParent()
      */
     public function getParent()
     {
-        return 'text';
+        return $this->widget;
     }
 
     /**
@@ -77,7 +98,7 @@ class AutocompleteType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_autocomplete';
+        return 'neutron_buttonset_' . $this->widget;
     }
 
 }
