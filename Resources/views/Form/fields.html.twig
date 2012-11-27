@@ -1,0 +1,8 @@
+{% block neutron_autocomplete_widget %}
+{% spaceless %}
+<div>
+    {{ block('field_widget') }}
+    <span class="neutron_autocomplete" style="display:none" data-options="{{ configs|merge({'id': id})|json_encode }}"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_autocomplete_widget %}

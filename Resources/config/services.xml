@@ -4,17 +4,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
+  
     <parameters>
-        <parameter key="neutron_form.example.class">Neutron\FormBundle\Example</parameter>
+        <parameter key="neutron_form.form.type.autocomplete.class">Neutron\FormBundle\Form\Type\AutocompleteType</parameter>
     </parameters>
 
     <services>
-        <service id="neutron_form.example" class="%neutron_form.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="neutron_form.form.type.autocomplete" class="%neutron_form.form.type.autocomplete.class%">
+            <tag name="form.type" alias="neutron_autocomplete" />
         </service>
     </services>
-    -->
+
 </container>
