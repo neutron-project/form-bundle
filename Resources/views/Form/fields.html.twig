@@ -33,3 +33,11 @@
     
 {% endspaceless %} 
 {% endblock neutron_toggle_button_widget %} 
+
+{% block neutron_plain_widget %} 
+{% spaceless %}   
+<div>
+    <p>{{ value|trans({}, translation_domain)|escape }}</p>
+</div>
+{% endspaceless %} 
+{% endblock neutron_plain_widget %} 

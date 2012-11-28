@@ -8,6 +8,7 @@
         <parameter key="neutron_form.form.type.autocomplete.class">Neutron\FormBundle\Form\Type\AutocompleteType</parameter>
         <parameter key="neutron_form.form.type.toggle_button.class">Neutron\FormBundle\Form\Type\ToggleButtonType</parameter>
         <parameter key="neutron_form.form.type.buttonset.class">Neutron\FormBundle\Form\Type\ButtonsetType</parameter>
+        <parameter key="neutron_form.form.type.plain.class">Neutron\FormBundle\Form\Type\PlainType</parameter>
     </parameters>
 
     <services>
@@ -22,6 +23,11 @@
     
         <service id="neutron_form.form.type.buttonset" class="%neutron_form.form.type.buttonset.class%" abstract="true" />
         
+        <service id="neutron_form.form.type.plain" class="%neutron_form.form.type.plain.class%" scope="request">
+        	<argument type="service" id="request" />
+            <tag name="form.type" alias="neutron_plain" />
+        </service>
+
     </services>
 
 </container>
