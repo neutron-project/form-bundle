@@ -1,9 +1,9 @@
-Toggle button
-=============
+Datepicker
+===========
 
-It is a jQuery toggle button.
+This is a jQuery datepicker.
 
-See [demo](http://jqueryui.com/button/#checkbox)
+See [demo](http://jqueryui.com/datepicker/)
 
 ### Usage:
 
@@ -14,12 +14,14 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 {
     $builder
         // .....
-        ->add('name', 'neutron_toggle_button', array(
+        ->add('name', 'neutron_datepicker', array(
+            'label' => 'Datepicker',
+            'input' => 'datetime', // [datetime, string, array, timestamp]
+            'date_timezone' => null,
+            'user_timezone' => null,
             'configs' => array(
-                'checked_label' => 'checked',
-                'unchecked_label' => 'unchecked',
-                'icons' => array('primary' => 'ui-icon-check'),
-            ),
+                'maxDate' => '+10D'
+            )
         ))
 		// .....
     ;
@@ -47,7 +49,7 @@ in the twig template add following code:
         'jquery/js/jquery.js'
         'jquery/js/jquery-ui.js'
         'jquery/i18n/jquery-ui-i18n.js'
-        'bundles/neutronform/js/toggle-button.js'
+        'bundles/neutronform/js/datepicker.js'
    
     %}
         <script src="{{ asset_url }}"></script>
@@ -57,10 +59,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-```
-Option *configs* is converted to json object and  passed to jQuery widget options.
+``
+Option *configs* is converted to json object and passed to jQuery widget options.
+
+[jQuery API documentation](http://api.jqueryui.com/datepicker/)
 
 **Note:** You must install jQueryUI.
+
+**Note:** Datepicker is locale aware. 
+
+**Limitations** The only available format is *Y-m-d*.
 
 That's it.
 

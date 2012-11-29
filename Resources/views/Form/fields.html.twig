@@ -58,23 +58,33 @@
 
 {% block neutron_slider_range_widget %}
 {% spaceless %}
-    <div>       
-        {{ block('field_rows') }}
-        <span id="neutron-slider-range-tpl-{{ id }}" class="neutron-slider-range-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
-        <div id="neutron-slider-range-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }} 
-            {% elseif configs.height is defined  %} style="height:{{ configs.height }} 
-            {% endif %}" >
-        </div>
-        <span class="neutron-slider-range" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+<div>       
+    {{ block('field_rows') }}
+    <span id="neutron-slider-range-tpl-{{ id }}" class="neutron-slider-range-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
+    <div id="neutron-slider-range-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }} 
+        {% elseif configs.height is defined  %} style="height:{{ configs.height }} 
+        {% endif %}" >
     </div>
+    <span class="neutron-slider-range" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+</div>
 {% endspaceless %}
 {% endblock neutron_slider_range_widget %}
 
 {% block neutron_datepicker_widget %} 
 {% spaceless %} 
-<div>
+<span>
     {{ form_widget(form) }}
     <span class="neutron-datepicker" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display: none"></span>
-</div>
+</span>
 {% endspaceless %} 
 {% endblock neutron_datepicker_widget %} 
+
+{% block neutron_daterangepicker_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form[configs.first_name]) }}
+    {{ form_widget(form[configs.second_name]) }}
+    <span class="neutron-daterangepicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_daterangepicker_widget %} 
