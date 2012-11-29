@@ -74,7 +74,7 @@ class SliderRangeType extends AbstractType
     
         $resolver->setNormalizers(array(
             'configs' => function (Options $options, $value) use ($defaults) {
-                $value = array_merge($defaults, $value);
+                $value = array_replace_recursive($defaults, $value);
                 
                 if($value['orientation'] == 'horizontal'){
                     unset($value['height']);

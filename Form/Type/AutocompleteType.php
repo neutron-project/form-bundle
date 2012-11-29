@@ -54,7 +54,7 @@ class AutocompleteType extends AbstractType
     
         $resolver->setNormalizers(array(
             'configs' => function (Options $options, $value) use ($defaultConfigs){
-                $value = array_merge($defaultConfigs, $value);
+                $value = array_replace_recursive($defaultConfigs, $value);
                 
                 if (!isset($value['source'])){
                     throw new \InvalidArgumentException('Option "configs:source" is not defined');

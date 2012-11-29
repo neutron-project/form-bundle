@@ -59,7 +59,7 @@ class SliderType extends AbstractType
         
         $resolver->setNormalizers(array(
             'configs' => function (Options $options, $value) use ($defaultConfigs) {
-                $value = array_merge($defaultConfigs, $value);
+                $value = array_replace_recursive($defaultConfigs, $value);
                 
                 if($value['orientation'] == 'horizontal'){
                     unset($value['height']);

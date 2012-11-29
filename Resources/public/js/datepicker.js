@@ -13,8 +13,7 @@ jQuery(document).ready(function(){
         
         var lang = options.lang;
             jQuery.datepicker
-            .setDefaults(jQuery
-            .datepicker.regional[(lang == 'en') ? 'en-GB' : lang]);
+            .setDefaults(jQuery.datepicker.regional[(lang == 'en') ? 'en-GB' : lang]);
     
         el.datepicker(options);
     });

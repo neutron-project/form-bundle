@@ -45,18 +45,18 @@ class ToggleButtonType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $defaultConfigs = array(
+            'checked_label' => 'label.checked',
+            'unchecked_label' => 'label.unchecked',
+        );
+        
         $resolver->setDefaults(array(
-            'configs' => array(),
+            'configs' => $defaultConfigs,
         ));
     
         $resolver->setNormalizers(array(
-            'configs' => function (Options $options, $value) {
-                $default = array(
-                    'checked_label' => 'label.checked',
-                    'unchecked_label' => 'label.unchecked',
-                );
-
-                return array_merge($default, $value);
+            'configs' => function (Options $options, $value) use ($defaultConfigs) {
+                return array_replace_recursive($defaultConfigs, $value);
             }
         ));
     }
