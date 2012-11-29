@@ -11,6 +11,7 @@
         <parameter key="neutron_form.form.type.plain.class">Neutron\FormBundle\Form\Type\PlainType</parameter>
         <parameter key="neutron_form.form.type.slider.class">Neutron\FormBundle\Form\Type\SliderType</parameter>
         <parameter key="neutron_form.form.type.slider_range.class">Neutron\FormBundle\Form\Type\SliderRangeType</parameter>
+        <parameter key="neutron_form.form.type.datepicker.class">Neutron\FormBundle\Form\Type\DatePickerType</parameter>
     </parameters>
 
     <services>
@@ -36,6 +37,11 @@
         
         <service id="neutron_form.form.type.slider_range" class="%neutron_form.form.type.slider_range.class%">
             <tag name="form.type" alias="neutron_slider_range" />
+        </service>
+        
+        <service id="neutron_form.form.type.datepicker" class="%neutron_form.form.type.datepicker.class%" scope="request">
+          	<argument type="service" id="request" />
+            <tag name="form.type" alias="neutron_datepicker" />
         </service>
 
     </services>

@@ -1,13 +1,12 @@
 Buttonset
 ==========
 
-The buttonset is styled as toggle buttons. The label element associated with the button is used for the button text. 
-It could be multiple or single choice.
+The buttonset is styled as toggle buttons. It could be multiple or single choice.
 See [demo](http://jqueryui.com/button/#radio)
 
 ### Usage:
 
-**Note:** You can replace *choice* with *entity* etc.
+**Note:** You can replace *choice* with *entity* and etc.
 
 ``` php
 <?php
@@ -57,7 +56,7 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
+```
 
 **Note:** You must install jQueryUI.
 
