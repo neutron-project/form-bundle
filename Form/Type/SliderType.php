@@ -20,12 +20,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates jquery autocomplete element
+ * This class creates jquery slider element
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class AutocompleteType extends AbstractType
+class SliderType extends AbstractType
 {
 
     /**
@@ -37,27 +37,38 @@ class AutocompleteType extends AbstractType
         $view->vars['configs'] = $options['configs'];
     }
     
-    
     /**
      * (non-PHPdoc)
      * @see Symfony\Component\Form.AbstractType::setDefaultOptions()
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    {      
         $defaultConfigs = array(
-            'use_categories' => false,        
-        );
+            'tpl' => 'slider.value: __value__',
+            'min' => 0,
+            'max' => 100,
+            'orientation' => 'horizontal',
+            'width' => '300px',
+            'height' => '300px',
+            'range' => 'min',
+       );
         
         $resolver->setDefaults(array(
             'configs' => $defaultConfigs,
         ));
-    
+        
         $resolver->setNormalizers(array(
-            'configs' => function (Options $options, $value) use ($defaultConfigs){
+            'configs' => function (Options $options, $value) use ($defaultConfigs) {
                 $value = array_merge($defaultConfigs, $value);
                 
-                if (!isset($value['source'])){
-                    throw new \InvalidArgumentException('Option "configs:source" is not defined');
+                if($value['orientation'] == 'horizontal'){
+                    unset($value['height']);
+                } else {
+                    unset($value['width']);
+                }
+                
+                if (!in_array($value['range'], array('min', 'max'), true)){
+                    throw new \InvalidArgumentException(sprintf('Option range with value "%s" must be set to  "min" or "max"', $value['range']));
                 }
                 
                 return $value;
@@ -71,7 +82,7 @@ class AutocompleteType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return 'integer';
     }
 
     /**
@@ -80,7 +91,7 @@ class AutocompleteType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_autocomplete';
+        return 'neutron_slider';
     }
 
 }

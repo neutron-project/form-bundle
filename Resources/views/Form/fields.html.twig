@@ -41,3 +41,31 @@
 </div>
 {% endspaceless %} 
 {% endblock neutron_plain_widget %} 
+
+{% block neutron_slider_widget %} 
+{% spaceless %} 
+<div> 
+    {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
+    <span id="neutron-slider-tpl-{{ id }}" class="neutron-slider-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
+    <div id="neutron-slider-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }}
+        {% elseif configs.height is defined %} style="height:{{ configs.height }} 
+        {% endif %}" >
+    </div>
+    <span class="neutron-slider" data-options="{{ configs|merge({'id': id})|json_encode}}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_slider_widget %}
+
+{% block neutron_slider_range_widget %}
+{% spaceless %}
+    <div>       
+        {{ block('field_rows') }}
+        <span id="neutron-slider-range-tpl-{{ id }}" class="neutron-slider-range-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
+        <div id="neutron-slider-range-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }} 
+            {% elseif configs.height is defined  %} style="height:{{ configs.height }} 
+            {% endif %}" >
+        </div>
+        <span class="neutron-slider-range" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+    </div>
+{% endspaceless %}
+{% endblock neutron_slider_range_widget %}
