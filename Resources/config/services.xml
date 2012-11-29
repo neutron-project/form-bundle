@@ -14,6 +14,7 @@
         <parameter key="neutron_form.form.type.datepicker.class">Neutron\FormBundle\Form\Type\DatePickerType</parameter>
         <parameter key="neutron_form.form.type.daterangepicker.class">Neutron\FormBundle\Form\Type\DateRangePickerType</parameter>
         <parameter key="neutron_form.form.type.timepicker.class">Neutron\FormBundle\Form\Type\TimePickerType</parameter>
+        <parameter key="neutron_form.form.type.datetimepicker.class">Neutron\FormBundle\Form\Type\DateTimePickerType</parameter>
     </parameters>
 
     <services>
@@ -51,6 +52,10 @@
         
         <service id="neutron_form.form.type.timepicker" class="%neutron_form.form.type.timepicker.class%">
             <tag name="form.type" alias="neutron_timepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.datetimepicker" class="%neutron_form.form.type.datetimepicker.class%">
+            <tag name="form.type" alias="neutron_datetimepicker" />
         </service>
 
     </services>

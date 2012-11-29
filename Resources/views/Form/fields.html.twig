@@ -97,3 +97,12 @@
 </div>
 {% endspaceless %} 
 {% endblock neutron_timepicker_widget %} 
+
+{% block neutron_datetimepicker_widget %} 
+{% spaceless %} 
+<span>
+    {{ form_widget(form) }}
+    <span class="neutron-datetimepicker" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display: none"></span>
+</span>
+{% endspaceless %} 
+{% endblock neutron_datetimepicker_widget %} 
