@@ -136,3 +136,17 @@
 </div>
 {% endspaceless %}
 {% endblock neutron_colorpicker_widget %}
+
+{% block neutron_input_limiter_widget %}
+{% spaceless %}
+{% set extraConfigs = {
+    'id': id,
+    'remText': 'remText'|trans({}, translation_domain),
+    'limitText': 'limitText'|trans({}, translation_domain),
+} %}
+<div>
+    {{ form_widget(form) }} 
+    <span class="neutron-input-limiter" data-options="{{ configs|merge(extraConfigs)|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_input_limiter_widget %}
