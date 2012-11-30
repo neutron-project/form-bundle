@@ -20,12 +20,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates jquery autocomplete element
+ * This class creates jquery spinner widget
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class AutocompleteType extends AbstractType
+class SpinnerType extends AbstractType
 {
 
     /**
@@ -44,9 +44,7 @@ class AutocompleteType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $defaultConfigs = array(
-            'use_categories' => false,        
-        );
+        $defaultConfigs = array();
         
         $resolver->setDefaults(array(
             'configs' => $defaultConfigs,
@@ -55,10 +53,6 @@ class AutocompleteType extends AbstractType
         $resolver->setNormalizers(array(
             'configs' => function (Options $options, $value) use ($defaultConfigs){
                 $configs = array_replace_recursive($defaultConfigs, $value);
-                
-                if (!isset($configs['source'])){
-                    throw new \InvalidArgumentException('Option "configs:source" is not defined');
-                }
                 
                 return $configs;
             }
@@ -80,7 +74,7 @@ class AutocompleteType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_autocomplete';
+        return 'neutron_spinner';
     }
 
 }

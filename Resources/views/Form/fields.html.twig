@@ -1,16 +1,25 @@
 {% block neutron_autocomplete_widget %}
 {% spaceless %}
 <div>
-    {{ block('field_widget') }}
-    <span class="neutron_autocomplete" style="display:none" data-options="{{ configs|merge({'id': id})|json_encode }}"></span>
+    {{ form_widget(form) }}
+    <span class="neutron-autocomplete" style="display:none" data-options="{{ configs|merge({'id': id})|json_encode }}"></span>
 </div>
 {% endspaceless %}
 {% endblock neutron_autocomplete_widget %}
 
+{% block neutron_spinner_widget %}
+{% spaceless %}
+<div>
+    {{ form_widget(form) }}
+    <span class="neutron-spinner" style="display:none" data-options="{{ configs|merge({'id': id, 'culture': app.request.locale })|json_encode }}"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_spinner_widget %}
+
 {% block neutron_buttonset_widget %} 
 {% spaceless %}
 <div id="{{ id }}"> 
-    {{ form_widget(form) }} 
+    {{ form_widget(form) }}
     <span class="neutron-buttonset" data-options="{{ configs|merge({'id':id})|json_encode }}" style="display: none"></span>
 </div>
     

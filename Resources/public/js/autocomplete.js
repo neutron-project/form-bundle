@@ -22,7 +22,7 @@ jQuery(document).ready(function(){
     });
     
     //Searching for autocomplete elements
-    jQuery('.neutron_autocomplete').each(function(key, value){
+    jQuery('.neutron-autocomplete').each(function(key, value){
         var options = jQuery(this).data('options'); 
         var el = jQuery('#' + options.id);
 
