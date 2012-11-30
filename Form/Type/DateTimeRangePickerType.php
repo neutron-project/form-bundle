@@ -2,17 +2,20 @@
 /*
  * This file is part of NeutronFormBundle
  *
- * (c) Zender <azazen09@gmail.com>
+ * (c) Nikolay Georgiev <azazen09@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
-namespace Neutron\Bundle\FormBundle\Form\Type;
+namespace Neutron\FormBundle\Form\Type;
 
+use Symfony\Component\Form\FormInterface;
 
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormView;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -33,26 +36,22 @@ class DateTimeRangePickerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $els = $builder->getAttribute('property_path')->getElements();
-        $name = $els[0];
-        $start = $name . '_datetimerange_from';
-        $end = $name . '_datetimerange_to';
-
-        // Overwrite required option for child fields
-        $options['first_options']['configs']['range_id']  = $start;
-        $options['first_options']['configs']['range']['start']  = $start;
-        $options['first_options']['configs']['range']['end']  = $end;
-
-        $options['second_options']['configs']['range_id']  = $end;
-        $options['second_options']['configs']['range']['start']  = $start;
-        $options['second_options']['configs']['range']['end']  = $end;
-
         $builder
             ->add($options['first_name'], 'neutron_datetimepicker', array_merge($options['options'], $options['first_options']))
             ->add($options['second_name'], 'neutron_datetimepicker', array_merge($options['options'], $options['second_options']))
         ;
-
-
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see Symfony\Component\Form.AbstractType::buildView()
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['configs'] = array(
+            'first_name' => $options['first_name'], 
+            'second_name' => $options['second_name'],
+        );
     }
     
     /**
@@ -61,20 +60,15 @@ class DateTimeRangePickerType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $compound = function (Options $options) {
-            return $options;
-        };
-    
+
         $resolver->setDefaults(array(
-            'options'        => array(),
+            'options' => array(),
             'first_options'  => array(),
             'second_options' => array(),
-            'first_name'     => 'first_datetime',
-            'second_name'    => 'second_datetime',
+            'first_name'     => 'first_date',
+            'second_name'    => 'second_date',
             'error_bubbling' => false,
-            'compound' => $compound
         ));
-    
     }
 
     /**
@@ -85,6 +79,4 @@ class DateTimeRangePickerType extends AbstractType
     {
         return 'neutron_datetimerangepicker';
     }
-
-
 }

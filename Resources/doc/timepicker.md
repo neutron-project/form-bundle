@@ -71,6 +71,8 @@ Option *configs* is converted to json object and passed to jQuery widget options
 
 **Note:** Timepicker is locale aware. 
 
+**Note:** If you do not want to use localization just remove *'jquery/plugins/timepicker/localization/*'*. 
+
 **Limitations:** The only available format is *H:i:s*.
 
 That's it.

@@ -106,3 +106,13 @@
 </span>
 {% endspaceless %} 
 {% endblock neutron_datetimepicker_widget %} 
+
+{% block neutron_datetimerangepicker_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form[configs.first_name]) }}
+    {{ form_widget(form[configs.second_name]) }}
+    <span class="neutron-datetimerangepicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_datetimerangepicker_widget %} 
