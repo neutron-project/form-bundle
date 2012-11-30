@@ -1,0 +1,30 @@
+/**
+ * Initialization of jquery rating widget
+ * 
+ * @author Nikolay Georgiev
+ * @version 1.0
+ */
+jQuery(document).ready(function(){
+	
+    // Searching for rating elements
+    jQuery('.neutron-rating').each(function(key, value){  
+        var options = jQuery(this).data('options'); 
+        var el = jQuery('#' + options.id);
+        var currentValue = parseInt(el.val());
+        
+        options.score = function() {
+    		if(!isNaN(currentValue)){
+    			return el.val();
+    		}
+	    };
+        
+        options.click = function(score, evt) {
+            el.val(score);
+        };
+        
+        jQuery('#neutron-rating-widget-' + options.id).raty(options);
+    });
+
+});
+
+

@@ -19,6 +19,7 @@
         <parameter key="neutron_form.form.type.datetimerangepicker.class">Neutron\FormBundle\Form\Type\DateTimeRangePickerType</parameter>
         <parameter key="neutron_form.form.type.colorpicker.class">Neutron\FormBundle\Form\Type\ColorPickerType</parameter>
         <parameter key="neutron_form.form.type.input_limiter.class">Neutron\FormBundle\Form\Type\InputLimiterType</parameter>
+        <parameter key="neutron_form.form.type.rating.class">Neutron\FormBundle\Form\Type\RatingType</parameter>
     </parameters>
 
     <services>
@@ -76,6 +77,10 @@
         
         <service id="neutron_form.form.type.input_limiter" class="%neutron_form.form.type.input_limiter.class%">
             <tag name="form.type" alias="neutron_input_limiter" />
+        </service>
+        
+        <service id="neutron_form.form.type.rating" class="%neutron_form.form.type.rating.class%">
+            <tag name="form.type" alias="neutron_rating" />
         </service>
 
     </services>
