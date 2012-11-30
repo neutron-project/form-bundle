@@ -38,8 +38,8 @@ in the twig template add following code:
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
        'bundles/neutronform/css/form_widgets.css'
-         filter='cssrewrite'
-   %}
+        filter='cssrewrite'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 

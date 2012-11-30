@@ -125,3 +125,14 @@
 </div>
 {% endspaceless %} 
 {% endblock neutron_datetimerangepicker_widget %} 
+
+{% block neutron_colorpicker_widget %}
+{% spaceless %}
+<div>
+    
+    {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
+    <div id="neutron-colorpicker-widget-{{ id }}" class="colorSelector"><div style="background-color: #ffffff;"></div></div>
+    <span class="neutron-colorpicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_colorpicker_widget %}

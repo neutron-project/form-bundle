@@ -1,9 +1,11 @@
-Slider
-======
+ColorPicker
+===========
 
-This element is a jQuery slider.
+This element is a jQuery colorpicker widget.
 
-See [demo](http://jqueryui.com/slider/)
+See [demo](http://www.eyecon.ro/colorpicker/#about)
+
+**Important:** download source from [here](http://www.eyecon.ro/colorpicker/#download)
 
 ### Usage:
 
@@ -14,21 +16,14 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 {
     $builder
         // .....
-        ->add('name', 'neutron_slider', array(
-            'label' => 'Slider',
-            'configs' => array(
-            	'tpl' => 'Value: __value__',
-                'step' => 5, 
-                'min' => 35,
-                'max' => 80,
-            ),
+        >add('name', 'neutron_colorpicker', array(
+            'label' => 'Colorpicker',
+            'configs' => array(),
         ))
 		// .....
     ;
 }
 ```
-
-**Note:** *__value__* is replaced by the current value of the slider.
 
 in the twig template add following code:
 
@@ -38,6 +33,7 @@ in the twig template add following code:
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
        'bundles/neutronform/css/form_widgets.css'
+       'jquery/plugins/colorpicker/css/colorpicker.css'
         filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -51,8 +47,8 @@ in the twig template add following code:
         'jquery/js/jquery.js'
         'jquery/js/jquery-ui.js'
         'jquery/i18n/jquery-ui-i18n.js'
-        'bundles/neutronform/js/slider.js'
-   
+        'jquery/plugins/colorpicker/js/colorpicker.js'
+        'bundles/neutronform/js/colorpicker.js'
     %}
         <script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
@@ -64,7 +60,7 @@ in the twig template add following code:
 ``
 Option *configs* is converted to json object and passed to jQuery widget options.
 
-[jQuery API documentation](http://api.jqueryui.com/slider/)
+[jQuery API documentation](http://www.eyecon.ro/colorpicker/#implement)
 
 **Note:** You must install jQueryUI.
 
