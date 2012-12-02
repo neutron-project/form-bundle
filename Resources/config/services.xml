@@ -20,6 +20,8 @@
         <parameter key="neutron_form.form.type.colorpicker.class">Neutron\FormBundle\Form\Type\ColorPickerType</parameter>
         <parameter key="neutron_form.form.type.input_limiter.class">Neutron\FormBundle\Form\Type\InputLimiterType</parameter>
         <parameter key="neutron_form.form.type.rating.class">Neutron\FormBundle\Form\Type\RatingType</parameter>
+        <parameter key="neutron_form.form.type.recaptcha.class">Neutron\FormBundle\Form\Type\RecaptchaType</parameter>
+        <parameter key="neutron_form.validator.constraint.recaptcha.class">Neutron\FormBundle\Validator\Constraint\RecaptchaValidator</parameter>
     </parameters>
 
     <services>
@@ -81,6 +83,12 @@
         
         <service id="neutron_form.form.type.rating" class="%neutron_form.form.type.rating.class%">
             <tag name="form.type" alias="neutron_rating" />
+        </service>
+        
+        <service id="neutron_form.form.type.recaptcha" class="%neutron_form.form.type.recaptcha.class%" />
+        
+        <service id="neutron_form.validator.constraint.recaptcha" class="%neutron_form.validator.constraint.recaptcha.class%" scope="request">
+        	<argument type="service" id="request" />
         </service>
 
     </services>

@@ -160,3 +160,20 @@
 </div>   
 {% endspaceless %}
 {% endblock neutron_rating_widget %}
+
+{% block neutron_recaptcha_widget %}
+{% spaceless %}
+<div>
+
+    <div id="{{ id }}" style="display: none;"></div>
+  
+    <noscript>
+        <iframe src="{{ configs.server_url }}/noscript?k={{ configs.public_key }}" width="500" height="300" frameborder="0"></iframe>
+        <br />
+        <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+        <input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
+    </noscript>
+    <span class="neutron-recaptcha" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_recaptcha_widget %}

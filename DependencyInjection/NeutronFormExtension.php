@@ -27,6 +27,21 @@ class NeutronFormExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         
+        if (isset($config['recaptcha'])){
+            $container->setParameter('neutron_form.recaptcha.configs', $config['recaptcha']);
+            $container
+                ->getDefinition('neutron_form.form.type.recaptcha')
+                ->addArgument($config['recaptcha'])
+                ->addTag('form.type', array('alias' => 'neutron_recaptcha'))
+            ;
+            
+            $container
+                ->getDefinition('neutron_form.validator.constraint.recaptcha')
+                ->addArgument($config['recaptcha'])
+                ->addTag('validator.constraint_validator', array('alias' => 'neutron_form_recaptcha_validator'))
+            ;
+        }
+        
         $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
     }
     

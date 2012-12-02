@@ -1,0 +1,75 @@
+Recaptcha
+=========
+
+This element is a recaptcha element.
+
+See [demo](http://www.google.com/recaptcha/learnmore)
+
+**Important:** Before you start you need to configure it.
+
+In you config.yml you need to put the following:
+
+``` yaml
+# app/config/config.yml
+
+neutron_form:   
+    recaptcha:
+        public_key: your_public_key
+        private_key: ypur_private_key
+
+```
+**Note:** Get your api keys from [here](https://www.google.com/recaptcha/admin/create)
+
+### Usage:
+
+``` php
+<?php
+// ...
+public function buildForm(FormBuilderInterface $builder, array $options)
+{
+    $builder
+        // .....
+        ->add('recaptcha', 'neutron_recaptcha', array(
+            'label' => 'Recaptcha',
+            'constraints' => array(
+                new Neutron\FormBundle\Validator\Constraint\Recaptcha()   
+            ),
+            'configs' => array(
+                'theme' => 'red',
+            ),
+        ))
+		// .....
+    ;
+}
+```
+
+**Important:** You must add recaptcha constraint.
+
+in the twig template add following code:
+
+``` jinja
+
+{% block javascripts %}
+
+    {% javascripts
+        'jquery/js/jquery.js'
+        'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js'
+        'bundles/neutronform/js/recaptcha.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+{% endblock %}
+
+{% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
+
+``
+Option *configs* is converted to json object and passed to widget options.
+
+[API documentation](https://developers.google.com/recaptcha/intro)
+
+**Note:** You must install jQuery.
+
+That's it.
+
+

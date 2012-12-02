@@ -11,6 +11,16 @@
                 <source>limitText</source>
                 <target>Field limited to %n character%s.</target>
             </trans-unit>  
+                 
+	        <trans-unit id="3">
+                <source>validator.recaptcha.empty</source>
+                <target>Recaptcha element is empty</target>
+            </trans-unit>  
+                 
+	        <trans-unit id="4">
+                <source>validator.recaptcha.invalid</source>
+                <target>Recaptcha element is not valid</target>
+            </trans-unit>  
               
         </body>
     </file>
