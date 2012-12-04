@@ -18,7 +18,7 @@
 
 {% block neutron_buttonset_widget %} 
 {% spaceless %}
-<div id="{{ id }}"> 
+<div> 
     {{ form_widget(form) }}
     <span class="neutron-buttonset" data-options="{{ configs|merge({'id':id})|json_encode }}" style="display: none"></span>
 </div>
@@ -177,3 +177,17 @@
 </div>
 {% endspaceless %}
 {% endblock neutron_recaptcha_widget %}
+
+{% block neutron_select2_widget %} 
+{% spaceless %}
+{% set extraConfigs = {
+    '_id': id,
+    'placeholder': configs.placeholder|trans({}, translation_domain),
+} %}
+<div> 
+    {{ form_widget(form) }}
+    <span class="neutron-select2" data-options="{{ configs|merge(extraConfigs)|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_select2_widget %} 

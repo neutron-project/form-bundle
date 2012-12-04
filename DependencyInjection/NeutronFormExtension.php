@@ -43,6 +43,7 @@ class NeutronFormExtension extends Extension
         }
         
         $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
+        $this->loadExtendedTypes('neutron_form.form.type.select2', 'neutron_select2', $container);
     }
     
     /**
@@ -54,11 +55,10 @@ class NeutronFormExtension extends Extension
      */
     private function loadExtendedTypes($serviceId, $name, ContainerBuilder $container)
     {
-        foreach (array('choice', 'language', 'country', 'timezone', 'locale', 'entity') as $type) {
+        foreach (array('choice', 'language', 'country', 'timezone', 'locale', 'entity', 'ajax') as $type) {
             $typeDef = new DefinitionDecorator($serviceId);
             $typeDef
                 ->addArgument($type)
-                ->setScope('request')
                 ->addTag('form.type', array('alias' => $name. '_' . $type))
             ;
     
