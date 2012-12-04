@@ -23,6 +23,7 @@
         <parameter key="neutron_form.form.type.recaptcha.class">Neutron\FormBundle\Form\Type\RecaptchaType</parameter>
         <parameter key="neutron_form.validator.constraint.recaptcha.class">Neutron\FormBundle\Validator\Constraint\RecaptchaValidator</parameter>
         <parameter key="neutron_form.form.type.select2.class">Neutron\FormBundle\Form\Type\Select2Type</parameter>
+        <parameter key="neutron_form.form.type.select2_dependent.class">Neutron\FormBundle\Form\Type\Select2DependentType</parameter>
         <parameter key="neutron_form.form.data_transformer.array_to_string.class">Neutron\FormBundle\Form\DataTransformer\ArrayToStringTransformer</parameter>
     </parameters>
 
@@ -96,6 +97,10 @@
         <service id="neutron_form.form.type.select2" class="%neutron_form.form.type.select2.class%">
         	<argument type="service" id="neutron_form.form.data_transformer.array_to_string" />
             <tag name="form.type" alias="neutron_select2" />
+        </service>
+        
+        <service id="neutron_form.form.type.select2_dependent" class="%neutron_form.form.type.select2_dependent.class%">
+            <tag name="form.type" alias="neutron_select2_dependent" />
         </service>
         
         <service id="neutron_form.form.data_transformer.array_to_string" class="%neutron_form.form.data_transformer.array_to_string.class%" />

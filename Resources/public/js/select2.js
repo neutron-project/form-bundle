@@ -18,7 +18,7 @@ jQuery(document).ready(function(){
             firstOpt.text(''); 
         }
         
-
+        
         if(options.ajax != undefined){
         	
 	        options.initSelection = function (element, callback) {
@@ -32,7 +32,6 @@ jQuery(document).ready(function(){
 	            }
 	        	
 	            callback(data);
-	            return false;
 	        };
         }
         
@@ -51,8 +50,60 @@ jQuery(document).ready(function(){
         evaluateFn(options);
 
         jQuery('#' + id).select2(options);
-        
+    });
+    
+    // Searching for select2-dependent elements
+    jQuery('.neutron-select2-dependent').each(function(key, value){
+    	var options = jQuery(this).data('options'); 
+    	
+    	var firstEl = jQuery('#' + options.id + '_' + options.first_name);
+    	var secondEl = jQuery('#' + options.id + '_' + options.second_name);   
+    	
+    	if(firstEl.val() != ''){
+    		buildSelectOptions(secondEl, options.dependent_source, firstEl.val(), options.multiple, options.dependent_value);
+    	}
+    	
+    	firstEl.on('change', function(event){
+    		if(event.val == ''){
+    			
+    			if(options.multiple === false){
+    				secondEl.html('<option></option>');
+    			} 
+    			
+    			secondEl.select2('val', null);
+
+    		} else {
+    			buildSelectOptions(secondEl, options.dependent_source, event.val, options.multiple, null);   			
+    		}
+
+    	});
     });
 });
+
+function buildSelectOptions(element, url, term, multiple, dependent_value)
+{
+	jQuery.ajax({
+	  type: "GET",
+	  url: url,
+	  data: { term: term }
+	}).done(function(response) {
+		element.html(createSelectOptions(jQuery.parseJSON(response), multiple));
+	}).success(function(){
+		element.select2('val', dependent_value);	
+	});	
+}
+
+function createSelectOptions(data, multiple)
+{
+	var html = '';
+	if(multiple === false){
+		html += '<option></option>';
+	}
+	jQuery.each(data, function(){
+		html += '<option value="'+ this.id +'">'+  this.text +'</option>';
+	});
+	
+	return html;
+}
 
 

@@ -44,6 +44,7 @@ class NeutronFormExtension extends Extension
         
         $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
         $this->loadExtendedTypes('neutron_form.form.type.select2', 'neutron_select2', $container);
+        
     }
     
     /**

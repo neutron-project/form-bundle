@@ -71,7 +71,7 @@ class Select2Type extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['configs'] = $options['configs'];
+        $view->vars['configs'] = $options['configs']; 
         
         // Adds a custom block prefix
         array_splice(
@@ -90,9 +90,8 @@ class Select2Type extends AbstractType
     {
         
         $defaultConfigs = array(
-            'width' => 'resolve',
+            'width' => '300px',
             'allowClear' => true,  
-            'placeholder' => 'Select option',
         );
         
         $defaults = array(
@@ -109,9 +108,7 @@ class Select2Type extends AbstractType
             'configs' => function (Options $options, $value) use ($defaultConfigs) {
                 $configs = array_replace_recursive($defaultConfigs, $value);
                 
-                if ($options->has('empty_value')){
-                    $configs['placeholder'] = $options->get('empty_value');
-                }
+                $configs['placeholder'] = $options->get('empty_value');
                 
                 if(true === $options->get('multiple') && isset($configs['ajax'])){
                     $configs['multiple'] = true;
