@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of NeutronDataGridBundle
+ * This file is part of NeutronFormBundle
  *
  * (c) Nikolay Georgiev <azazen09@gmail.com>
  *

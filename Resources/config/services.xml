@@ -25,6 +25,8 @@
         <parameter key="neutron_form.form.type.select2.class">Neutron\FormBundle\Form\Type\Select2Type</parameter>
         <parameter key="neutron_form.form.type.select2_dependent.class">Neutron\FormBundle\Form\Type\Select2DependentType</parameter>
         <parameter key="neutron_form.form.data_transformer.array_to_string.class">Neutron\FormBundle\Form\DataTransformer\ArrayToStringTransformer</parameter>
+        <parameter key="neutron_form.form.type.tinymce.class">Neutron\FormBundle\Form\Type\TinyMceType</parameter>
+        <parameter key="neutron_form.security.handler.tinymce.class">Neutron\FormBundle\Security\Handler\TinyMceSecurityHandler</parameter>
     </parameters>
 
     <services>
@@ -105,6 +107,15 @@
         
         <service id="neutron_form.form.data_transformer.array_to_string" class="%neutron_form.form.data_transformer.array_to_string.class%" />
 
+     	<service id="neutron_form.form.type.tinymce" class="%neutron_form.form.type.tinymce.class%">
+			<argument type="service"  id="neutron_form.security.handler.tinymce" />
+        </service>
+
+     	<service id="neutron_form.security.handler.tinymce" class="%neutron_form.security.handler.tinymce.class%">
+			<argument type="service"  id="security.context" />
+			<argument type="service"  id="session" />
+        </service>
+        
     </services>
 
 </container>

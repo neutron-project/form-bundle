@@ -1,5 +1,4 @@
 <?php
-
 namespace Neutron\FormBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -28,7 +27,6 @@ class NeutronFormExtension extends Extension
         $loader->load('services.xml');
         
         if (isset($config['recaptcha'])){
-            $container->setParameter('neutron_form.recaptcha.configs', $config['recaptcha']);
             $container
                 ->getDefinition('neutron_form.form.type.recaptcha')
                 ->addArgument($config['recaptcha'])
@@ -39,6 +37,14 @@ class NeutronFormExtension extends Extension
                 ->getDefinition('neutron_form.validator.constraint.recaptcha')
                 ->addArgument($config['recaptcha'])
                 ->addTag('validator.constraint_validator', array('alias' => 'neutron_form_recaptcha_validator'))
+            ;
+        }
+        
+        if (isset($config['tinymce'])){
+            $container
+                ->getDefinition('neutron_form.form.type.tinymce')
+                ->addArgument($config['tinymce'])
+                ->addTag('form.type', array('alias' => 'neutron_tinymce'))
             ;
         }
         

@@ -200,3 +200,12 @@
 </div>
 {% endspaceless %} 
 {% endblock neutron_select2_dependent_widget %} 
+
+{% block neutron_tinymce_widget %}
+{% spaceless %}
+<div>
+   {{ form_widget(form) }} 
+   <span class="neutron-tinymce" data-options=" {{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_tinymce_widget %}
