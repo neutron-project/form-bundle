@@ -4,5 +4,24 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-
+    <route id="neutron_form_media_image_upload" pattern="/_neutron_form/image-upload.{_format}">
+        <default key="_controller">NeutronFormBundle:Image:upload</default>
+        <default key="_format">json</default>
+    </route>
+    
+    <route id="neutron_form_media_image_crop" pattern="/_neutron_form/image-crop.{_format}">
+        <default key="_controller">NeutronFormBundle:Image:crop</default>
+        <default key="_format">json</default>
+    </route>
+    
+    <route id="neutron_form_media_image_rotate" pattern="/_neutron_form/image-rotate.{_format}">
+        <default key="_controller">NeutronFormBundle:Image:rotate</default>
+        <default key="_format">json</default>
+    </route>
+    
+    <route id="neutron_form_media_image_reset" pattern="/_neutron_form/image-reset.{_format}">
+        <default key="_controller">NeutronFormBundle:Image:reset</default>
+        <default key="_format">json</default>
+    </route>
+    
 </routes>

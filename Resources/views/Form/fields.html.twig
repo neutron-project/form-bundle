@@ -209,3 +209,149 @@
 </div>
 {% endspaceless %}
 {% endblock neutron_tinymce_widget %}
+
+{% block neutron_image_upload_widget %}
+{% spaceless %}
+<div>    
+    {{ form_widget(form) }} 
+    <span class="neutron-image-upload-main" style="display:none">
+        {{ block('neutron_image_upload_container') }} 
+        {{ block('neutron_image_upload_crop') }}
+        {{ block('neutron_image_upload_edit') }}
+    </span>
+    
+    <span class="neutron-image-upload" data-options="{{ configs|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_image_upload_widget %}
+
+{% block neutron_image_upload_container %}
+{% spaceless %}
+<div id="neutron-image-upload-container-{{ id }}">
+    <div class="ui-state-error" style="width:300px; padding:5px; display:none">
+        <span style="float:right">
+            <a href="#close" id="neutron-upload-error-cancel-{{ id }}">
+                <img src="/bundles/neutronform/images/cancel.png" />
+            </a>
+        </span>
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <span class="neutron-imageupload-error">&nbsp</span>
+        </p>
+    </div>
+        
+        
+    <div  id="neutron-progressbar-{{ id }}" style="width:350px; height:10px; display: none" ></div>
+    
+    <div class="neutron-progress-info" style="display:none">
+        <div class="ui-widget">
+            <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
+                <span style="float:right" id="neutron-upload-remove-image-{{id}}">
+                    <a href="#remove">
+                        <img src="/bundles/neutronform/images/cancel.png" />
+                    </a>
+                </span>
+                <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                <span>{% trans from translation_domain %}upload_progress{% endtrans %}: <strong>0%</strong></span>
+                <br/>
+                <span id="neutron-image-info-{{ id }}">__image_name__ (__image_size__)</span>
+            </div>
+        </div>
+    </div>
+        
+    <div class="neutron-image">
+        <img id="neutron-image-{{ id }}" src="/bundles/neutronform/images/noImage.png" />
+    </div>
+    
+    <div class="neutron-controls">
+        <button id="neutron-image-btn-upload-{{ id }}" class="ui-icon ui-icon-newwin neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_upload_title{% endtrans %}"></button> &nbsp;
+        {% if configs.image_options.active_button %}
+            <a id="neutron-image-btn-active-{{ id }}" 
+                class="ui-icon {% if (form.isActive.get('value') == 0)  %} ui-icon-radio-on {% else %} ui-icon-bullet {% endif %} neutron-image-upload-button" 
+                title="{% if (form.isActive.get('value') == 0)  %} {% trans from translation_domain %}button_title_active{% endtrans %} {% else %} {% trans from translation_domain %}button_title_active{% endtrans %} {% endif %}"></a>  &nbsp;
+        {% endif %}
+        {% if configs.image_options.view_button %}
+            <a id="neutron-image-btn-view-{{ id }}" class="ui-icon ui-icon-zoomin neutron-image-upload-button" 
+                title="{% trans from translation_domain %}button_view_title{% endtrans %}"></a>  &nbsp;
+        {% endif %}
+        {% if configs.image_options.crop_button %}
+            <a id="neutron-image-btn-crop-{{ id }}" class="ui-icon ui-icon-scissors neutron-image-upload-button" 
+                title="{% trans from translation_domain %}button_crop_title{% endtrans %}"></a>  &nbsp;
+        {% endif %}
+        {% if configs.image_options.meta_button %}
+            <a id="neutron-image-btn-edit-{{ id }}" class="ui-icon ui-icon-pencil neutron-image-upload-button" 
+                title="{% trans from translation_domain %}button_edit_meta_title{% endtrans %}"></a>  &nbsp;
+        {% endif %}  
+        {% if configs.image_options.rotate_button %}
+            <a id="neutron-image-btn-rotate-{{ id }}" class="ui-icon ui-icon-arrowrefresh-1-s neutron-image-upload-button" 
+                title="{% trans from translation_domain %}button_rotate_title{% endtrans %}"></a> &nbsp;
+        {% endif %}
+        {% if configs.image_options.reset_button %}
+            <a id="neutron-image-btn-reset-{{ id }}" class="ui-icon ui-icon-cancel neutron-image-upload-button" 
+                title="{% trans from translation_domain %}button_reset_title{% endtrans %}"></a>  &nbsp;
+        {% endif %} 
+        <a id="neutron-image-btn-remove-{{ id }}" class="ui-icon ui-icon-trash neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_remove_title{% endtrans %}"></a>  &nbsp;
+    </div>
+</div>
+
+{% endspaceless %}
+{% endblock neutron_image_upload_container %}
+
+{% block neutron_image_upload_crop %}
+{% spaceless %}
+<div id="neutron-dlg-image-crop-{{ id }}" style="display:none" 
+    title="{% trans from translation_domain %}dialog_crop_title{% endtrans %}">
+   
+    <div id="neutron-image-crop-{{ id }}" class="neutron-image"></div>
+
+    <div style="float:right">
+        <input type="hidden" id="x-{{ id }}"/>
+        <input type="hidden" id="y-{{ id }}"/>
+        <input type="hidden" id="w-{{ id }}"/>
+        <input type="hidden" id="h-{{ id }}"/>
+        
+        <a id="neutron-crop-dlg-cancel-btn-{{ id }}" class=" neutron-image-upload-button">
+            {% trans from translation_domain %}dialog_crop_button_cancel{% endtrans %}</a>
+        <a id="neutron-crop-dlg-save-btn-{{ id }}" class="neutron-image-upload-button">
+            {% trans from translation_domain %}dialog_crop_button_crop{% endtrans %}</a>  &nbsp;    
+    </div>
+</div>  
+{% endspaceless %}
+{% endblock neutron_image_upload_crop %}
+
+{% block neutron_image_upload_edit %}
+{% spaceless %}
+<div id="neutron-dlg-image-edit-{{ id }}" class="neutron-form" 
+    title="{% trans from translation_domain %}dialog_edit_meta_title{% endtrans %}">
+   <div>
+       <label for="neutron_image_title-{{ id }}" class="neutron-form-label">
+           {% trans from translation_domain %}dialog_edit_meta_label_title{% endtrans %}
+       </label>
+       <input type="text" id="neutron-image-title-{{ id }}" class="neutron-form-text" />
+   </div>
+   
+   <div>
+       <label for="neutron-image-caption-{{ id }}" class="neutron-form-label" >
+           {% trans from translation_domain %}dialog_edit_meta_label_caption{% endtrans %}
+       </label>
+       <input type="text" id="neutron-image-caption-{{ id }}" class="neutron-form-text" />
+   </div>
+   
+   <div>
+       <label for="neutron-image-description-{{ id }}" class="neutron-form-label">
+           {% trans from translation_domain %}dialog_edit_meta_label_description{% endtrans %}
+       </label>
+       <textarea id="neutron-image-description-{{ id }}" class="neutron-form-text" rows="5" ></textarea>
+   </div>
+   
+   <div style="float:right">
+       <a id="neutron-edit-dlg-done-btn-{{ id }}" class="neutron-image-upload-button">
+           {% trans from translation_domain %}dialog_edit_meta_button_done{% endtrans %}
+       </a>
+   </div>
+   
+</div>
+{% endspaceless %}
+{% endblock neutron_image_upload_edit %}

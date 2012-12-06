@@ -27,6 +27,9 @@
         <parameter key="neutron_form.form.data_transformer.array_to_string.class">Neutron\FormBundle\Form\DataTransformer\ArrayToStringTransformer</parameter>
         <parameter key="neutron_form.form.type.tinymce.class">Neutron\FormBundle\Form\Type\TinyMceType</parameter>
         <parameter key="neutron_form.security.handler.tinymce.class">Neutron\FormBundle\Security\Handler\TinyMceSecurityHandler</parameter>
+        <parameter key="neutron_form.form.type.image_upload.class">Neutron\FormBundle\Form\Type\ImageUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.web_dir">%kernel.root_dir%/../web</parameter>
     </parameters>
 
     <services>
@@ -116,6 +119,20 @@
 			<argument type="service"  id="session" />
         </service>
         
+        <service id="neutron_form.form.type.image_upload" 
+        	class="%neutron_form.form.type.image_upload.class%" scope="request">
+			<argument type="service"  id="session" />
+			<argument type="service"  id="router" />
+			<argument type="service"  id="neutron_form.form.event_subscriber.image_upload" />
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.image_upload" 
+        	class="%neutron_form.form.event_subscriber.image_upload.class%" scope="request">
+			<argument type="service"  id="request" />
+			<argument type="service"  id="filesystem" />
+			<argument>%neutron_form.web_dir%</argument>
+        </service>
+               
     </services>
 
 </container>

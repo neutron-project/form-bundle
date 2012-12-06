@@ -1,6 +1,10 @@
 <?php
 namespace Neutron\FormBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Definition;
+
+use Symfony\Component\DependencyInjection\Reference;
+
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -46,6 +50,23 @@ class NeutronFormExtension extends Extension
                 ->addArgument($config['tinymce'])
                 ->addTag('form.type', array('alias' => 'neutron_tinymce'))
             ;
+        }
+        
+        if (isset($config['plupload'])){
+            $config['plupload']['temp_dir'] =
+                $container->getParameter('neutron_form.web_dir') . DIRECTORY_SEPARATOR . $config['plupload']['temporary_dir'];
+            
+            $container->setParameter('neutron_form.plupload.configs', $config['plupload']);
+            
+            $container
+                ->getDefinition('neutron_form.form.type.image_upload')
+                ->addArgument($config['plupload'])
+                ->addTag('form.type', array('alias' => 'neutron_image_upload'))
+            ;
+            
+            $subscriberDef = $container->getDefinition('neutron_form.form.event_subscriber.image_upload');
+            $subscriberDef->addArgument($config['plupload']);
+
         }
         
         $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
