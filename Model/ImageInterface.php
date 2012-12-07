@@ -80,7 +80,7 @@ interface ImageInterface
 
     /**
      * Sets image file md5 hash
-     * Checks image is changed
+     * Checks if image is changed
      *
      * @param string $hash
      */
@@ -109,17 +109,17 @@ interface ImageInterface
     public function getImagePath();
 
     /**
-     * Sets image active state
+     * Enabled image
      *
      * @param boolean $bool
      */
-    public function setIsActive($bool);
+    public function setEnabled($bool);
 
     /**
-     * Gets image active state
+     * Check if image is enabled
      *
      * @return boolean
      */
-    public function getIsActive();
+    public function isEnabled();
 
 }

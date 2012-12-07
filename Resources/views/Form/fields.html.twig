@@ -266,10 +266,10 @@
     <div class="neutron-controls">
         <button id="neutron-image-btn-upload-{{ id }}" class="ui-icon ui-icon-newwin neutron-image-upload-button" 
             title="{% trans from translation_domain %}button_upload_title{% endtrans %}"></button> &nbsp;
-        {% if configs.image_options.active_button %}
-            <a id="neutron-image-btn-active-{{ id }}" 
-                class="ui-icon {% if (form.isActive.get('value') == 0)  %} ui-icon-radio-on {% else %} ui-icon-bullet {% endif %} neutron-image-upload-button" 
-                title="{% if (form.isActive.get('value') == 0)  %} {% trans from translation_domain %}button_title_active{% endtrans %} {% else %} {% trans from translation_domain %}button_title_active{% endtrans %} {% endif %}"></a>  &nbsp;
+        {% if configs.image_options.enabled_button %}
+            <a id="neutron-image-btn-enabled-{{ id }}" 
+                class="ui-icon {% if (form.enabled.get('value') == 0)  %} ui-icon-radio-on {% else %} ui-icon-bullet {% endif %} neutron-image-upload-button" 
+                title="{% if (form.enabled.get('value') == 0)  %} {% trans from translation_domain %}button_title_enabled{% endtrans %} {% else %} {% trans from translation_domain %}button_title_enabled{% endtrans %} {% endif %}"></a>  &nbsp;
         {% endif %}
         {% if configs.image_options.view_button %}
             <a id="neutron-image-btn-view-{{ id }}" class="ui-icon ui-icon-zoomin neutron-image-upload-button" 

@@ -41,19 +41,17 @@ class ImageController extends Controller
 {
 
     /**
-     * This actions is responsible for validatin, uploading and clearing unused images
+     * This actions is responsible for validating, uploading and clearing unused images
      */
     public function uploadAction ()
     {
 
-        if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file', false)) {
+        if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file')) {
 
-            $translator = $this->container->get('translator');
-            $filesystem = $this->get('filesystem');
-            $options = $this->container->getParameter('neutron_form.plupload.configs');
+            $imageManager = $this->container->get('neutron_form.manager.image_manager');
+
             $handle = $this->getRequest()->files->get('file');
             $name = uniqid() . '.' . $handle->guessExtension();
-            $dirs = $this->getImageDirs($name, $options);
 
             $validate = $this->validateImage($handle, $this->getConfigs());
 
@@ -64,11 +62,10 @@ class ImageController extends Controller
                 )));
             }
 
-            $this->clearFiles($options);
-            $handle->move($dirs['originalDir'], $name);
-            $this->normalizeImage($dirs['originalImagePath'], $options);
-            $filesystem->copy($dirs['originalImagePath'], $dirs['imagePath'], true);
-            $hash = md5_file($dirs['imagePath']);
+            $handle->move($imageManager->getTempOriginalDir(), $name);
+            $this->normalizeImage($imageManager->getPathOfTempOriginalImage($name));
+            $imageManager->makeImageCopy($name);
+            $hash = $imageManager->getHashOfTempImage($name);
 
             return new Response(json_encode(
                 array(
@@ -88,9 +85,8 @@ class ImageController extends Controller
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
 
-            $options = $this->container->getParameter('neutron_form.plupload.configs');
-            $name = $this->getRequest()->get('name', false);
-            $dirs = $this->getImageDirs($name, $options);
+            $imageManager = $this->container->get('neutron_form.manager.image_manager');
+            $name = $this->getRequest()->get('name');
 
             $x = $this->getRequest()->get('x', false);
             $y = $this->getRequest()->get('y', false);
@@ -100,7 +96,7 @@ class ImageController extends Controller
 
             try {
                 $imagine = $this->get('imagine');
-                $image = $imagine->open($dirs['imagePath']);
+                $image = $imagine->open($imageManager->getPathOfTempImage($name));
             } catch (InvalidArgumentException $e) {
                 return new Response(json_encode(array(
                     'success' => false,
@@ -109,7 +105,7 @@ class ImageController extends Controller
             }
 
             try {
-                $image->crop(new Point($x, $y), new Box($w, $h))->save($dirs['imagePath']);
+                $image->crop(new Point($x, $y), new Box($w, $h))->save($imageManager->getPathOfTempImage($name));
             } catch (OutOfBoundsException $e) {
                 return new Response(
                     json_encode(array(
@@ -126,7 +122,7 @@ class ImageController extends Controller
                 );
             }
 
-            $hash = md5_file($dirs['imagePath']);
+            $hash = $imageManager->getHashOfTempImage($name);
 
             return new Response(
                 json_encode(array(
@@ -145,14 +141,13 @@ class ImageController extends Controller
     public function rotateAction ()
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $options = $this->container->getParameter('neutron_form.plupload.configs');
-            $name = $this->getRequest()->get('name', false);
-            $dirs = $this->getImageDirs($name, $options);
+            $imageManager = $this->container->get('neutron_form.manager.image_manager');
+            $name = $this->getRequest()->get('name');
 
             $imagine = $this->get('imagine');
-            $image = $imagine->open($dirs['imagePath']);
-            $image->rotate(90)->save($dirs['imagePath']);
-            $hash = md5_file($dirs['imagePath']);
+            $image = $imagine->open($imageManager->getPathOfTempImage($name));
+            $image->rotate(90)->save($imageManager->getPathOfTempImage($name));
+            $hash = $imageManager->getHashOfTempImage($name);
 
             return new Response(
                 json_encode(array(
@@ -161,7 +156,6 @@ class ImageController extends Controller
                     'hash' => $hash
                 ))
             );
-
         }
     }
 
@@ -171,13 +165,13 @@ class ImageController extends Controller
     public function resetAction ()
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $options = $this->container->getParameter('neutron_form.plupload.configs');
+
+            $imageManager = $this->container->get('neutron_form.manager.image_manager');
             $name = $this->getRequest()->get('name', false);
-            $dirs = $this->getImageDirs($name, $options);
 
-            $this->get('filesystem')->copy($dirs['originalImagePath'], $dirs['imagePath'], true);
-
-            $hash = md5_file($dirs['imagePath']);
+            $imageManager->makeImageCopy($name);
+            
+            $hash = $imageManager->getHashOfTempImage($name);
 
             return new Response(
                 json_encode(array(
@@ -190,44 +184,10 @@ class ImageController extends Controller
     }
 
     /**
-     * Returns an array of image paths if folders do not exist it creates them.
-     *
-     * @param string $name
-     * @param array $options
-     * @throws \InvalidArgumentException
-     * @return array
-     */
-    private function getImageDirs($name, $options)
-    {
-        $dir = $this->get('kernel')->getRootDir() . '/../web' . DIRECTORY_SEPARATOR . $options['temporary_dir'];
-        $originalDir = $dir . DIRECTORY_SEPARATOR . 'original';
-
-        $filesystem = $this->get('filesystem');
-
-        if (!is_dir($dir)){
-            $filesystem->mkdir($dir, 0777);
-        }
-
-        if (!is_dir($originalDir)){
-            $filesystem->mkdir($originalDir, 0777);
-        }
-
-        $originalImagePath = $originalDir . DIRECTORY_SEPARATOR . $name;
-        $imagePath = $dir . DIRECTORY_SEPARATOR .  $name;
-
-        return array(
-            'originalDir'       => $originalDir,
-            'dir'               => $dir,
-            'originalImagePath' => $originalImagePath,
-            'imagePath'         => $imagePath
-        );
-    }
-
-    /**
      * Validates image and return true on success and
      * array of error messages on failure
      *
-     * @param unknown_type $handle
+     * @param UploadedFile $handle
      */
     private function validateImage (UploadedFile $handle, array $configs)
     {
@@ -239,12 +199,12 @@ class ImageController extends Controller
         $imageConstraint->maxSize = $maxSize;
         $imageConstraint->mimeTypes =
             array_map(function($item){return 'image/' . $item;}, explode( ',',  $extensions));
-        $errors = $this->get('validator')->validateValue($handle, $imageConstraint);
+        $errors = $this->container->get('validator')->validateValue($handle, $imageConstraint);
 
         if (count($errors) == 0) {
             return true;
         } else {
-            return $this->get('translator')
+            return $this->container->get('translator')
                 ->trans(/** @Ignore */$errors[0]->getMessageTemplate(), $errors[0]->getMessageParameters());
         }
     }
@@ -255,8 +215,9 @@ class ImageController extends Controller
      * @param string $imagePath
      * @param array $options
      */
-    private function normalizeImage ($imagePath, array $options)
+    private function normalizeImage ($imagePath)
     {
+        $options = $this->container->getParameter('neutron_form.plupload.configs');
         $imagine = $this->get('imagine');
         $image = $imagine->open($imagePath);
         $size = $image->getSize();
@@ -268,28 +229,6 @@ class ImageController extends Controller
             $image->resize($box->heighten($options['normalize_height']))->save($imagePath);
         }
 
-    }
-
-
-    /**
-     * Clears junk images
-     *
-     * @param array $options
-     */
-    private function clearFiles (array $options)
-    {
-        $application = new Application($this->get('kernel'));
-        $application->setAutoExit(false);
-
-        $olderThan = (int) $options['older_than'];
-        $command = 'neutron:form:file-clear';
-
-        $input = new ArrayInput(array(
-            'command' => $command,
-            'olderThan' => $olderThan
-        ));
-
-        return $application->run($input);
     }
 
     /**

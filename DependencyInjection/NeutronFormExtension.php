@@ -53,9 +53,7 @@ class NeutronFormExtension extends Extension
         }
         
         if (isset($config['plupload'])){
-            $config['plupload']['temp_dir'] =
-                $container->getParameter('neutron_form.web_dir') . DIRECTORY_SEPARATOR . $config['plupload']['temporary_dir'];
-            
+
             $container->setParameter('neutron_form.plupload.configs', $config['plupload']);
             
             $container
@@ -63,9 +61,16 @@ class NeutronFormExtension extends Extension
                 ->addArgument($config['plupload'])
                 ->addTag('form.type', array('alias' => 'neutron_image_upload'))
             ;
+
+            $container
+                ->getDefinition('neutron_form.doctrine.orm.event_subscriber.image_upload')
+                ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
+            ;
             
-            $subscriberDef = $container->getDefinition('neutron_form.form.event_subscriber.image_upload');
-            $subscriberDef->addArgument($config['plupload']);
+            $container
+                ->getDefinition('neutron_form.manager.image_manager')
+                ->addMethodCall('setTempDir', array($config['plupload']['temporary_dir']))
+            ;
 
         }
         

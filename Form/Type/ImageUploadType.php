@@ -9,7 +9,11 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Neutron\FormBundle\Exception\ImagesNotFoundException;
+
+use Neutron\FormBundle\Manager\ImageManagerInterface;
+
+use Neutron\FormBundle\Model\ImageInterface;
 
 use Symfony\Component\Form\FormView;
 
@@ -46,17 +50,11 @@ class ImageUploadType extends AbstractType
      * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
      */
     protected $router;
-
+    
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var \Neutron\FormBundle\Manager\ImageManagerInterface
      */
-    protected $translator;
-
-    /**
-     *
-     * @var \Neutron\Bundle\FormBundle\EventSubscriber\Form\ImageUploadSubscriber
-     */
-    protected $imageUploadSubscriber;
+    protected $imageManager;
 
     /**
      * @var array
@@ -69,14 +67,14 @@ class ImageUploadType extends AbstractType
      * 
      * @param Session $session
      * @param Router $router
-     * @param ImageUploadSubscriber $imageUploadSubscriber
+     * @param ImageManagerInterface $imageManager
      * @param array $options
      */
-    public function __construct(Session $session, Router $router, EventSubscriberInterface $imageUploadSubscriber, array $options)
+    public function __construct(Session $session, Router $router, ImageManagerInterface $imageManager, array $options)
     {
         $this->session = $session;
         $this->router = $router;
-        $this->imageUploadSubscriber = $imageUploadSubscriber;
+        $this->imageManager = $imageManager;
         $this->options = $options;
     }
 
@@ -91,8 +89,7 @@ class ImageUploadType extends AbstractType
         $builder->add('caption', 'hidden');
         $builder->add('description', 'hidden');
         $builder->add('hash', 'hidden');
-        $builder->add('isActive', 'hidden');
-        $builder->addEventSubscriber($this->imageUploadSubscriber);
+        $builder->add('enabled', 'hidden');
     }
     
     /**
@@ -108,9 +105,22 @@ class ImageUploadType extends AbstractType
             'caption_id' => $view->getChild('caption')->vars['id'],        
             'description_id' => $view->getChild('description')->vars['id'],        
             'hash_id' => $view->getChild('hash')->vars['id'],        
-            'active_id' => $view->getChild('isActive')->vars['id'],        
+            'enabled_id' => $view->getChild('enabled')->vars['id'],        
         ));
-
+       
+        $image = $form->getData();
+        
+        if ($image instanceof ImageInterface && null !== $image->getId()){
+            $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
+            
+            try {
+                $this->imageManager->copyImagesToTemporaryDirectory($form->getData(), $override);
+            } catch (ImagesNotFoundException $e){
+                // do nothing
+            }
+            
+        }
+        
         $this->session->set($view->vars['id'], $configs);
         $view->vars['configs'] = $configs;
     }
@@ -143,7 +153,7 @@ class ImageUploadType extends AbstractType
                 $configs['crop_url'] = $router->generate('neutron_form_media_image_crop');
                 $configs['rotate_url'] = $router->generate('neutron_form_media_image_rotate');
                 $configs['reset_url'] = $router->generate('neutron_form_media_image_reset');
-                $configs['dir'] = DIRECTORY_SEPARATOR . $defaultOptions['temporary_dir'] . DIRECTORY_SEPARATOR;
+                $configs['dir'] = '/' . $defaultOptions['temporary_dir'] . '/';
                 
                 return $configs;
             }

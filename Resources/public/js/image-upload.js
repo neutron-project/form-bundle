@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
      * Searching for image upload elements
      */
     jQuery('.neutron-image-upload').each(function(key, value){  
-        var options = jQuery(this).data('options'); console.log(options);
+        var options = jQuery(this).data('options'); 
 
         jQuery('#neutron-image-btn-upload-' + options.id).click(function(){
             return false;
@@ -27,7 +27,7 @@ jQuery(document).ready(function(){
 	 */
         var disableButtons = function(){
             jQuery('#neutron-image-btn-crop-' + options.id).button( "option", "disabled", true );
-            jQuery('#neutron-image-btn-active-' + options.id).button( "option", {disabled: true});
+            jQuery('#neutron-image-btn-enabled-' + options.id).button( "option", {disabled: true});
             jQuery('#neutron-image-btn-view-' + options.id).button( "option", "disabled", true );
             jQuery('#neutron-image-btn-remove-' + options.id).button( "option", "disabled", true );
             jQuery('#neutron-image-btn-reset-' + options.id).button( "option", "disabled", true );
@@ -40,7 +40,7 @@ jQuery(document).ready(function(){
 	 */
         var enableButtons = function(){
             jQuery('#neutron-image-btn-crop-' + options.id).button( "option", "disabled", false );
-            jQuery('#neutron-image-btn-active-' + options.id).button( "option", {disabled:false});
+            jQuery('#neutron-image-btn-enabled-' + options.id).button( "option", {disabled:false});
             jQuery('#neutron-image-btn-view-' + options.id).button( "option", "disabled", false );
             jQuery('#neutron-image-btn-remove-' + options.id).button( "option", "disabled", false );
             jQuery('#neutron-image-btn-reset-' + options.id).button( "option", "disabled", false );
@@ -69,49 +69,46 @@ jQuery(document).ready(function(){
         }
         
         /**
-         * Activate active button
+         * Activate enabled button
          */
         var activate = function(){
-            var button = jQuery('#neutron-image-btn-active-' + options.id);
-            var elm = jQuery('#' + options.active_id); 
+            var button = jQuery('#neutron-image-btn-enabled-' + options.id);
+            var elm = jQuery('#' + options.enabled_id); 
             if(button.hasClass('ui-icon-radio-on')){
-                button.removeClass('ui-icon-radio-on').addClass('ui-icon-bullet')
-                    .attr('title', options.button_active_title);
+                button.removeClass('ui-icon-radio-on').addClass('ui-icon-bullet');
                 elm.val(1);
             }
         };
         
         /**
-         * Deactivate active button
+         * Deactivate enabled button
          */
         var deactivate = function(){
-            var button = jQuery('#neutron-image-btn-active-' + options.id);
-            var elm = jQuery('#' + options.active_id); 
+            var button = jQuery('#neutron-image-btn-enabled-' + options.id);
+            var elm = jQuery('#' + options.enabled_id); 
             if(button.hasClass('ui-icon-bullet')){
-                button.removeClass('ui-icon-bullet').addClass('ui-icon-radio-on')
-                    .attr('title', options.button_inactive_title);
+                button.removeClass('ui-icon-bullet').addClass('ui-icon-radio-on');
                 elm.val(0);
             }
         };
         
         /**
-         * Toggle active button 
+         * Toggle enabled button 
          */
         var toggleActive = function(){
-            var button = jQuery('#neutron-image-btn-active-' + options.id);
-            var elm = jQuery('#' + options.active_id); 
+            var button = jQuery('#neutron-image-btn-enabled-' + options.id);
+            var elm = jQuery('#' + options.enabled_id); 
             if(button.hasClass('ui-icon-bullet')){
-                button.removeClass('ui-icon-bullet').addClass('ui-icon-radio-on')
-                    .attr('title', options.button_inactive_title);
+                button.removeClass('ui-icon-bullet').addClass('ui-icon-radio-on');
                 elm.val(0);
             } else {
                 button.removeClass('ui-icon-radio-on').addClass('ui-icon-bullet')
-                    .attr('title', options.button_active_title);
+                    .attr('title', options.button_enabled_title);
                 elm.val(1);
             }
         };
         
-        jQuery('#neutron-image-btn-active-' + options.id).click(function(event){
+        jQuery('#neutron-image-btn-enabled-' + options.id).click(function(event){
             toggleActive();
         });
                 
