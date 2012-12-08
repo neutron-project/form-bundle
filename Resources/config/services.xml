@@ -32,6 +32,7 @@
         <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
         <parameter key="neutron_form.web_dir">%kernel.root_dir%/../web</parameter>
         <parameter key="neutron_form.doctrine.orm.event_subscriber.image_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.twig.extension.image.class">Neutron\FormBundle\Twig\Extension\ImageExtension</parameter>
     </parameters>
 
     <services>
@@ -141,6 +142,11 @@
         <service id="neutron_form.doctrine.orm.event_subscriber.image_upload" 
         	class="%neutron_form.doctrine.orm.event_subscriber.image_upload.class%" >
 			<argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+        
+        <service id="neutron_form.twig.extension.image" 
+        	class="%neutron_form.twig.extension.image.class%" >
+			<argument type="service"  id="service_container" />
         </service>
                
     </services>

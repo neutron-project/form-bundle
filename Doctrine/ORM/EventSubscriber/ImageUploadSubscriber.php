@@ -89,7 +89,6 @@ class ImageUploadSubscriber implements EventSubscriber
                 } else if (isset($changeSet['hash'])){ 
                     $this->imageManager->copyImagesToPermenentDirectory($entity);
                     $this->imageManager->removeImagesFromTemporaryDirectory($entity);
-                    $this->imageManager->removeImagesFromCacheDirectory(get_class($entity));
                 }
             }
         }

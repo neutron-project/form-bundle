@@ -134,7 +134,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getCacheDir()
     {
-        return $this->cacheDir;
+        return realpath($this->getWebDir() . DIRECTORY_SEPARATOR . $this->cacheDir);
     }
     
     /**
@@ -257,26 +257,17 @@ class ImageManager implements ImageManagerInterface
      * (non-PHPdoc)
      * @see \Neutron\FormBundle\Manager\ImageManagerInterface::removeImagesFromCacheDirectory()
      */
-    public function removeImagesFromCacheDirectory($class = null)
-    {
+    public function removeImagesFromCacheDirectory($filter = null)
+    {   
         if (!$this->getFilesystem()->exists($this->getCacheDir())){
             return;
         }
         
-        if (null === $class){
-            $this->filesystem->remove($this->getCacheDir());
-            return;
-        }
+        $dir = rtrim($this->getCacheDir() . DIRECTORY_SEPARATOR . $filter, DIRECTORY_SEPARATOR);
         
-        $iterator = new \DirectoryIterator($this->getCacheDir());
-        $name = array_reverse(explode('\\', $class));
-        foreach ($iterator as $fileInfo){
-            if ($fileInfo->isDir()){
-                if (preg_match("/^$name/", $fileInfo->getBasename())){
-                    $this->getFilesystem()->remove($fileInfo->getRealPath());
-                }
-            }
-        }
+        if ($this->getFilesystem()->exists($dir)){
+            $this->getFilesystem()->remove($dir);
+        }        
     }
     
     /**
@@ -314,6 +305,5 @@ class ImageManager implements ImageManagerInterface
     {
         $this->removeImagesFromPermenentDirectory($image);
         $this->removeImagesFromTemporaryDirectory($image);
-        $this->removeImagesFromCacheDirectory(get_class($image));
     }
 }

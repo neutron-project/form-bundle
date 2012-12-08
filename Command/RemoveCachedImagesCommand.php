@@ -34,9 +34,9 @@ class RemoveCachedImagesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('neutron:form:image-cache-remove')
+            ->setName('neutron:form:remove-cached-images')
             ->setDescription('Removes images in cache directory')
-            ->addArgument('class-name', InputArgument::OPTIONAL, 'Entity class name')
+            ->addArgument('filter', InputArgument::OPTIONAL, 'avalanche filter')
         ;
     }
 
@@ -47,7 +47,7 @@ class RemoveCachedImagesCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {   
         $this->getContainer()->get('neutron_form.manager.image_manager')
-            ->removeImagesFromCacheDirectory($input->getArgument('class-name'));
+            ->removeImagesFromCacheDirectory($input->getArgument('filter'));
         
         $output->writeln('Images in cached directory are removed.');
     }

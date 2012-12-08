@@ -71,6 +71,11 @@ class NeutronFormExtension extends Extension
                 ->getDefinition('neutron_form.manager.image_manager')
                 ->addMethodCall('setTempDir', array($config['plupload']['temporary_dir']))
             ;
+            
+            $container
+                ->getDefinition('neutron_form.twig.extension.image')
+                ->addTag('twig.extension')
+            ;
 
         }
         

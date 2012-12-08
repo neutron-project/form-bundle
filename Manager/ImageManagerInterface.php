@@ -180,10 +180,10 @@ interface ImageManagerInterface
     /**
      * Removes images from cache directory (avalanche bundle)
      * 
-     * @param string $class | null
+     * @param string|null $filter
      * @return void
      */
-    public function removeImagesFromCacheDirectory($class = null);
+    public function removeImagesFromCacheDirectory($filter = null);
     
     /**
      * Remove unused images from temporary directory by checking mtime
@@ -194,8 +194,7 @@ interface ImageManagerInterface
     public function removeUnusedImages($maxAge);
     
     /**
-     * Triggers removeImagesFromTemporaryDirectory, removeImagesFromPermenentDirectory, 
-     * removeImagesFromCacheDirectory
+     * Triggers removeImagesFromTemporaryDirectory, removeImagesFromPermenentDirectory
      * 
      * @param ImageInterface $image
      * @return void
