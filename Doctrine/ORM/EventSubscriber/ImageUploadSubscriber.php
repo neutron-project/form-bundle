@@ -62,7 +62,7 @@ class ImageUploadSubscriber implements EventSubscriber
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof ImageInterface){
                 $this->imageManager->copyImagesToPermenentDirectory($entity);
-                $this->imageManager->removeImagesFromTemporaryDirectory($entity);
+                //$this->imageManager->removeImagesFromTemporaryDirectory($entity);
             }
         }
 
@@ -72,7 +72,7 @@ class ImageUploadSubscriber implements EventSubscriber
 
                 $meta = $em->getClassMetadata(get_class($entity));
                 $changeSet = $uow->getEntityChangeSet($entity);
-
+                
                 if (isset($changeSet['name']) && isset($changeSet['hash'])){
                     $this->imageManager->copyImagesToPermenentDirectory($entity);
                     
@@ -80,7 +80,8 @@ class ImageUploadSubscriber implements EventSubscriber
                     $clonedEntity = clone $entity;
                     $clonedEntity->setName($changeSet['name'][0]);
                     $clonedEntity->setHash($changeSet['hash'][0]);
-                    $this->imageManager->removeAllImages($clonedEntity); 
+                    //$this->imageManager->removeAllImages($clonedEntity); 
+                    $this->imageManager->removeImagesFromPermenentDirectory($clonedEntity);
                     
                     if (empty($changeSet['name'][1]) || empty($changeSet['hash'][1])){
                         $this->scheduledForDeletion[] = $entity;
@@ -88,7 +89,7 @@ class ImageUploadSubscriber implements EventSubscriber
                     
                 } else if (isset($changeSet['hash'])){ 
                     $this->imageManager->copyImagesToPermenentDirectory($entity);
-                    $this->imageManager->removeImagesFromTemporaryDirectory($entity);
+                    //$this->imageManager->removeImagesFromTemporaryDirectory($entity);
                 }
             }
         }

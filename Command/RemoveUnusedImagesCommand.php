@@ -49,6 +49,6 @@ class RemoveUnusedImagesCommand extends ContainerAwareCommand
         $this->getContainer()->get('neutron_form.manager.image_manager')
             ->removeUnusedImages($input->getArgument('maxAge'));
             
-        $output->writeln('Files successfully removed');
+        $output->writeln('Images successfully removed');
     }
 }

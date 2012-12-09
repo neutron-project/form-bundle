@@ -62,7 +62,7 @@ abstract class AbstractImage implements ImageInterface
      *
      * @ORM\Column(type="boolean", name="enabled")
      */
-    private $enabled = false;
+    protected $enabled = false;
     
     /**
      * (non-PHPdoc)

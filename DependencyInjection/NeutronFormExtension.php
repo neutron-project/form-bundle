@@ -61,6 +61,17 @@ class NeutronFormExtension extends Extension
                 ->addArgument($config['plupload'])
                 ->addTag('form.type', array('alias' => 'neutron_image_upload'))
             ;
+            
+            $container
+                ->getDefinition('neutron_form.form.type.multi_image_upload_collection')
+                ->addArgument($config['plupload'])
+                ->addTag('form.type', array('alias' => 'neutron_multi_image_upload_collection'))
+            ;
+            
+            $container
+                ->getDefinition('neutron_form.form.type.multi_image_upload')
+                ->addTag('form.type', array('alias' => 'neutron_multi_image_upload'))
+            ;
 
             $container
                 ->getDefinition('neutron_form.doctrine.orm.event_subscriber.image_upload')

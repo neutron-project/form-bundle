@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Component\Validator\Constraints\Image;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -26,8 +28,6 @@ use Imagine\Exception\OutOfBoundsException;
 use Imagine\Image\Point;
 
 use Imagine\Image\Box;
-
-use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -67,12 +67,10 @@ class ImageController extends Controller
             $imageManager->makeImageCopy($name);
             $hash = $imageManager->getHashOfTempImage($name);
 
-            return new Response(json_encode(
-                array(
-                    'success' => true,
-                    'name' => $name,
-                    'hash' => $hash
-                )
+            return new JsonResponse(array(
+                'success' => true,
+                'name' => $name,
+                'hash' => $hash
             ));
         }
 
@@ -124,13 +122,11 @@ class ImageController extends Controller
 
             $hash = $imageManager->getHashOfTempImage($name);
 
-            return new Response(
-                json_encode(array(
-                    'success' => true,
-                    'name' => $name,
-                    'hash' => $hash
-                ))
-            );
+            return new JsonResponse(array(
+                'success' => true,
+                'name' => $name,
+                'hash' => $hash
+            ));
 
         }
     }
@@ -149,13 +145,11 @@ class ImageController extends Controller
             $image->rotate(90)->save($imageManager->getPathOfTempImage($name));
             $hash = $imageManager->getHashOfTempImage($name);
 
-            return new Response(
-                json_encode(array(
-                    'success' => true,
-                    'name' => $name,
-                    'hash' => $hash
-                ))
-            );
+            return new JsonResponse(array(
+                'success' => true,
+                'name' => $name,
+                'hash' => $hash
+            ));
         }
     }
 
@@ -173,13 +167,11 @@ class ImageController extends Controller
             
             $hash = $imageManager->getHashOfTempImage($name);
 
-            return new Response(
-                json_encode(array(
-                    'success' => true,
-                    'name' => $name,
-                    'hash' => $hash
-                ))
-            );
+            return new JsonResponse(array(
+                'success' => true,
+                'name' => $name,
+                'hash' => $hash
+            ));
         }
     }
 
