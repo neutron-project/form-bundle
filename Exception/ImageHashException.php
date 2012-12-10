@@ -13,6 +13,6 @@ class ImageHashException extends \InvalidArgumentException implements ExceptionI
 {
     public function __construct($name)
     {
-        parent::__construct(sprintf('Image with name "%s" has changed hash'), $name);
+        parent::__construct(sprintf('Image with name "%s" has changed hash', $name));
     }
 }

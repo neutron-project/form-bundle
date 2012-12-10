@@ -9,11 +9,11 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-use Neutron\FormBundle\Exception\ImagesNotFoundException;
-
-use Neutron\FormBundle\Manager\ImageManagerInterface;
-
 use Neutron\FormBundle\Model\ImageInterface;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\FormView;
 
@@ -22,8 +22,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Neutron\FormBundle\EventSubscriber\Form\ImageUploadSubscriber;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -54,7 +52,7 @@ class ImageUploadType extends AbstractType
     /**
      * @var \Neutron\FormBundle\Manager\ImageManagerInterface
      */
-    protected $imageManager;
+    protected $subscriber;
 
     /**
      * @var array
@@ -70,11 +68,11 @@ class ImageUploadType extends AbstractType
      * @param ImageManagerInterface $imageManager
      * @param array $options
      */
-    public function __construct(Session $session, Router $router, ImageManagerInterface $imageManager, array $options)
+    public function __construct(Session $session, Router $router, EventSubscriberInterface $subscriber, array $options)
     {
         $this->session = $session;
         $this->router = $router;
-        $this->imageManager = $imageManager;
+        $this->subscriber = $subscriber;
         $this->options = $options;
     }
 
@@ -90,6 +88,9 @@ class ImageUploadType extends AbstractType
         $builder->add('description', 'hidden');
         $builder->add('hash', 'hidden');
         $builder->add('enabled', 'hidden');
+        $builder->add('currentVersion', 'hidden');
+        $builder->add('scheduledForDeletion', 'hidden', array('data' => false));
+        $builder->addEventSubscriber($this->subscriber);
     }
     
     /**
@@ -106,20 +107,13 @@ class ImageUploadType extends AbstractType
             'description_id' => $view->getChild('description')->vars['id'],        
             'hash_id' => $view->getChild('hash')->vars['id'],        
             'enabled_id' => $view->getChild('enabled')->vars['id'],   
+            'scheduled_for_deletion_id' => $view->getChild('scheduledForDeletion')->vars['id'],   
             'enabled_value' => false,     
         ));
        
         $image = $form->getData();
         
-        if ($image instanceof ImageInterface && null !== $image->getId()){
-            $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
-            
-            try {
-                $this->imageManager->copyImagesToTemporaryDirectory($image, $override);
-            } catch (ImagesNotFoundException $e){
-                // do nothing
-            }
-            
+        if ($image instanceof ImageInterface && null !== $image->getId()){            
             $configs['enabled_value'] = $image->isEnabled();
         }
         
@@ -135,20 +129,26 @@ class ImageUploadType extends AbstractType
     {
         $defaultOptions = $this->options; 
         
+        $defaultConfigs = array(
+            'maxSize' => $this->options['max_upload_size']        
+        );
+        
         $router = $this->router;
         
         $resolver->setDefaults(array(
             'error_bubbling' => false,
             'translation_domain' => 'NeutronFormBundle',
-            'configs' => array(),
+            'configs' => $defaultConfigs,
         ));
     
         $resolver->setNormalizers(array(
-            'configs' => function (Options $options, $value) use ($defaultOptions, $router){
-                $configs = array_replace_recursive($defaultOptions, $value);
+            'configs' => function (Options $options, $value) use ($defaultOptions, $defaultConfigs, $router){
+                $configs = array_replace_recursive($defaultOptions, $defaultConfigs, $value);
                 
-                if (!isset($configs['minWidth']) || !isset($configs['minWidth'])){
-                    throw new \InvalidArgumentException('configs:minWidth or configs:minHeight is missing.');
+                $requiredConfigs = array('minWidth', 'minHeight', 'maxSize', 'extensions');
+            
+                if (count(array_diff($requiredConfigs, array_keys($configs))) > 0){
+                    throw new \InvalidArgumentException(sprintf('Some of the configs "%s" are missing', json_encode($requiredConfigs)));
                 }
                 
                 $configs['upload_url'] = $router->generate('neutron_form_media_image_upload');

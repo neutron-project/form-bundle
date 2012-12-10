@@ -63,6 +63,14 @@ abstract class AbstractImage implements ImageInterface
      * @ORM\Version @ORM\Column(type="integer") 
      */
     protected $version;
+    
+    /**
+     * This property is not mapped by Doctrine.
+     * Used to store current version of the image
+     * 
+     * @var integer
+     */
+    protected $currentVersion;
 
     /**
      * @var boolean
@@ -162,6 +170,28 @@ abstract class AbstractImage implements ImageInterface
 
     /**
      * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\ImageInterface::setCurrentVersion()
+     */
+    public function setCurrentVersion($currentVersion)
+    {
+        $this->currentVersion = (int) $currentVersion;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\ImageInterface::getCurrentVersion()
+     */
+    public function getCurrentVersion()
+    {
+        if (null === $this->currentVersion){
+            $this->currentVersion = $this->version;
+        }
+        
+        return $this->currentVersion;
+    }
+    
+    /**
+     * (non-PHPdoc)
      * @see \Neutron\FormBundle\Model\ImageInterface::getVersion()
      */
     public function getVersion()
@@ -207,9 +237,9 @@ abstract class AbstractImage implements ImageInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Model\ImageInterface::setScheduleForDeletion()
+     * @see \Neutron\FormBundle\Model\ImageInterface::setScheduledForDeletion()
      */
-    public function setScheduleForDeletion($bool)
+    public function setScheduledForDeletion($bool)
     {
         $this->scheduledForDeletion = (bool) $bool;
     }

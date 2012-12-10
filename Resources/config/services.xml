@@ -36,6 +36,7 @@
         <parameter key="neutron_form.form.type.multi_image_upload_collection.class">Neutron\FormBundle\Form\Type\MultiImageUploadCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_image_upload.class">Neutron\FormBundle\Form\Type\MultiImageUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.multi_image_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
     </parameters>
 
     <services>
@@ -139,7 +140,7 @@
         	class="%neutron_form.form.type.image_upload.class%">
 			<argument type="service"  id="session" />
 			<argument type="service"  id="router" />
-			<argument type="service"  id="neutron_form.manager.image_manager" />
+			<argument type="service"  id="neutron_form.form.event_subscriber.image_upload" />
         </service>
         
         <service id="neutron_form.doctrine.orm.event_subscriber.image_upload" 
@@ -165,6 +166,11 @@
         <service id="neutron_form.form.event_subscriber.multi_image_upload" 
         	class="%neutron_form.form.event_subscriber.multi_image_upload.class%">
 			<argument type="service"  id="doctrine.orm.entity_manager" />
+			<argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+                
+        <service id="neutron_form.form.event_subscriber.image_upload" 
+        	class="%neutron_form.form.event_subscriber.image_upload.class%">
 			<argument type="service"  id="neutron_form.manager.image_manager" />
         </service>
                

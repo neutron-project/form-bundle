@@ -9,6 +9,10 @@
  */
 namespace Neutron\FormBundle\Doctrine\ORM\EventSubscriber;
 
+use Doctrine\DBAL\LockMode;
+
+use Doctrine\ORM\Event\PreFlushEventArgs;
+
 use Neutron\FormBundle\Exception\ImageHashException;
 
 use Neutron\FormBundle\Exception\ImagesNotFoundException;
@@ -51,15 +55,18 @@ class ImageUploadSubscriber implements EventSubscriber
      * @var array
      */
     protected $scheduledForDeleteImages = array();
+    
+    protected $versionEnabled;
 
     /**
      * Construct
      * 
      * @param ImageManagerInterface $imageManager
      */
-    public function __construct(ImageManagerInterface $imageManager)
+    public function __construct(ImageManagerInterface $imageManager, $versionEnabled)
     { 
         $this->imageManager = $imageManager;
+        $this->versionEnabled = $versionEnabled;
     }
 
     /**
@@ -82,6 +89,10 @@ class ImageUploadSubscriber implements EventSubscriber
 
             if ($entity instanceof ImageInterface){
                 
+                if ($this->versionEnabled){
+                    $em->lock($entity, LockMode::OPTIMISTIC, $entity->getCurrentVersion());
+                }
+                
                 $changeSet = $uow->getEntityChangeSet($entity);
 
                 if (isset($changeSet['name'])){
@@ -91,6 +102,11 @@ class ImageUploadSubscriber implements EventSubscriber
                     $this->scheduledForDeleteImages[] = $clonedEntity; 
                 } 
                 
+                if (true === $entity->isScheduledForDeletion()){
+                    $uow->scheduleForDelete($entity);
+                    continue;
+                }
+
                 if (isset($changeSet['hash'])){
                     $this->checksum($entity, $changeSet);
                     $this->scheduledForCopyImages[] = $entity;
@@ -127,7 +143,7 @@ class ImageUploadSubscriber implements EventSubscriber
                 $this->imageManager->removeAllImages($entity);
             }
         
-            $this->scheduledForDeletion = array();
+            $this->scheduledForDeleteImages = array();
         }
     }
 

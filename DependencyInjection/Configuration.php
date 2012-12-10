@@ -118,6 +118,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('normalize_width')->defaultValue(1000)->end()
                         ->scalarNode('normalize_height')->defaultValue(1000)->end()
                         ->scalarNode('max_uploaded_files')->defaultValue(20)->end()
+                        ->booleanNode('enable_version')->defaultFalse()->end()
                         ->arrayNode('image_options')
                             ->addDefaultsIfNotSet()
                             ->children()

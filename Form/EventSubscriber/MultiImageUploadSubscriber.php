@@ -49,6 +49,7 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
      * Construct
      * 
      * @param ObjectManager $om
+     * @param ImageManagerInterface $imageManager
      */
     public function __construct(ObjectManager $om, ImageManagerInterface $imageManager)
     {

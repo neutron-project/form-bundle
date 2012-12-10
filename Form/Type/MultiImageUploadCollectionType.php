@@ -106,6 +106,10 @@ class MultiImageUploadCollectionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $defaultOptions = $this->options;
+        
+        $defaultConfigs = array(
+            'maxSize' => $this->options['max_upload_size']
+        );
     
         $router = $this->router;
     
@@ -114,18 +118,20 @@ class MultiImageUploadCollectionType extends AbstractType
             'allow_delete' => true,
             'error_bubbling' => false,
             'translation_domain' => 'NeutronFormBundle',
-            'configs' => array(),
+            'configs' => $defaultConfigs,
         ));
     
         $resolver->setNormalizers(array(
             'type' => function (Options $options, $value) use ($defaultOptions, $router){
                   return 'neutron_multi_image_upload';
             },
-            'configs' => function (Options $options, $value) use ($defaultOptions, $router){
-                $configs = array_replace_recursive($defaultOptions, $value);
+            'configs' => function (Options $options, $value) use ($defaultOptions, $defaultConfigs, $router){
+                $configs = array_replace_recursive($defaultOptions, $defaultConfigs, $value);
 
-                if (!isset($configs['minWidth']) || !isset($configs['minWidth'])){
-                    throw new \InvalidArgumentException('configs:minWidth or configs:minHeight is missing.');
+                $requiredConfigs = array('minWidth', 'minHeight', 'maxSize', 'extensions');
+            
+                if (count(array_diff($requiredConfigs, array_keys($configs))) > 0){
+                    throw new \InvalidArgumentException(sprintf('Some of the configs "%s" are missing', json_encode($requiredConfigs)));
                 }
 
                 $configs['upload_url'] = $router->generate('neutron_form_media_image_upload');

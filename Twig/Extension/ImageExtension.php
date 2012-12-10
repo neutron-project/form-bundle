@@ -9,11 +9,7 @@
  */
 namespace Neutron\FormBundle\Twig\Extension;
 
-use Symfony\Component\Form\FormView;
-
 use Symfony\Component\DependencyInjection\Container;
-
-use Neutron\FormBundle\Model\ImageInterface;
 
 /**
  * Twig extension
@@ -38,27 +34,6 @@ class ImageExtension extends \Twig_Extension
     {
        $this->container = $container;
     }
-    
-    /**
-     * Reorders form children
-     * 
-     * @param FormView $form
-     * @return FormView
-     */
-    public function reorderMultiImageForm(FormView$form)
-    {
-        $children = array();
-        
-        foreach ($form as $child){
-            $position = (int) $child->getChild('position')->vars['value'];
-            $children[$position] = $child;
-        }
-        
-        ksort($children);
-        $form->setChildren($children);
-        
-        return $form;
-    }
 
     /**
      * @param ImageInterface $entity
@@ -80,7 +55,6 @@ class ImageExtension extends \Twig_Extension
     {
         return array(
             'neutron_image' => new \Twig_Function_Method($this, 'outputImage', array('is_safe' => array('html'))),
-            'neutron_multi_image_form_reorder' => new \Twig_Function_Method($this, 'reorderMultiImageForm')
         );
     }
 

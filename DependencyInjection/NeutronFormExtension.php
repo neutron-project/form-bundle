@@ -75,6 +75,7 @@ class NeutronFormExtension extends Extension
 
             $container
                 ->getDefinition('neutron_form.doctrine.orm.event_subscriber.image_upload')
+                ->addArgument($config['plupload']['enable_version'])
                 ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
             ;
             

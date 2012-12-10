@@ -98,6 +98,18 @@ interface ImageInterface
     public function getVersion();
     
     /**
+     * Sets current version of the image
+     * 
+     * @param integer $currentVersion
+     */
+    public function setCurrentVersion($currentVersion);
+    
+    /**
+     * Gets current version of the image
+     */
+    public function getCurrentVersion();
+    
+    /**
      * Gets image upload directory
      * It suggests it is located in "web" directory
      *
@@ -131,7 +143,7 @@ interface ImageInterface
      * 
      * @param boolean $bool
      */
-    public function setScheduleForDeletion($bool);
+    public function setScheduledForDeletion($bool);
     
     /**
      * Checks if image is scheduled for deletion

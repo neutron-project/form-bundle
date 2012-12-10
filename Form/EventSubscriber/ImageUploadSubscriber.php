@@ -9,9 +9,7 @@
  */
 namespace Neutron\FormBundle\Form\EventSubscriber;
 
-use Symfony\Component\HttpFoundation\Request;
-
-use Symfony\Component\Filesystem\Filesystem;
+use Neutron\FormBundle\Manager\ImageManagerInterface;
 
 use Symfony\Component\Form\Event\DataEvent;
 
@@ -29,38 +27,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ImageUploadSubscriber implements EventSubscriberInterface
 {
-
-    protected $request;
     
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     *  @var Neutron\FormBundle\Manager\ImageManagerInterface
      */
-    protected $filesystem;
-
-    /**
-     * @var string
-     */
-    protected $webDir;
-
-    /**
-     * @var string
-     */
-    protected $tempDir;
+    protected $imageManager;
 
     /**
      * Construct
-     *
-     * @param Filesystem $filesystem
-     * @param string $webDir
-     * @param array $options
+     * 
+     * @param ImageManagerInterface $imageManager
      */
-    public function __construct(Request $request, Filesystem $filesystem, $webDir, array $options)
+    public function __construct(ImageManagerInterface $imageManager)
     {
-        $this->request = $request;
-        $this->filesystem = $filesystem;
-        $this->webDir = $webDir;
-        $this->tempDir = $options['temp_dir'];
+        $this->imageManager = $imageManager;
     }
+    
 
     /**
      * Copy image to temporary directory
@@ -72,43 +54,24 @@ class ImageUploadSubscriber implements EventSubscriberInterface
     {  
         $entity = $event->getData();
 
-        if ($entity instanceof ImageInterface){
-            
-            $uploadDir = $this->webDir . DIRECTORY_SEPARATOR . trim($entity->getUploadDir(), '/');
-
-            $imagePathTempOriginal = $this->tempDir . DIRECTORY_SEPARATOR .  'original' . DIRECTORY_SEPARATOR .$entity->getName();
-            $imagePathOriginal = $uploadDir . DIRECTORY_SEPARATOR .  'original' . DIRECTORY_SEPARATOR .$entity->getName();
-
-            $imagePathTemp = $this->tempDir . DIRECTORY_SEPARATOR  . $entity->getName();
-            $imagePath = $uploadDir . DIRECTORY_SEPARATOR  . $entity->getName();
-
-            if (file_exists($imagePathTemp) && (md5_file($imagePathTemp)) != $entity->getHash() 
-                    && $this->request->getMethod() != 'POST'){
-                $this->filesystem->remove($imagePathTemp);
-            }
-            
-            if (file_exists($imagePathOriginal) && !file_exists($imagePathTempOriginal)){
-            	$this->filesystem->copy($imagePathOriginal, $imagePathTempOriginal);
-            }
-
-            if (file_exists($imagePath) && !file_exists($imagePathTemp)){
-            	$this->filesystem->copy($imagePath, $imagePathTemp);
-            }
-
+        if ($entity instanceof ImageInterface && null !== $entity->getId()){
+            $override = ($entity->getHash() != $this->imageManager->getImageInfo($entity)->getTemporaryImageHash());
+            $this->imageManager->copyImagesToTemporaryDirectory($entity);
         }
     }
     
+    /**
+     * Form event - removes image if scheduled.
+     * 
+     * @param DataEvent $event
+     */
     public function bind(DataEvent $event)
     {
         $entity = $event->getData();
         
-        if ($entity instanceof ImageInterface){
-            if ($entity->getName() === '' || !$entity->getName()){ 
-                $event->setData(null);
-                $event->stopPropagation();
-            }
+        if ($entity instanceof ImageInterface && null === $entity->getId() && true === $entity->isScheduledForDeletion()){
+            $event->setData(null);
         }
-        
     }
 
 

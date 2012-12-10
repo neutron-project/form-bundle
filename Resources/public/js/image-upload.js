@@ -272,8 +272,8 @@ jQuery(document).ready(function(){
 
         // Remove button click event
         jQuery('#neutron-image-btn-remove-' + options.id).click(function(){ 
-            jQuery('#' + options.name_id).val('');
             jQuery('#' + options.hash_id).val('');
+            jQuery('#' + options.scheduled_for_deletion_id).val(true);
             resetMeta();
             disableButtons();
             jQuery('#neutron-image-' + options.id).fadeOut(function(){
