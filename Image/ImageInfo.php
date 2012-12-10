@@ -122,17 +122,6 @@ class ImageInfo implements ImageInfoInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Image\ImageInfoInterface::getTemporaryOriginalImageHash()
-     */
-    public function getTemporaryOriginalImageHash()
-    {
-        if (is_file(realpath($this->getPathOfTemporaryOriginalImage()))){
-            return md5_file($this->getPathOfTemporaryOriginalImage());
-        }
-    }
-    
-    /**
-     * (non-PHPdoc)
      * @see \Neutron\FormBundle\Image\ImageInfoInterface::imagesExist()
      */
     public function imagesExist()
@@ -156,7 +145,7 @@ class ImageInfo implements ImageInfoInterface
     }
     
     /**
-     * Checks images if name or hash are empty
+     * Checks images if name is empty
      * 
      * @param ImageInterface $image
      * @throws EmptyImageException
@@ -165,9 +154,8 @@ class ImageInfo implements ImageInfoInterface
     protected function validateImage(ImageInterface $image)
     {
         $name = $image->getName();
-        $hash = $image->getHash();
         
-        if (empty($name) || empty($hash)){
+        if (empty($name)){
             throw new EmptyImageException();
         }
     }

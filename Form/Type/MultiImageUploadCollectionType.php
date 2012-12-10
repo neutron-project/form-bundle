@@ -9,13 +9,7 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-//use Neutron\FormBundle\Exception\ImagesNotFoundException;
-
-use Neutron\FormBundle\Model\MultiImageInterface;
-
 use Doctrine\Common\Collections\Collection;
-
-use Neutron\FormBundle\Manager\ImageManagerInterface;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -77,13 +71,11 @@ class MultiImageUploadCollectionType extends AbstractType
      * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
      * @param array $options
      */
-    public function __construct(Session $session, Router $router, EventSubscriberInterface $subscriber, 
-            ImageManagerInterface $imageManager, array $options)
+    public function __construct(Session $session, Router $router, EventSubscriberInterface $subscriber, array $options)
     {
         $this->session = $session;
         $this->router = $router;
         $this->subscriber = $subscriber;
-        $this->imageManager = $imageManager;
         $this->options = $options;
     }
 
@@ -105,23 +97,6 @@ class MultiImageUploadCollectionType extends AbstractType
         $options['configs']['id'] = $view->vars['id'];
         $this->session->set($view->vars['id'], $options['configs']);
         $view->vars['configs'] = $options['configs'];
-
-        $collection = $form->getData();
-        
-        if ($collection instanceof Collection){
-            
-            foreach ($collection as $image){
-                
-                if ($image instanceof MultiImageInterface && null !== $image->getId()){
-                    $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
-                    try {
-                        $this->imageManager->copyImagesToTemporaryDirectory($image);
-                    } catch (ImagesNotFoundException $e){
-                        // do nothing
-                    }   
-                }
-            }
-        }
     }
     
     /**

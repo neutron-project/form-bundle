@@ -80,11 +80,6 @@ interface ImageInfoInterface
     public function getTemporaryImageHash();
     
     /**
-     * Return hash of temporary original image
-     */
-    public function getTemporaryOriginalImageHash();
-    
-    /**
      * Checks if both permenent images exist (original and modified)
      * 
      * @return bool

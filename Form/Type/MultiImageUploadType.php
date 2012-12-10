@@ -37,6 +37,7 @@ class MultiImageUploadType extends AbstractType
         $builder->add('hash', 'hidden');
         $builder->add('position', 'hidden');
         $builder->add('enabled', 'hidden');
+        $builder->add('version', 'hidden', array('mapped' => false));
     }
     
 

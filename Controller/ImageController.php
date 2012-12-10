@@ -65,6 +65,7 @@ class ImageController extends Controller
             $handle->move($imageManager->getTempOriginalDir(), $name);
             $this->normalizeImage($imageManager->getPathOfTempOriginalImage($name));
             $imageManager->makeImageCopy($name);
+            
             $hash = $imageManager->getHashOfTempImage($name);
 
             return new JsonResponse(array(
@@ -143,6 +144,7 @@ class ImageController extends Controller
             $imagine = $this->get('imagine');
             $image = $imagine->open($imageManager->getPathOfTempImage($name));
             $image->rotate(90)->save($imageManager->getPathOfTempImage($name));
+            
             $hash = $imageManager->getHashOfTempImage($name);
 
             return new JsonResponse(array(
@@ -163,8 +165,8 @@ class ImageController extends Controller
             $imageManager = $this->container->get('neutron_form.manager.image_manager');
             $name = $this->getRequest()->get('name', false);
 
-            $imageManager->makeImageCopy($name);
-            
+            $imageManager->makeImageCopy($name);         
+
             $hash = $imageManager->getHashOfTempImage($name);
 
             return new JsonResponse(array(

@@ -49,13 +49,20 @@ abstract class AbstractImage implements ImageInterface
      * @ORM\Column(type="text", name="description", nullable=true)
      */
     protected $description;
-
+    
     /**
-     * @var string
-     *  
-     * @ORM\Column(type="string", name="hash", length=255, nullable=false, unique=false)
+     * @var integer
+     *
+     * @ORM\Column(type="string", name="hash", length=40, nullable=false, unique=false)
      */
     protected $hash;
+
+    /** 
+     * @var integer
+     * 
+     * @ORM\Version @ORM\Column(type="integer") 
+     */
+    protected $version;
 
     /**
      * @var boolean
@@ -63,6 +70,14 @@ abstract class AbstractImage implements ImageInterface
      * @ORM\Column(type="boolean", name="enabled")
      */
     protected $enabled = false;
+    
+    /**
+     * This property is not mapped by Doctrine.
+     * Used to identify if entity is marked for deletion
+     * 
+     * @var boolean
+     */
+    protected $scheduledForDeletion = false;
     
     /**
      * (non-PHPdoc)
@@ -147,16 +162,25 @@ abstract class AbstractImage implements ImageInterface
 
     /**
      * (non-PHPdoc)
-     * @see Neutron\Bundle\FormBundle\Model.ImageInterface::setHash()
+     * @see \Neutron\FormBundle\Model\ImageInterface::getVersion()
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\ImageInterface::setHash()
      */
     public function setHash($hash)
     {
-        $this->hash = (string) $hash;
+        $this->hash = $hash;
     }
-
+    
     /**
      * (non-PHPdoc)
-     * @see Neutron\Bundle\FormBundle\Model.ImageInterface::getHash()
+     * @see \Neutron\FormBundle\Model\ImageInterface::getHash()
      */
     public function getHash()
     {
@@ -179,6 +203,24 @@ abstract class AbstractImage implements ImageInterface
     public function isEnabled()
     {
         return $this->enabled;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\ImageInterface::setScheduleForDeletion()
+     */
+    public function setScheduleForDeletion($bool)
+    {
+        $this->scheduledForDeletion = (bool) $bool;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\ImageInterface::isScheduledForDeletion()
+     */
+    public function isScheduledForDeletion()
+    {
+        return $this->scheduledForDeletion;
     }
 
     /**

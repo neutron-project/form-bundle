@@ -77,22 +77,26 @@ interface ImageInterface
      * @return string | null
      */
     public function getDescription();
-
+    
     /**
-     * Sets image file md5 hash
-     * Checks if image is changed
-     *
-     * @param string $hash
+     * Sets hash of the image
+     * 
+     * @param integer $mtime
      */
     public function setHash($hash);
 
     /**
-     * Gets image file md5 hash
+     * Gets image hash time 
      *
      * @return string
      */
     public function getHash();
-
+    
+    /**
+     * Returns database version of the image
+     */
+    public function getVersion();
+    
     /**
      * Gets image upload directory
      * It suggests it is located in "web" directory
@@ -121,5 +125,20 @@ interface ImageInterface
      * @return boolean
      */
     public function isEnabled();
+    
+    /**
+     * Schedules image for deletion
+     * 
+     * @param boolean $bool
+     */
+    public function setScheduleForDeletion($bool);
+    
+    /**
+     * Checks if image is scheduled for deletion
+     * 
+     * @return bool
+     * @return void
+     */
+    public function isScheduledForDeletion();
 
 }

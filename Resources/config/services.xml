@@ -157,7 +157,6 @@
 			<argument type="service"  id="session" />
 			<argument type="service"  id="router" />
 			<argument type="service"  id="neutron_form.form.event_subscriber.multi_image_upload" />
-			<argument type="service"  id="neutron_form.manager.image_manager" />
         </service>
      
         <service id="neutron_form.form.type.multi_image_upload" 
@@ -166,6 +165,7 @@
         <service id="neutron_form.form.event_subscriber.multi_image_upload" 
         	class="%neutron_form.form.event_subscriber.multi_image_upload.class%">
 			<argument type="service"  id="doctrine.orm.entity_manager" />
+			<argument type="service"  id="neutron_form.manager.image_manager" />
         </service>
                
     </services>

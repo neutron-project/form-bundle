@@ -9,6 +9,14 @@
  */
 namespace Neutron\FormBundle\Doctrine\ORM\EventSubscriber;
 
+use Neutron\FormBundle\Exception\ImageHashException;
+
+use Neutron\FormBundle\Exception\ImagesNotFoundException;
+
+use Doctrine\ORM\EntityManager;
+
+use Doctrine\ORM\UnitOfWork;
+
 use Neutron\FormBundle\Manager\ImageManagerInterface;
 
 use Doctrine\ORM\Events;
@@ -37,7 +45,12 @@ class ImageUploadSubscriber implements EventSubscriber
     /**
      * @var array
      */
-    protected $scheduledForDeletion = array();
+    protected $scheduledForCopyImages = array();
+    
+    /**
+     * @var array
+     */
+    protected $scheduledForDeleteImages = array();
 
     /**
      * Construct
@@ -61,47 +74,33 @@ class ImageUploadSubscriber implements EventSubscriber
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof ImageInterface){
-                $this->imageManager->copyImagesToPermenentDirectory($entity);
-                //$this->imageManager->removeImagesFromTemporaryDirectory($entity);
+                $this->scheduledForCopyImages[] = $entity;
             }
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
 
             if ($entity instanceof ImageInterface){
-
-                $meta = $em->getClassMetadata(get_class($entity));
-                $changeSet = $uow->getEntityChangeSet($entity);
                 
-                if (isset($changeSet['name']) && isset($changeSet['hash'])){
-                    $this->imageManager->copyImagesToPermenentDirectory($entity);
-                    
+                $changeSet = $uow->getEntityChangeSet($entity);
+
+                if (isset($changeSet['name'])){
                     // remove old image
                     $clonedEntity = clone $entity;
                     $clonedEntity->setName($changeSet['name'][0]);
-                    $clonedEntity->setHash($changeSet['hash'][0]);
-                    //$this->imageManager->removeAllImages($clonedEntity); 
-                    $this->imageManager->removeImagesFromPermenentDirectory($clonedEntity);
-                    
-                    if (empty($changeSet['name'][1]) || empty($changeSet['hash'][1])){
-                        $this->scheduledForDeletion[] = $entity;
-                    }
-                    
-                } else if (isset($changeSet['hash'])){ 
-                    $this->imageManager->copyImagesToPermenentDirectory($entity);
-                    //$this->imageManager->removeImagesFromTemporaryDirectory($entity);
+                    $this->scheduledForDeleteImages[] = $clonedEntity; 
+                } 
+                
+                if (isset($changeSet['hash'])){
+                    $this->checksum($entity, $changeSet);
+                    $this->scheduledForCopyImages[] = $entity;
                 }
             }
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof ImageInterface){
-                $imageName = $entity->getName();
-                
-                if (!empty($imageName)){
-                    $this->imageManager->removeAllImages($entity);
-                }
-                
+                $this->scheduledForDeleteImages[] = $entity;
             }
         }
     }
@@ -112,14 +111,23 @@ class ImageUploadSubscriber implements EventSubscriber
      * @param PostFlushEventArgs $eventArgs
      */
     public function postFlush(PostFlushEventArgs $eventArgs)
-    {
-        if (count($this->scheduledForDeletion) > 0){
-            $em = $eventArgs->getEntityManager();
-            foreach ($this->scheduledForDeletion as $entity){
-                $em->remove($entity);
+    {        
+        if (count($this->scheduledForCopyImages) > 0){
+      
+            foreach ($this->scheduledForCopyImages as $entity){
+                $this->imageManager->copyImagesToPermenentDirectory($entity);
             }
+            
+            $this->scheduledForCopyImages = array();
+        }
+        
+        if (count($this->scheduledForDeleteImages) > 0){
+        
+            foreach ($this->scheduledForDeleteImages as $entity){
+                $this->imageManager->removeAllImages($entity);
+            }
+        
             $this->scheduledForDeletion = array();
-            $em->flush();
         }
     }
 
@@ -130,5 +138,26 @@ class ImageUploadSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(Events::onFlush, Events::postFlush);
+    }
+    
+    /**
+     * Checks if images is modified by some other user
+     * 
+     * @param ImageInterface $entity
+     * @param array $changeSet
+     * @throws ImageHashException
+     */
+    protected function checksum(ImageInterface $entity, array $changeSet)
+    {
+        if (!isset($changeSet['hash'])){
+            return;
+        }
+        
+        $currentHash = $this->imageManager->getImageInfo($entity)->getTemporaryImageHash();
+        $hash = $changeSet['hash'][1];
+    
+        if ($hash !== $currentHash){
+            throw new ImageHashException($entity->getName());
+        }
     }
 }

@@ -9,6 +9,12 @@
  */
 namespace Neutron\FormBundle\Form\EventSubscriber;
 
+use Neutron\FormBundle\Manager\ImageManagerInterface;
+
+use Neutron\FormBundle\Exception\ImagesNotFoundException;
+
+use Doctrine\Common\Collections\Collection;
+
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Form\Event\DataEvent;
@@ -33,15 +39,42 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
      * @var Doctrine\Common\Persistence\ObjectManager
      */
     protected $om;
+    
+    /**
+     *  @var Neutron\FormBundle\Manager\ImageManagerInterface
+     */
+    protected $imageManager;
 
     /**
      * Construct
      * 
      * @param ObjectManager $om
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, ImageManagerInterface $imageManager)
     {
         $this->om = $om;
+        $this->imageManager = $imageManager;
+    }
+    
+    /**
+     * Copy images from permenent to temporary directory
+     * 
+     * @param DataEvent $event
+     */
+    public function postSetData(DataEvent $event)
+    {
+        $collection = $event->getData();
+        
+        if ($collection instanceof Collection){
+        
+            foreach ($collection as $image){
+        
+                if ($image instanceof MultiImageInterface && null !== $image->getId()){
+                    $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
+                    $this->imageManager->copyImagesToTemporaryDirectory($image);
+                }
+            }
+        }
     }
 
     /**
@@ -69,6 +102,7 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
     static function getSubscribedEvents()
     {
         return array(
+            FormEvents::POST_SET_DATA => 'postSetData',
             FormEvents::POST_BIND => 'postBind',
         );
     }
