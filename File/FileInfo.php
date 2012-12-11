@@ -9,7 +9,7 @@
  */
 namespace Neutron\FormBundle\File;
 
-use Neutron\FormBundle\Exception\EmptyFileException;
+use Neutron\FormBundle\Exception\FileEmptyException;
 
 use Neutron\FormBundle\Manager\FileManagerInterface;
 
@@ -21,7 +21,7 @@ use Neutron\FormBundle\Model\FileInterface;
  * @author Zender <azazen09@gmail.com>
  * @since 1.0
  */
-class FileInfo
+class FileInfo implements FileInfoInterface
 {
     /**
      * @var FileInterface
@@ -60,16 +60,7 @@ class FileInfo
     {
         return $this->getManager()->getWebDir() . DIRECTORY_SEPARATOR . trim($this->getFile()->getUploadDir(), '/');
     }
-    
-    public function getPathOfTemporaryOriginalFile()
-    {
-        return $this->getManager()->getTempDir() . DIRECTORY_SEPARATOR . 'original' . DIRECTORY_SEPARATOR . $this->getFile()->getName();
-    }
-    
-    public function getPathOfOriginalFile()
-    {
-        return $this->getPathFileUploadDir() . DIRECTORY_SEPARATOR . 'original' . DIRECTORY_SEPARATOR . $this->getFile()->getName();
-    }
+   
     
     public function getPathOfTemporaryFile()
     {
@@ -81,29 +72,29 @@ class FileInfo
         return $this->getPathFileUploadDir() . DIRECTORY_SEPARATOR . $this->getFile()->getName();
     }
     
-    public function filesExist()
-    {   
-        return $this->getManager()->getFilesystem()->exists(array(
-            $this->getPathOfFile(),
-            $this->getPathOfOriginalFile()       
-        ));
+    public function getTemporaryFileHash()
+    {
+        if (is_file(realpath($this->getPathOfTemporaryFile()))){
+            return md5_file($this->getPathOfTemporaryFile());
+        }
     }
     
-    public function tempFilesExist()
+    public function fileExist()
+    {   
+        return $this->getManager()->getFilesystem()->exists($this->getPathOfFile());
+    }
+    
+    public function tempFileExist()
     { 
-        return $this->getManager()->getFilesystem()->exists(array(
-            $this->getPathOfTemporaryFile(),
-            $this->getPathOfTemporaryOriginalFile()
-        ));
+        return $this->getManager()->getFilesystem()->exists($this->getPathOfTemporaryFile());
     }
     
     protected function validateFile(FileInterface $file)
     {
         $name = $file->getName();
-        $hash = $file->getHash();
         
-        if (empty($name) || empty($hash)){
-            throw new EmptyFileException();
+        if (empty($name)){
+            throw new FileEmptyException();
         }
     }
 }

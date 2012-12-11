@@ -18,29 +18,24 @@ use Neutron\FormBundle\Model\FileInterface;
 /**
  * Interface 
  *
- * @author Zender <azazen09@gmail.com>
+ * @author  Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
 interface FileInfoInterface
 {
-
     public function getFile();
     
     public function getManager();
     
     public function getPathFileUploadDir();
-    
-    public function getPathOfTemporaryOriginalFile();
-    
-    public function getPathOfOriginalFile();
-    
+     
     public function getPathOfTemporaryFile();
     
     public function getPathOfFile();
     
-    public function filesExist();
+    public function getTemporaryFileHash();
     
-    public function tempFilesExist();
+    public function fileExist();
     
-    protected function validateFile(FileInterface $file);
+    public function tempFileExist();
 }

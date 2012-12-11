@@ -26,9 +26,9 @@ jQuery(document).ready(function(){
             jQuery('#neutron-image-btn-crop-' + options.id).button( "option", "disabled", true ).data(null);
             jQuery('#neutron-image-btn-remove-' + options.id).button( "option", "disabled", true ).data(null);
             jQuery('#neutron-image-btn-reset-' + options.id).button( "option", "disabled", true ).data(null);
-            jQuery('#neutron-image-btn-edit-' + options.id).button( "option", "disabled", true ).data(null);
+            jQuery('#neutron-meta-btn-edit-' + options.id).button( "option", "disabled", true ).data(null);
             jQuery('#neutron-image-btn-rotate-' + options.id).button( "option", "disabled", true ).data(null);
-            jQuery('#neutron-dlg-image-edit-' + options.id).data(null);
+            jQuery('#neutron-dlg-meta-edit-' + options.id).data(null);
             jQuery('#neutron-dlg-image-crop-' + options.id).data(null);
         };
 
@@ -39,10 +39,10 @@ jQuery(document).ready(function(){
             jQuery('#neutron-image-btn-crop-' + options.id).button( "option", "disabled", false ).data(data);
             jQuery('#neutron-image-btn-remove-' + options.id).button( "option", "disabled", false ).data(data);
             jQuery('#neutron-image-btn-reset-' + options.id).button( "option", "disabled", false ).data(data);
-            jQuery('#neutron-image-btn-edit-' + options.id).button( "option", "disabled", false ).data(data);
+            jQuery('#neutron-meta-btn-edit-' + options.id).button( "option", "disabled", false ).data(data);
             jQuery('#neutron-image-btn-rotate-' + options.id).button( "option", "disabled", false ).data(data);
 
-            jQuery('#neutron-dlg-image-edit-' + options.id).data(data);
+            jQuery('#neutron-dlg-meta-edit-' + options.id).data(data);
             jQuery('#neutron-dlg-image-crop-' + options.id).data(data);
         };
 
@@ -167,6 +167,12 @@ jQuery(document).ready(function(){
                         jQuery('#' + file.id).fadeOut().next().fadeOut(function(){
                             jQuery('#' + file.id).next().remove().end().remove();
                         });
+                    
+                        jQuery('#neutron-image-btn-upload-' + options.id).button( "option", "disabled", false);
+                       
+                        if(jQuery("#neutron-multi-image-upload-container-"+ options.id).find('.selected').length == 1){
+                            enableButtons();
+                        } 
                         return false;
                     });
                     
@@ -177,7 +183,7 @@ jQuery(document).ready(function(){
             
 
             jQuery('#neutron-image-btn-upload-' + options.id).button( "option", "disabled", true );
-
+            disableButtons();
             setTimeout(function () {
                 up.start();
             }, 100);
@@ -437,32 +443,32 @@ jQuery(document).ready(function(){
 
 
         // Configuring dialog multi image meta information
-        jQuery("#neutron-dlg-image-edit-" + options.id).dialog({
+        jQuery("#neutron-dlg-meta-edit-" + options.id).dialog({
             'autoOpen' : false,
             'modal' : true,
             'width' : 'auto',
             close: function(event, ui) { 
                 var elm = jQuery(this).data().elm.find(':hidden');
-                elm.eq(1).val(jQuery('#neutron-image-title-' + options.id).val());
-                elm.eq(2).val(jQuery('#neutron-image-caption-' + options.id).val());
-                elm.eq(3).val(jQuery('#neutron-image-description-' + options.id).val());
+                elm.eq(1).val(jQuery('#neutron-meta-title-' + options.id).val());
+                elm.eq(2).val(jQuery('#neutron-meta-caption-' + options.id).val());
+                elm.eq(3).val(jQuery('#neutron-meta-description-' + options.id).val());
             }
         });
 
         // Opens dialog image edit meta
-        jQuery('#neutron-image-btn-edit-' + options.id).click(function(){
+        jQuery('#neutron-meta-btn-edit-' + options.id).click(function(){
 
             var elm = jQuery(this).data().elm.find(':hidden');
 
-            jQuery('#neutron-image-title-' + options.id).val(elm.eq(1).val());
-            jQuery('#neutron-image-caption-' + options.id).val(elm.eq(2).val());
-            jQuery('#neutron-image-description-' + options.id).val(elm.eq(3).val());
-            jQuery('#neutron-dlg-image-edit-' + options.id).dialog('open');
+            jQuery('#neutron-meta-title-' + options.id).val(elm.eq(1).val());
+            jQuery('#neutron-meta-caption-' + options.id).val(elm.eq(2).val());
+            jQuery('#neutron-meta-description-' + options.id).val(elm.eq(3).val());
+            jQuery('#neutron-dlg-meta-edit-' + options.id).dialog('open');
 
         });
 
         jQuery('#neutron-edit-dlg-done-btn-' + options.id).click(function(){
-            jQuery('#neutron-dlg-image-edit-' + options.id).dialog('close');
+            jQuery('#neutron-dlg-meta-edit-' + options.id).dialog('close');
         });
 
 

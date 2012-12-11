@@ -9,50 +9,48 @@
  */
 namespace Neutron\FormBundle\Doctrine\ORM\EventSubscriber;
 
+use Neutron\FormBundle\Exception\FileHashException;
+
+use Neutron\FormBundle\Model\FileInterface;
+
+use Neutron\FormBundle\Manager\FileManagerInterface;
+
 use Doctrine\DBAL\LockMode;
-
-use Neutron\FormBundle\Exception\ImageHashException;
-
-use Neutron\FormBundle\Exception\ImagesNotFoundException;
 
 use Doctrine\ORM\EntityManager;
 
 use Doctrine\ORM\UnitOfWork;
 
-use Neutron\FormBundle\Manager\ImageManagerInterface;
-
 use Doctrine\ORM\Events;
 
 use Doctrine\ORM\Event\PostFlushEventArgs;
-
-use Neutron\FormBundle\Model\ImageInterface;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 use Doctrine\Common\EventSubscriber;
 
 /**
- * Doctrine ORM image upload subscriber
+ * Doctrine ORM file upload subscriber
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class ImageUploadSubscriber implements EventSubscriber
+class FileUploadSubscriber implements EventSubscriber
 {
     /**
-     * @var \Neutron\FormBundle\Manager\ImageManagerInterface
+     * @var \Neutron\FormBundle\Manager\FileManagerInterface
      */
-    protected $imageManager;
+    protected $fileManager;
     
     /**
      * @var array
      */
-    protected $scheduledForCopyImages = array();
+    protected $scheduledForCopyFiles = array();
     
     /**
      * @var array
      */
-    protected $scheduledForDeleteImages = array();
+    protected $scheduledForDeleteFiles = array();
     
     /**
      * @var boolean
@@ -62,17 +60,17 @@ class ImageUploadSubscriber implements EventSubscriber
     /**
      * Construct
      * 
-     * @param ImageManagerInterface $imageManager
-     * @param boolean $versionEnabled
+     * @param FileManagerInterface $fileManager
+     * @param unknown $versionEnabled
      */
-    public function __construct(ImageManagerInterface $imageManager, $versionEnabled)
+    public function __construct(FileManagerInterface $fileManager, $versionEnabled)
     { 
-        $this->imageManager = $imageManager;
+        $this->fileManager = $fileManager;
         $this->versionEnabled = $versionEnabled;
     }
 
     /**
-     * Handles onFlush event and moves images to permenant directory
+     * Handles onFlush event and moves file to permenant directory
      *
      * @param OnFlushEventArgs $eventArgs
      */
@@ -82,14 +80,14 @@ class ImageUploadSubscriber implements EventSubscriber
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof ImageInterface){
-                $this->scheduledForCopyImages[] = $entity;
+            if ($entity instanceof FileInterface){
+                $this->scheduledForCopyFiles[] = $entity;
             }
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
 
-            if ($entity instanceof ImageInterface){
+            if ($entity instanceof FileInterface){
                 
                 if ($this->versionEnabled){
                     $em->lock($entity, LockMode::OPTIMISTIC, $entity->getCurrentVersion());
@@ -98,10 +96,10 @@ class ImageUploadSubscriber implements EventSubscriber
                 $changeSet = $uow->getEntityChangeSet($entity);
 
                 if (isset($changeSet['name'])){
-                    // remove old image
+                    // remove old file
                     $clonedEntity = clone $entity;
                     $clonedEntity->setName($changeSet['name'][0]);
-                    $this->scheduledForDeleteImages[] = $clonedEntity; 
+                    $this->scheduledForDeleteFiles[] = $clonedEntity; 
                 } 
                 
                 if (true === $entity->isScheduledForDeletion()){
@@ -111,14 +109,14 @@ class ImageUploadSubscriber implements EventSubscriber
 
                 if (isset($changeSet['hash'])){
                     $this->checksum($entity, $changeSet);
-                    $this->scheduledForCopyImages[] = $entity;
+                    $this->scheduledForCopyFiles[] = $entity;
                 }
             }
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof ImageInterface){
-                $this->scheduledForDeleteImages[] = $entity;
+            if ($entity instanceof FileInterface){
+                $this->scheduledForDeleteFiles[] = $entity;
             }
         }
     }
@@ -130,22 +128,23 @@ class ImageUploadSubscriber implements EventSubscriber
      */
     public function postFlush(PostFlushEventArgs $eventArgs)
     {        
-        if (count($this->scheduledForCopyImages) > 0){
+        if (count($this->scheduledForCopyFiles) > 0){
       
-            foreach ($this->scheduledForCopyImages as $entity){
-                $this->imageManager->copyImagesToPermenentDirectory($entity);
+            foreach ($this->scheduledForCopyFiles as $entity){
+                $this->fileManager->copyFileToPermenentDirectory($entity);
+                $this->fileManager->removeFileFromTemporaryDirectory($entity);
             }
             
-            $this->scheduledForCopyImages = array();
+            $this->scheduledForCopyFiles = array();
         }
         
-        if (count($this->scheduledForDeleteImages) > 0){
+        if (count($this->scheduledForDeleteFiles) > 0){
         
-            foreach ($this->scheduledForDeleteImages as $entity){
-                $this->imageManager->removeAllImages($entity);
+            foreach ($this->scheduledForDeleteFiles as $entity){
+                $this->fileManager->removeAllFiles($entity);
             }
         
-            $this->scheduledForDeleteImages = array();
+            $this->scheduledForDeleteFiles = array();
         }
     }
 
@@ -159,23 +158,23 @@ class ImageUploadSubscriber implements EventSubscriber
     }
     
     /**
-     * Checks if images is modified by some other user
+     * Checks if file is modified by some other user
      * 
-     * @param ImageInterface $entity
+     * @param FileInterface $entity
      * @param array $changeSet
-     * @throws ImageHashException
+     * @throws FileHashException
      */
-    protected function checksum(ImageInterface $entity, array $changeSet)
+    protected function checksum(FileInterface $entity, array $changeSet)
     {
         if (!isset($changeSet['hash'])){
             return;
         }
         
-        $currentHash = $this->imageManager->getImageInfo($entity)->getTemporaryImageHash();
+        $currentHash = $this->fileManager->getFileInfo($entity)->getTemporaryFileHash();
         $hash = $changeSet['hash'][1];
     
         if ($hash !== $currentHash){
-            throw new ImageHashException($entity->getName());
+            throw new FileHashException($entity->getName());
         }
     }
 }

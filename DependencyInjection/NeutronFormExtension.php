@@ -8,8 +8,11 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\Config\FileLocator;
+
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -55,44 +58,82 @@ class NeutronFormExtension extends Extension
         if (isset($config['plupload'])){
 
             $container->setParameter('neutron_form.plupload.configs', $config['plupload']);
-            
-            $container
-                ->getDefinition('neutron_form.form.type.image_upload')
-                ->addArgument($config['plupload'])
-                ->addTag('form.type', array('alias' => 'neutron_image_upload'))
-            ;
-            
-            $container
-                ->getDefinition('neutron_form.form.type.multi_image_upload_collection')
-                ->addArgument($config['plupload'])
-                ->addTag('form.type', array('alias' => 'neutron_multi_image_upload_collection'))
-            ;
-            
-            $container
-                ->getDefinition('neutron_form.form.type.multi_image_upload')
-                ->addTag('form.type', array('alias' => 'neutron_multi_image_upload'))
-            ;
-
-            $container
-                ->getDefinition('neutron_form.doctrine.orm.event_subscriber.image_upload')
-                ->addArgument($config['plupload']['enable_version'])
-                ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
-            ;
-            
-            $container
-                ->getDefinition('neutron_form.manager.image_manager')
-                ->addMethodCall('setTempDir', array($config['plupload']['temporary_dir']))
-            ;
-            
-            $container
-                ->getDefinition('neutron_form.twig.extension.image')
-                ->addTag('twig.extension')
-            ;
+            $this->loadImageUploadConfigurations($container, $config['plupload']);
+            $this->loadFileUploadConfigurations($container, $config['plupload']);
 
         }
         
         $this->loadExtendedTypes('neutron_form.form.type.buttonset', 'neutron_buttonset', $container);
         $this->loadExtendedTypes('neutron_form.form.type.select2', 'neutron_select2', $container);
+        
+    }
+    
+    /**
+     * Loads image upload configurations
+     * 
+     * @param ContainerBuilder $container
+     * @param array $configs
+     */
+    protected function loadImageUploadConfigurations(ContainerBuilder $container, array $configs)
+    {
+        $container
+            ->getDefinition('neutron_form.form.type.image_upload')
+            ->addArgument($configs)
+            ->addTag('form.type', array('alias' => 'neutron_image_upload'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.form.type.multi_image_upload_collection')
+            ->addArgument($configs)
+            ->addTag('form.type', array('alias' => 'neutron_multi_image_upload_collection'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.form.type.multi_image_upload')
+            ->addTag('form.type', array('alias' => 'neutron_multi_image_upload'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.doctrine.orm.event_subscriber.image_upload')
+            ->addArgument($configs['enable_version'])
+            ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.manager.image_manager')
+            ->addMethodCall('setTempDir', array($configs['temporary_dir']))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.twig.extension.form')
+            ->addTag('twig.extension')
+        ;
+    }
+    
+    /**
+     *  Loads image upload configurations
+     * 
+     * @param ContainerBuilder $container
+     * @param array $configs
+     */
+    protected function loadFileUploadConfigurations(ContainerBuilder $container, array $configs)
+    {
+        $container
+            ->getDefinition('neutron_form.form.type.file_upload')
+            ->addArgument($configs)
+            ->addTag('form.type', array('alias' => 'neutron_file_upload'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.doctrine.orm.event_subscriber.file_upload')
+            ->addArgument($configs['enable_version'])
+            ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.manager.file_manager')
+            ->addMethodCall('setTempDir', array($configs['temporary_dir']))
+        ;
         
     }
     

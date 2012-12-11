@@ -56,10 +56,10 @@ class ImageController extends Controller
             $validate = $this->validateImage($handle, $this->getConfigs());
 
             if ($validate !== true) {
-                return new Response(json_encode(array(
+                return new JsonResponse(array(
                     'success' => false,
                     'err_msg' => $validate
-                )));
+                ));
             }
 
             $handle->move($imageManager->getTempOriginalDir(), $name);

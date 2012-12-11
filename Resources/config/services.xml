@@ -30,13 +30,16 @@
         <parameter key="neutron_form.manager.image_manager.class">Neutron\FormBundle\Manager\ImageManager</parameter>
         <parameter key="neutron_form.form.type.image_upload.class">Neutron\FormBundle\Form\Type\ImageUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
-        <parameter key="neutron_form.web_dir">%kernel.root_dir%/../web</parameter>
         <parameter key="neutron_form.doctrine.orm.event_subscriber.image_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\ImageUploadSubscriber</parameter>
-        <parameter key="neutron_form.twig.extension.image.class">Neutron\FormBundle\Twig\Extension\ImageExtension</parameter>
+        <parameter key="neutron_form.twig.extension.form.class">Neutron\FormBundle\Twig\Extension\FormExtension</parameter>
         <parameter key="neutron_form.form.type.multi_image_upload_collection.class">Neutron\FormBundle\Form\Type\MultiImageUploadCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_image_upload.class">Neutron\FormBundle\Form\Type\MultiImageUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.multi_image_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiImageUploadSubscriber</parameter>
         <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.manager.file_manager.class">Neutron\FormBundle\Manager\FileManager</parameter>
+        <parameter key="neutron_form.form.type.file_upload.class">Neutron\FormBundle\Form\Type\FileUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.file_upload.class">Neutron\FormBundle\Form\EventSubscriber\FileUploadSubscriber</parameter>
+        <parameter key="neutron_form.doctrine.orm.event_subscriber.file_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\FileUploadSubscriber</parameter>
     </parameters>
 
     <services>
@@ -136,6 +139,16 @@
 			</call>
         </service>
         
+        <service id="neutron_form.manager.file_manager" 
+        	class="%neutron_form.manager.file_manager.class%">
+			<call method="setFilesystem">
+				<argument type="service"  id="filesystem" />
+			</call>
+			<call method="setRootDir">
+				<argument>%kernel.root_dir%</argument>
+			</call>
+        </service>
+        
         <service id="neutron_form.form.type.image_upload" 
         	class="%neutron_form.form.type.image_upload.class%">
 			<argument type="service"  id="session" />
@@ -148,8 +161,8 @@
 			<argument type="service"  id="neutron_form.manager.image_manager" />
         </service>
         
-        <service id="neutron_form.twig.extension.image" 
-        	class="%neutron_form.twig.extension.image.class%" >
+        <service id="neutron_form.twig.extension.form" 
+        	class="%neutron_form.twig.extension.form.class%" >
 			<argument type="service"  id="service_container" />
         </service>
      
@@ -172,6 +185,23 @@
         <service id="neutron_form.form.event_subscriber.image_upload" 
         	class="%neutron_form.form.event_subscriber.image_upload.class%">
 			<argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.file_upload" 
+        	class="%neutron_form.form.type.file_upload.class%">
+			<argument type="service"  id="session" />
+			<argument type="service"  id="router" />
+			<argument type="service"  id="neutron_form.form.event_subscriber.file_upload" />
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.file_upload" 
+        	class="%neutron_form.form.event_subscriber.file_upload.class%">
+			<argument type="service"  id="neutron_form.manager.file_manager" />
+        </service>
+        
+        <service id="neutron_form.doctrine.orm.event_subscriber.file_upload" 
+        	class="%neutron_form.doctrine.orm.event_subscriber.file_upload.class%">
+			<argument type="service"  id="neutron_form.manager.file_manager" />
         </service>
                
     </services>

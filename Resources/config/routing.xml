@@ -24,4 +24,9 @@
         <default key="_format">json</default>
     </route>
     
+    <route id="neutron_form_media_file_upload" pattern="/_neutron_form/file-upload.{_format}">
+        <default key="_controller">NeutronFormBundle:File:upload</default>
+        <default key="_format">json</default>
+    </route>
+    
 </routes>
