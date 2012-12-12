@@ -9,19 +9,19 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-
 use Symfony\Component\Form\FormView;
-
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Symfony\Component\OptionsResolver\Options;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 use Symfony\Component\Form\FormBuilderInterface;
+
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
@@ -30,12 +30,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates multi image upload collection element
+ * This class creates multi file upload collection element
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class MultiImageUploadCollectionType extends AbstractType
+class MultiFileUploadCollectionType extends AbstractType
 {
 
     /**
@@ -47,7 +47,7 @@ class MultiImageUploadCollectionType extends AbstractType
      * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
      */
     protected $router;
-    
+
     /**
      * @var \Symfony\Component\EventDispatcher\EventSubscriberInterface
      */
@@ -79,7 +79,7 @@ class MultiImageUploadCollectionType extends AbstractType
      * @see Symfony\Component\Form.AbstractType::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {   
+    {
         $builder->addEventSubscriber($this->subscriber);
     }
     
@@ -88,7 +88,7 @@ class MultiImageUploadCollectionType extends AbstractType
      * @see \Symfony\Component\Form\AbstractType::finishView()
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
-    {   
+    {
         $options['configs']['id'] = $view->vars['id'];
         $this->session->set($view->vars['id'], $options['configs']);
         $view->vars['configs'] = $options['configs'];
@@ -101,7 +101,7 @@ class MultiImageUploadCollectionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $defaultOptions = $this->options;
-        
+    
         $defaultConfigs = array(
             'maxSize' => $this->options['max_upload_size']
         );
@@ -118,21 +118,18 @@ class MultiImageUploadCollectionType extends AbstractType
     
         $resolver->setNormalizers(array(
             'type' => function (Options $options, $value) use ($defaultOptions, $router){
-                  return 'neutron_multi_image_upload';
+                return 'neutron_multi_file_upload';
             },
             'configs' => function (Options $options, $value) use ($defaultOptions, $defaultConfigs, $router){
                 $configs = array_replace_recursive($defaultOptions, $defaultConfigs, $value);
 
-                $requiredConfigs = array('minWidth', 'minHeight', 'maxSize', 'extensions');
-            
+                $requiredConfigs = array('maxSize', 'extensions');
+
                 if (count(array_diff($requiredConfigs, array_keys($configs))) > 0){
                     throw new \InvalidArgumentException(sprintf('Some of the configs "%s" are missing', json_encode($requiredConfigs)));
                 }
 
-                $configs['upload_url'] = $router->generate('neutron_form_media_image_upload');
-                $configs['crop_url'] = $router->generate('neutron_form_media_image_crop');
-                $configs['rotate_url'] = $router->generate('neutron_form_media_image_rotate');
-                $configs['reset_url'] = $router->generate('neutron_form_media_image_reset');
+                $configs['upload_url'] = $router->generate('neutron_form_media_file_upload');
                 $configs['dir'] = '/' . $defaultOptions['temporary_dir'] . '/';
                 $configs['enabled_value'] = false;
 
@@ -156,7 +153,7 @@ class MultiImageUploadCollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_multi_image_upload_collection';
+        return 'neutron_multi_file_upload_collection';
     }
 
 }

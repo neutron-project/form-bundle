@@ -40,6 +40,9 @@
         <parameter key="neutron_form.form.type.file_upload.class">Neutron\FormBundle\Form\Type\FileUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.file_upload.class">Neutron\FormBundle\Form\EventSubscriber\FileUploadSubscriber</parameter>
         <parameter key="neutron_form.doctrine.orm.event_subscriber.file_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\FileUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.type.multi_file_upload_collection.class">Neutron\FormBundle\Form\Type\MultiFileUploadCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_file_upload.class">Neutron\FormBundle\Form\Type\MultiFileUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.multi_file_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiFileUploadSubscriber</parameter>
     </parameters>
 
     <services>
@@ -202,6 +205,22 @@
         <service id="neutron_form.doctrine.orm.event_subscriber.file_upload" 
         	class="%neutron_form.doctrine.orm.event_subscriber.file_upload.class%">
 			<argument type="service"  id="neutron_form.manager.file_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_file_upload_collection" 
+        	class="%neutron_form.form.type.multi_file_upload_collection.class%">
+			<argument type="service"  id="session" />
+			<argument type="service"  id="router" />
+			<argument type="service"  id="neutron_form.form.event_subscriber.multi_file_upload" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_file_upload" 
+        	class="%neutron_form.form.type.multi_file_upload.class%">
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.multi_file_upload" 
+        	class="%neutron_form.form.event_subscriber.multi_file_upload.class%">
+        	<argument type="service"  id="doctrine.orm.entity_manager" />
         </service>
                
     </services>

@@ -9,7 +9,7 @@
  */
 namespace Neutron\FormBundle\Form\EventSubscriber;
 
-use Neutron\FormBundle\Manager\ImageManagerInterface;
+use Neutron\FormBundle\Model\MultiFileInterface;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -26,58 +26,30 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * MultiImage form subscriber
+ * MultiFile form subscriber
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class MultiImageUploadSubscriber implements EventSubscriberInterface
+class MultiFileUploadSubscriber implements EventSubscriberInterface
 {
     /**
      * @var Doctrine\Common\Persistence\ObjectManager
      */
     protected $om;
-    
-    /**
-     *  @var Neutron\FormBundle\Manager\ImageManagerInterface
-     */
-    protected $imageManager;
 
     /**
      * Construct
      * 
      * @param ObjectManager $om
-     * @param ImageManagerInterface $imageManager
      */
-    public function __construct(ObjectManager $om, ImageManagerInterface $imageManager)
+    public function __construct(ObjectManager $om)
     {
         $this->om = $om;
-        $this->imageManager = $imageManager;
-    }
-    
-    /**
-     * Copy images from permenent to temporary directory
-     * 
-     * @param DataEvent $event
-     */
-    public function postSetData(DataEvent $event)
-    {
-        $collection = $event->getData();
-        
-        if ($collection instanceof Collection){
-        
-            foreach ($collection as $image){
-        
-                if ($image instanceof MultiImageInterface && null !== $image->getId()){
-                    $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
-                    $this->imageManager->copyImagesToTemporaryDirectory($image);
-                }
-            }
-        }
     }
 
     /**
-     * Remove deleted images
+     * Remove deleted files
      * 
      * @param DataEvent $event
      */
@@ -88,7 +60,7 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
         if ($collection instanceof PersistentCollection){
 
             foreach ($collection->getDeleteDiff() as $entity){
-                if ($entity instanceof MultiImageInterface){
+                if ($entity instanceof MultiFileInterface){
                     $this->om->remove($entity);
                 } 
             }
@@ -101,7 +73,6 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
     static function getSubscribedEvents()
     {
         return array(
-            FormEvents::POST_SET_DATA => 'postSetData',
             FormEvents::POST_BIND => 'postBind',
         );
     }

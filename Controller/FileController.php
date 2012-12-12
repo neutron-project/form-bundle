@@ -36,7 +36,7 @@ class FileController extends Controller
      * This actions is responsible for validation, uploading and clearing unused files
      */
     public function uploadAction ()
-    {
+    { 
         if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file')) {
 
             $fileManager = $this->container->get('neutron_form.manager.file_manager');

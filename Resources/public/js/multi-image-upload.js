@@ -167,12 +167,7 @@ jQuery(document).ready(function(){
                         jQuery('#' + file.id).fadeOut().next().fadeOut(function(){
                             jQuery('#' + file.id).next().remove().end().remove();
                         });
-                    
-                        jQuery('#neutron-image-btn-upload-' + options.id).button( "option", "disabled", false);
-                       
-                        if(jQuery("#neutron-multi-image-upload-container-"+ options.id).find('.selected').length == 1){
-                            enableButtons();
-                        } 
+                     
                         return false;
                     });
                     
@@ -180,10 +175,9 @@ jQuery(document).ready(function(){
                 });
             });
 
-            
-
             jQuery('#neutron-image-btn-upload-' + options.id).button( "option", "disabled", true );
             disableButtons();
+            
             setTimeout(function () {
                 up.start();
             }, 100);

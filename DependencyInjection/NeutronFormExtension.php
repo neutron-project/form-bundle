@@ -125,6 +125,17 @@ class NeutronFormExtension extends Extension
         ;
         
         $container
+            ->getDefinition('neutron_form.form.type.multi_file_upload_collection')
+            ->addArgument($configs)
+            ->addTag('form.type', array('alias' => 'neutron_multi_file_upload_collection'))
+        ;
+        
+        $container
+            ->getDefinition('neutron_form.form.type.multi_file_upload')
+            ->addTag('form.type', array('alias' => 'neutron_multi_file_upload'))
+        ;
+        
+        $container
             ->getDefinition('neutron_form.doctrine.orm.event_subscriber.file_upload')
             ->addArgument($configs['enable_version'])
             ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
