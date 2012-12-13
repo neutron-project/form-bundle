@@ -381,5 +381,5 @@ jQuery(document).ready(function(){
 
     });
 
-    jQuery('.neutron-multi-file-upload-main').fadeIn(1500);    
+    jQuery('.neutron-multi-file-upload-main').fadeIn(1000);    
 });

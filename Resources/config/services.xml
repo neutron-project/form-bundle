@@ -43,6 +43,11 @@
         <parameter key="neutron_form.form.type.multi_file_upload_collection.class">Neutron\FormBundle\Form\Type\MultiFileUploadCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_file_upload.class">Neutron\FormBundle\Form\Type\MultiFileUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.multi_file_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiFileUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.data_transformer.inversed.class">Neutron\FormBundle\Form\DataTransformer\InversedTypeTransformer</parameter>
+        <parameter key="neutron_form.form.event_subscriber.multi_select_sortable.class">Neutron\FormBundle\Form\EventSubscriber\MultiSelectSortableSubscriber</parameter>
+        <parameter key="neutron_form.form.type.inversed.class">Neutron\FormBundle\Form\Type\InversedType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_sortable_collection.class">Neutron\FormBundle\Form\Type\MultiSelectSortableCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_sortable.class">Neutron\FormBundle\Form\Type\MultiSelectSortableType</parameter>
     </parameters>
 
     <services>
@@ -221,6 +226,33 @@
         <service id="neutron_form.form.event_subscriber.multi_file_upload" 
         	class="%neutron_form.form.event_subscriber.multi_file_upload.class%">
         	<argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.data_transformer.inversed" 
+        	class="%neutron_form.form.data_transformer.inversed.class%">
+        	<argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.inversed" 
+        	class="%neutron_form.form.type.inversed.class%">
+        	<argument type="service"  id="neutron_form.form.data_transformer.inversed" />
+        	<tag name="form.type" alias="neutron_inversed" />
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.multi_select_sortable" 
+        	class="%neutron_form.form.event_subscriber.multi_select_sortable.class%">
+        	<argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_sortable_collection" 
+        	class="%neutron_form.form.type.multi_select_sortable_collection.class%">
+        	<argument type="service"  id="neutron_form.form.event_subscriber.multi_select_sortable" />
+     	    <tag name="form.type" alias="neutron_multi_select_sortable_collection" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_sortable" 
+        	class="%neutron_form.form.type.multi_select_sortable.class%">
+        	<tag name="form.type" alias="neutron_multi_select_sortable" />
         </service>
                
     </services>

@@ -510,5 +510,5 @@ jQuery(document).ready(function(){
         
     });
     
-    jQuery('.neutron-image-upload-main').fadeIn(1500);
+    jQuery('.neutron-image-upload-main').fadeIn(1000);
 });

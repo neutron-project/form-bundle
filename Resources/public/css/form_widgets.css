@@ -97,7 +97,7 @@
 
 
 .neutron-grid{
-    width: 100%;
+    width: 620px;;
 }
 
 .multi-select-sortable { 
@@ -105,7 +105,7 @@
     margin-top: 20px;
     border:5px dotted grey;
     padding: 5px; 
-    width: 97%;
+    width: 600px;
     min-height:200px;
   
 }

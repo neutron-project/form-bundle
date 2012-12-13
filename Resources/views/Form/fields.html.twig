@@ -599,3 +599,35 @@
 
 {% endspaceless %}
 {% endblock neutron_multi_file_upload_collection_widget %}
+
+{% block neutron_multi_select_sortable_collection_widget %}
+{% spaceless %}
+<div>  
+    <div data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|merge({'id': id})|json_encode|e }}" class="multi-select-sortable-container">           
+        <div id="multi-select-sortable-error-{{ id }}" class="ui-state-error" style="width:600px; padding:5px; margin:5px; display:none" >
+            <p>
+                <span style="float:right">
+                    <a href="#close" id="neutron-multi-select-sortable-error-cancel-{{ id }}">
+                        <img src="/bundles/neutronform/images/cancel.png" />
+                    </a>
+                </span>
+
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                {% trans from translation_domain %}muli_select_sortable.error{% endtrans %}
+            </p>
+        </div>
+        <div class="neutron-grid">{{ neutron_datagrid(grid) }}</div>  
+        <div id="multi-select-sortable-{{ id }}" class="multi-select-sortable" style="display:none">
+            <p class="desc">{% trans from translation_domain %}multi_select_sortable.description{% endtrans %}</p>
+            {% for key, child in form %}
+                <div id="multi-select-element-{{ child[inversed_name].vars.value }}" data-index="{{ key }}" class="ui-state-default multi-select-element">
+                    {{ child.vars.data.label }}
+                    <a class="delete-btn" href="#" style="float:right"></a>
+                    {{ form_widget(child) }}                
+                </div>
+            {% endfor %}
+        </div>        
+    </div>    
+</div>
+{% endspaceless %}
+{% endblock neutron_multi_select_sortable_collection_widget %}
