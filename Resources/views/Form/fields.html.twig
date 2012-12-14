@@ -620,7 +620,7 @@
         <div id="multi-select-sortable-{{ id }}" class="multi-select-sortable" style="display:none">
             <p class="desc">{% trans from translation_domain %}multi_select_sortable.description{% endtrans %}</p>
             {% for key, child in form %}
-                <div id="multi-select-element-{{ child[inversed_name].vars.value }}" data-index="{{ key }}" class="ui-state-default multi-select-element">
+                <div id="multi-select-element-{{ child[inversed_property].vars.value }}" data-index="{{ key }}" class="ui-state-default multi-select-element">
                     {{ child.vars.data.label }}
                     <a class="delete-btn" href="#" style="float:right"></a>
                     {{ form_widget(child) }}                
@@ -631,3 +631,18 @@
 </div>
 {% endspaceless %}
 {% endblock neutron_multi_select_sortable_collection_widget %}
+
+{% block neutron_multi_select_collection_widget %}
+{% spaceless %}
+<div>  
+    <div data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|merge({'id': id})|json_encode}}" class="neutron-multi-select">           
+        {{ neutron_datagrid(grid) }}
+        <div id="neutron-multi-select-form-{{ id }}">
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    </div>    
+</div>
+{% endspaceless %}
+{% endblock neutron_multi_select_collection_widget %}

@@ -9,8 +9,6 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 use Neutron\DataGridBundle\DataGrid\DataGridInterface;
 
 use Symfony\Component\Form\FormView;
@@ -26,28 +24,15 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates jquery multi select sortable element
+ * This class creates jquery multi select element
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class MultiSelectSortableCollectionType extends AbstractType
+class MultiSelectCollectionType extends AbstractType
 {
     
-    /**
-     * @var \Symfony\Component\EventDispatcher\EventSubscriberInterface
-     */
-    protected $eventSubscriber;
-    
-    /**
-     * Construct
-     * 
-     * @param EventSubscriberInterface $eventSubscriber
-     */
-    public function __construct(EventSubscriberInterface $eventSubscriber)
-    {
-        $this->eventSubscriber = $eventSubscriber;
-    }
+
     
     /**
      * (non-PHPdoc)
@@ -55,7 +40,7 @@ class MultiSelectSortableCollectionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber($this->eventSubscriber);
+        
     }
 
     /**
@@ -67,18 +52,9 @@ class MultiSelectSortableCollectionType extends AbstractType
         
         if (!$options['grid'] instanceof DataGridInterface){
             throw new \InvalidArgumentException('Option grid must be instance of DataGridInterface.');
-        } elseif(!$options['grid']->isMultiSelectSortableEnabled()){
-            throw new \InvalidArgumentException(
-                sprintf('Option multiSelectSortable in DataGrid "%s" is not enabled.', $options['grid']->getName())
-            );
-        } elseif (!$options['grid']->getMultiSelectSortableColumn()){
-            throw new \InvalidArgumentException(
-                sprintf('Option multiSelectSortableColumn in DataGrid "%s" is not set.', $options['grid']->getName())
-            );
-        }
+        } 
   
         $view->vars['grid'] = $options['grid'];
-        $view->vars['inversed_property'] = $options['options']['inversed_property'];
         $view->vars['configs'] = $options['configs'];
     }
     
@@ -95,20 +71,29 @@ class MultiSelectSortableCollectionType extends AbstractType
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false,
-            'type' => 'neutron_multi_select_sortable',
+            'type' => 'neutron_multi_select',
+            'class' => null,
             'configs' => $defaultConfigs,
         ));
         
-        $resolver->setNormalizers(array(
+        $resolver->setNormalizers(array(            
+            'options' => function (Options $options, $value) {
+                $value['class'] = $options->get('class');
+                
+                return $value;
+            },
             'configs' => function (Options $options, $value) use ($defaultConfigs){
                 $configs = array_replace_recursive($defaultConfigs, $value);
                 return $configs;
             }
         ));
           
-        $resolver->setRequired(array('grid'));
+        $resolver->setRequired(array('grid', 'class'));
         
-        $resolver->setAllowedTypes(array('grid' => array('object')));
+        $resolver->setAllowedTypes(array(
+            'grid' => array('object'),
+            'class' => array('string', 'null')
+        ));
     }
 
     /**
@@ -126,7 +111,7 @@ class MultiSelectSortableCollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_multi_select_sortable_collection';
+        return 'neutron_multi_select_collection';
     }
 
 }

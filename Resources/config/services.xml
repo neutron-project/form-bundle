@@ -48,6 +48,9 @@
         <parameter key="neutron_form.form.type.inversed.class">Neutron\FormBundle\Form\Type\InversedType</parameter>
         <parameter key="neutron_form.form.type.multi_select_sortable_collection.class">Neutron\FormBundle\Form\Type\MultiSelectSortableCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_select_sortable.class">Neutron\FormBundle\Form\Type\MultiSelectSortableType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_collection.class">Neutron\FormBundle\Form\Type\MultiSelectCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_select.class">Neutron\FormBundle\Form\Type\MultiSelectType</parameter>
+        <parameter key="neutron_form.form.data_transformer.multi_select.class">Neutron\FormBundle\Form\DataTransformer\MultiSelectTypeTransformer</parameter>
     </parameters>
 
     <services>
@@ -253,6 +256,22 @@
         <service id="neutron_form.form.type.multi_select_sortable" 
         	class="%neutron_form.form.type.multi_select_sortable.class%">
         	<tag name="form.type" alias="neutron_multi_select_sortable" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_colection" 
+        	class="%neutron_form.form.type.multi_select_collection.class%">
+        	<tag name="form.type" alias="neutron_multi_select_collection" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select" 
+        	class="%neutron_form.form.type.multi_select.class%">
+        	<argument type="service"  id="neutron_form.form.data_transformer.multi_select" />
+        	<tag name="form.type" alias="neutron_multi_select" />
+        </service>
+        
+        <service id="neutron_form.form.data_transformer.multi_select" 
+        	class="%neutron_form.form.data_transformer.multi_select.class%">
+        	<argument type="service"  id="doctrine.orm.entity_manager" />
         </service>
                
     </services>

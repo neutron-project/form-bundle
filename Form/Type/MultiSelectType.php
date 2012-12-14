@@ -11,6 +11,8 @@ namespace Neutron\FormBundle\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Symfony\Component\Form\DataTransformerInterface;
+
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Form\FormInterface;
@@ -18,13 +20,28 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * This class creates multi select sortable element
+ * This class creates multi select type
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class MultiSelectSortableType extends AbstractType
+class MultiSelectType extends AbstractType
 {
+    
+    /**
+     * @var \Symfony\Component\Form\DataTransformerInterface
+     */
+    protected $transformer;
+
+    /**
+     * Construct
+     * 
+     * @param DataTransformerInterface $transformer
+     */
+    public function __construct(DataTransformerInterface $transformer)
+    {
+    	$this->transformer = $transformer;
+    }
 
     /**
      * (non-PHPdoc)
@@ -32,10 +49,10 @@ class MultiSelectSortableType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('position', 'hidden');
-        $builder->add($options['inversed_property'], 'neutron_inversed', array(
-            'inversed_class' => $options['inversed_class']
-        ));
+        if (null !== $options['class']){
+            $this->transformer->setClass($options['class']);
+            $builder->addModelTransformer($this->transformer);
+        }   
     }
     
     /**
@@ -45,13 +62,25 @@ class MultiSelectSortableType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setRequired(array(
-            'inversed_class', 'inversed_property'
+            'class'
         ));
         
         $resolver->setAllowedTypes(array(
-            'inversed_class' => array('string'),
-            'inversed_property' => array('string'),
+            'class' => array('string', 'null'),
         ));
+        
+        $resolver->setDefaults(array(
+            'class' => null,        
+       ));
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Form\AbstractType::getParent()
+     */
+    public function getParent()
+    {
+        return 'hidden';
     }
 
     /**
@@ -60,6 +89,7 @@ class MultiSelectSortableType extends AbstractType
      */
     public function getName()
     {
-        return 'neutron_multi_select_sortable';
+        return 'neutron_multi_select';
     }
+
 }
