@@ -52,8 +52,7 @@ in the twig template add following code:
         'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'
 		'jquery/plugins/timepicker/jquery-ui-sliderAccess.js'
-		'jquery/plugins/timepicker/localization/*' 
-        'bundles/neutronform/js/datepicker.js'
+		'bundles/neutronform/js/datetimepicker.js'
    
     %}
         <script src="{{ asset_url }}"></script>
@@ -71,10 +70,6 @@ Option *configs* is converted to json object and passed to jQuery widget options
 [Add-on API documentation](http://trentrichardson.com/examples/timepicker/)
 
 **Note:** You must install jQueryUI and [timepicker add-on](https://github.com/trentrichardson/jQuery-Timepicker-Addon).
-
-**Note:** Datetimepicker is locale aware. 
-
-**Note:** If you do not want to use localization just remove *'jquery/plugins/timepicker/localization/*'*. 
 
 **Limitations** The only available format is *Y-m-d H:i:s*.
 

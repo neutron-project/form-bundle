@@ -9,6 +9,9 @@ jQuery(document).ready(function(){
     // Searching for datepicker elements
     jQuery('.neutron-datepicker').each(function(key, value){
         var options = jQuery(this).data('options');
+        
+        options = evaluateOptions(options);
+        
         var el = jQuery('#' + options.id);
         
         var lang = options.lang;
@@ -21,7 +24,8 @@ jQuery(document).ready(function(){
     // Searching for daterangepicker elements
     jQuery('.neutron-daterangepicker').each(function(key, value){
     	var options = jQuery(this).data('options'); 
-    	
+    	options = evaluateOptions(options);
+        
     	var firstEl = jQuery('#' + options.id + '_' + options.first_name);
     	var secondEl = jQuery('#' + options.id + '_' + options.second_name);
     	
@@ -40,4 +44,16 @@ jQuery(document).ready(function(){
     });
 });
 
-
+function evaluateOptions (options){
+    jQuery.each(options, function(k,v){
+        if(typeof(v) == 'string' && isNaN(v)){
+            if(v.match('^function')){
+                eval('options.'+ k +' = ' + v);
+            }
+        } else if(jQuery.isPlainObject(v) || jQuery.isArray(v)){
+            evaluateOptions(v);
+        }
+    });
+    
+    return options;
+}

@@ -65,8 +65,8 @@ class DateTimeRangePickerType extends AbstractType
             'options' => array(),
             'first_options'  => array(),
             'second_options' => array(),
-            'first_name'     => 'first_date',
-            'second_name'    => 'second_date',
+            'first_name'     => 'first_datetime',
+            'second_name'    => 'second_datetime',
             'error_bubbling' => false,
         ));
     }

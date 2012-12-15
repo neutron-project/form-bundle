@@ -25,6 +25,20 @@ jQuery(document).ready(function(){
     jQuery('.neutron-autocomplete').each(function(key, value){
         var options = jQuery(this).data('options'); 
         var el = jQuery('#' + options.id);
+        
+        var evaluateFn = function(options){
+            jQuery.each(options, function(k,v){
+                if(typeof(v) == 'string' && isNaN(v)){
+                    if(v.match('^function')){
+                        eval('options.'+ k +' = ' + v);
+                    }
+                } else if(jQuery.isPlainObject(v) || jQuery.isArray(v)){
+                    evaluateFn(v);
+                }
+            });
+        };
+        
+        evaluateFn(options);
 
         if(options.use_categories){
             el.catcomplete(options);

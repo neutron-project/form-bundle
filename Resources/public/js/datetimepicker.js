@@ -9,14 +9,12 @@ jQuery(document).ready(function(){
     // Searching for datetimepicker elements
     jQuery('.neutron-datetimepicker').each(function(key, value){
         
-        var options = jQuery(this).data('options'); 
-        var lang = options.lang;
+        var options = evaluateOptions(jQuery(this).data('options')); 
+
+        var lang = options.lang; 
         
-            jQuery.datepicker
-                .setDefaults(jQuery.datepicker.regional[(lang == 'en') ? 'en-GB' : lang]);
-            
-            jQuery.timepicker
-                .setDefaults(jQuery.timepicker.regional[(lang == 'en') ? null : lang]);
+        jQuery.datepicker
+            .setDefaults(jQuery.datepicker.regional[(lang == 'en') ? 'en-GB' : lang]);
 
         jQuery('#' + options.id).datetimepicker(options);
 
@@ -24,7 +22,7 @@ jQuery(document).ready(function(){
     
     // Searching for datetimerangepicker elements
     jQuery('.neutron-datetimerangepicker').each(function(key, value){
-    	var options = jQuery(this).data('options'); 
+    	var options = evaluateOptions(jQuery(this).data('options')); 
     	
     	var firstEl = jQuery('#' + options.id + '_' + options.first_name);
     	var secondEl = jQuery('#' + options.id + '_' + options.second_name);
@@ -45,3 +43,16 @@ jQuery(document).ready(function(){
 });
 
 
+function evaluateOptions (options){
+    jQuery.each(options, function(k,v){
+        if(typeof(v) === 'string' && isNaN(v)){
+            if(v.match('^function')){
+                eval('options.'+ k +' = ' + v);
+            }
+        } else if(jQuery.isPlainObject(v) || jQuery.isArray(v)){
+            evaluateOptions(v);
+        }
+    });
+    
+    return options;
+}

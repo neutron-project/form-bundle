@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\FormInterface;
 
 use Symfony\Component\Form\AbstractType;
