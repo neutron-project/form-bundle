@@ -158,7 +158,7 @@
             </trans-unit>  
             
 	        <trans-unit id="32">
-                <source>mulli_select_sortable.error</source>
+                <source>multi_select_sortable.error</source>
                 <target>Row already exists.</target>
             </trans-unit>  
             

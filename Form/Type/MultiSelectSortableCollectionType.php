@@ -96,6 +96,7 @@ class MultiSelectSortableCollectionType extends AbstractType
             'prototype' => true,
             'by_reference' => false,
             'type' => 'neutron_multi_select_sortable',
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
         

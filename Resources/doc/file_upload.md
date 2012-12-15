@@ -9,7 +9,7 @@ FileUpload provides the following functionalities:
 - remove the file
 - easy and transparent integration with doctrine orm
 
-*Note:* All configurations are almost the same as [neutron_image_upload](image_upload.md). Follow the same steps as described there.
+Before you start see [plupload doc](plupload.md)
 
 ### Usage :
 
@@ -36,51 +36,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-##### in the twig template include the following assets.
-
-``` jinja
-    {% block stylesheets %}
-                
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-
-    {% endblock %}
-    
-{% block javascripts %}
-
-	{% javascripts
-        'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
-        'jquery/plugins/plupload/js/plupload.js'                    
-        'jquery/plugins/plupload/js/plupload.html5.js'                    
-        'jquery/plugins/plupload/js/plupload.flash.js'                                                                                                                                                                           
-        'bundles/neutronform/js/file-upload.js'                                                                                                                                  
-	%}
-		<script src="{{ asset_url }}"></script>
-	{% endjavascripts %}
-   
-{% endblock %}
-
-{% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
-           
-<form action="" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-	{{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
-```
-**Note:** Update your assets running the following command:
-
-``` bash
-$ php app/console assetic:dump
-```
+### Doctrine ORM integration
 
 ##### Create *File* entity by extending  *AbstractFile* class.
 
@@ -210,10 +166,25 @@ The form is a standard symfony class.
 
 *Note:* If you want to validate the file data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
 
-### Security - In *FileController* file is validated by symfony file validator. Your job is to secure the urls.
-There is only one url:
-- upload url (/_neutron_form/file-upload)
+##### File version uses optimistic lock  [more info](http://docs.doctrine-project.org/en/2.0.x/reference/transactions-and-concurrency.html#optimistic-locking):
+By default versioning is disabled. You can enable it
 
-[symfony security docs](http://symfony.com/doc/master/book/security.html)
+``` yml
+#app/config.config.yml
+
+neutron_form:   
+    plupload: 
+		enable_version: true
+```
+When you flush the entity you have to use try/catch statement. EX:
+
+``` php
+try{
+	$em->flush();
+} catch(OptimisticLockException $e){
+	return 'some message';
+}
+```
+
 
 That's it.

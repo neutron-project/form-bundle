@@ -1,15 +1,9 @@
 MultiFileUpload
 ===============
 
-MultiFileUpload provides the following functionalities:
+MultiFileUpload is almost the same as [FileUpload](file_upload.md) the only difference is that you can upload and manage more then one file and items are sortable.
 
-- upload multiple file
-- add file metadata (title, caption and description)
-- enable/disable the file
-- remove the file(s)
-- easy and transparent integration with doctrine orm
-
-*Note:* All configurations are almost the same as [neutron_image_upload](image_upload.md). Follow the same steps as described there.
+Before you start see [plupload doc](plupload.md)
 
 ### Usage :
 
@@ -37,52 +31,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
     ;
 }
 ```
-
-##### in the twig template include the following assets.
-
-``` jinja
-    {% block stylesheets %}
-                
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-
-    {% endblock %}
-    
-{% block javascripts %}
-
-	{% javascripts
-        'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
-        'jquery/plugins/plupload/js/plupload.js'                    
-        'jquery/plugins/plupload/js/plupload.html5.js'                    
-        'jquery/plugins/plupload/js/plupload.flash.js'                                                                                                                                                                           
-        'bundles/neutronform/js/multi-file-upload.js'                                                                                                                                  
-	%}
-		<script src="{{ asset_url }}"></script>
-	{% endjavascripts %}
-   
-{% endblock %}
-
-{% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
-           
-<form action="" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-	{{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
-```
-**Note:** Update your assets running the following command:
-
-``` bash
-$ php app/console assetic:dump
-```
+### Doctrine ORM integration
 
 ##### Create *MultiFile* entity by extending  *AbstractMultiFile* class.
 
@@ -229,11 +178,5 @@ When you do flush all files will be moved to permenent directory.
 The form is a standard symfony class.
 
 *Note:* If you want to validate the files data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
-
-### Security - In *FileController* file is validated by symfony file validator. Your job is to secure the urls.
-There is only one url:
-- upload url (/_neutron_form/file-upload)
-
-[symfony security docs](http://symfony.com/doc/master/book/security.html)
 
 That's it.

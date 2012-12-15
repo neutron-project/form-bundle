@@ -276,25 +276,32 @@ class ImageManager implements ImageManagerInterface
      */
     public function removeUnusedImages($maxAge)
     {   
-        $iteratorTemp = new \DirectoryIterator($this->getTempDir());
-        $iteratorOriginal = new \DirectoryIterator($this->getTempOriginalDir());
         $delTime = (time() - (int) $maxAge);
         
-        foreach ($iteratorTemp as $fileInfo){
-            if ($fileInfo->isFile() && !$fileInfo->isDot()){
-                if ($delTime > $fileInfo->getMTime()){  
-                    $this->getFilesystem()->remove(($fileInfo->getRealPath()));
+        if (is_dir($this->getTempDir())){
+            $iteratorTemp = new \DirectoryIterator($this->getTempDir());
+            
+            foreach ($iteratorTemp as $fileInfo){
+                if ($fileInfo->isFile() && !$fileInfo->isDot()){
+                    if ($delTime > $fileInfo->getMTime()){
+                        $this->getFilesystem()->remove(($fileInfo->getRealPath()));
+                    }
                 }
             }
         }
         
-        foreach ($iteratorOriginal as $fileInfo){
-            if ($fileInfo->isFile() && !$fileInfo->isDot()){
-                if ($delTime > $fileInfo->getMTime()){
-                    $this->getFilesystem()->remove(($fileInfo->getRealPath()));
+        if (is_dir($this->getTempOriginalDir())){
+            $iteratorOriginal = new \DirectoryIterator($this->getTempOriginalDir());
+            
+            foreach ($iteratorOriginal as $fileInfo){
+                if ($fileInfo->isFile() && !$fileInfo->isDot()){
+                    if ($delTime > $fileInfo->getMTime()){
+                        $this->getFilesystem()->remove(($fileInfo->getRealPath()));
+                    }
                 }
             }
         }
+        
     }
     
     /**

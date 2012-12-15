@@ -1,8 +1,9 @@
 MultiImageUpload
 ================
 
-MultiImageUpload is almost the same as [neutron_image_upload](image_upload.md) the only difference is that you can upload and manage more then one image.
-You have to follow the same steps as in *neutron_image_upload*. 
+MultiImageUpload is almost the same as [ImageUpload](image_upload.md) the only difference is that you can upload and manage more then one image and items are sortable.
+
+Before you start see [plupload doc](plupload.md)
 
 ### Usage :
 
@@ -32,55 +33,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-##### in the twig template include the following assets.
-
-``` jinja
-    {% block stylesheets %}
-                
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'jquery/plugins/jcrop/css/jquery.Jcrop.css'
-           'jquery/plugins/colorbox/example1/colorbox.css'
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-
-    {% endblock %}
-    
-{% block javascripts %}
-
-	{% javascripts
-        'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
-        'jquery/plugins/plupload/js/plupload.js'                    
-        'jquery/plugins/plupload/js/plupload.html5.js'                    
-        'jquery/plugins/plupload/js/plupload.flash.js'                    
-        'jquery/plugins/jcrop/js/jquery.Jcrop.js'                    
-        'jquery/plugins/colorbox/colorbox/jquery.colorbox.js'                                                                                                                                                          
-        'bundles/neutronform/js/multi-image-upload.js'                                                                                                                                  
-	%}
-		<script src="{{ asset_url }}"></script>
-	{% endjavascripts %}
-   
-{% endblock %}
-
-{% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
-           
-<form action="" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-    {{ form_errors(form) }}
-	{{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
-```
-**Note:** Update your assets running the following command:
-
-``` bash
-$ php app/console assetic:dump
-```
+### Doctrine ORM integration
 
 ##### Create *MultiImage* entity by extending  *AbstractMultiImage* class.
 
@@ -252,8 +205,5 @@ In the twig template use the following twig function:
 	{{ neutron_image(image, 'Image_thumb') }} 
 {% endfor %}
 ```
-*Important:* Do not forget to secure the urls. [docs](image_umpload.md#security)
-
-*Note:* All configurations are same as *neutron_image_upload*
 
 That's it.
