@@ -57,7 +57,6 @@ class FileUploadSubscriber implements EventSubscriberInterface
         }
     }
 
-
     /**
      * Subscription for Form Events
      */

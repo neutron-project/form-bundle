@@ -61,7 +61,7 @@ class FileUploadSubscriber implements EventSubscriber
      * Construct
      * 
      * @param FileManagerInterface $fileManager
-     * @param unknown $versionEnabled
+     * @param boolean $versionEnabled
      */
     public function __construct(FileManagerInterface $fileManager, $versionEnabled)
     { 

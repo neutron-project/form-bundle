@@ -55,7 +55,6 @@ class ImageUploadSubscriber implements EventSubscriberInterface
         $entity = $event->getData();
 
         if ($entity instanceof ImageInterface && null !== $entity->getId()){
-            $override = ($entity->getHash() != $this->imageManager->getImageInfo($entity)->getTemporaryImageHash());
             $this->imageManager->copyImagesToTemporaryDirectory($entity);
         }
     }
@@ -73,7 +72,6 @@ class ImageUploadSubscriber implements EventSubscriberInterface
             $event->setData(null);
         }
     }
-
 
     /**
      * Subscription for Form Events

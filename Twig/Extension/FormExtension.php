@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\Twig\Extension;
 
+use Neutron\FormBundle\Model\ImageInterface;
+
 use Symfony\Component\DependencyInjection\Container;
 
 /**

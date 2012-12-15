@@ -1,7 +1,7 @@
 {
-    "name":         "neutron/datagrid-bundle",
-    "description":  "This bundle provides easy creating of jqGrid datagrids",
-    "keywords":     ["datagrid", "jqGrid", "jQuery", "Symfony"],
+    "name":         "neutron/form-bundle",
+    "description":  "This bundle provides jqueryui based form elements",
+    "keywords":     ["form", "jqueryui", "jQuery", "Symfony", "file upload", "image upload", "tinymce", "inputlimiter", "select2"],
     "type":         "symfony-bundle",
     "license":      "MIT",
     "authors":      [
@@ -16,11 +16,11 @@
 	    }
     },
     "minimum-stability": "dev",
-    "require":      {
+    "require": {
         "symfony/framework-bundle": ">=2.1,<2.3-dev"
     },
-    "autoload":     {
-        "psr-0": { "Neutron\\DataGridBundle": "" }
+    "autoload": {
+        "psr-0": { "Neutron\\FormBundle": "" }
     },
-    "target-dir": "Neutron/DataGridBundle"
+    "target-dir": "Neutron/FormBundle"
 }

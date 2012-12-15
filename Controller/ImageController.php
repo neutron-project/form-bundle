@@ -41,11 +41,10 @@ class ImageController extends Controller
 {
 
     /**
-     * This actions is responsible for validating, uploading and clearing unused images
+     * This actions is responsible for validating, uploading of images
      */
     public function uploadAction ()
     {
-
         if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file')) {
 
             $imageManager = $this->container->get('neutron_form.manager.image_manager');
@@ -97,28 +96,24 @@ class ImageController extends Controller
                 $imagine = $this->get('imagine');
                 $image = $imagine->open($imageManager->getPathOfTempImage($name));
             } catch (InvalidArgumentException $e) {
-                return new Response(json_encode(array(
+                return new JsonResponse(array(
                     'success' => false,
-                    'err_msg' => $this->get('translator')->trans('exception.image.open')
-                )));
+                    'err_msg' => $this->get('translator')->trans('exception.image.open', array('name' => $name), 'NeutronFormBundle')
+                ));
             }
 
             try {
                 $image->crop(new Point($x, $y), new Box($w, $h))->save($imageManager->getPathOfTempImage($name));
             } catch (OutOfBoundsException $e) {
-                return new Response(
-                    json_encode(array(
-                        'success' => false,
-                        'err_msg' => $this->get('translator')->trans('exception.image.out_of_bounds')
-                    ))
-                );
+                return new JsonResponse(array(
+                    'success' => false,
+                    'err_msg' => $this->get('translator')->trans('exception.image.out_of_bounds', array('name' => $name), 'NeutronFormBundle')
+                ));
             } catch (InvalidArgumentException $e) {
-                return new Response(
-                    json_encode(array(
-                        'success' => false,
-                        'err_msg' => $this->get('translator')->trans('exception.image.crop')
-                    ))
-                );
+                return new JsonResponse(array(
+                    'success' => false,
+                    'err_msg' => $this->get('translator')->trans('exception.image.crop', array('name' => $name), 'NeutronFormBundle')
+                ));
             }
 
             $hash = $imageManager->getHashOfTempImage($name);

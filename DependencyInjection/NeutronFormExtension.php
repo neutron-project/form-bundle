@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of NeutronFormBundle
+ *
+ * (c) Nikolay Georgiev <azazen09@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Neutron\FormBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Definition;
@@ -22,8 +30,10 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class NeutronFormExtension extends Extension
 {
+
     /**
-     * {@inheritDoc}
+     * (non-PHPdoc)
+     * @see \Symfony\Component\DependencyInjection\Extension\ExtensionInterface::load()
      */
     public function load(array $configs, ContainerBuilder $container)
     {

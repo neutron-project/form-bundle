@@ -231,7 +231,10 @@ abstract class AbstractFile implements FileInterface
         $this->currentVersion = (int) $currentVersion;
     }
     
-
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::getCurrentVersion()
+     */
     public function getCurrentVersion()
     {
         if (null === $this->currentVersion){
@@ -241,26 +244,46 @@ abstract class AbstractFile implements FileInterface
         return $this->currentVersion;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::getVersion()
+     */
     public function getVersion()
     {
         return $this->version;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::setEnabled()
+     */
     public function setEnabled($bool)
     {
         $this->enabled = (bool) $bool;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::isEnabled()
+     */
     public function isEnabled()
     {
         return $this->enabled;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::setScheduledForDeletion()
+     */
     public function setScheduledForDeletion($bool)
     {
         $this->scheduledForDeletion = (bool) $bool;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Model\FileInterface::isScheduledForDeletion()
+     */
     public function isScheduledForDeletion()
     {
         return $this->scheduledForDeletion;

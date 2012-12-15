@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * This controller handles image manipulations
+ * This controller handles file upload
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
@@ -33,7 +33,7 @@ class FileController extends Controller
 {
 
     /**
-     * This actions is responsible for validation, uploading and clearing unused files
+     * This actions is responsible for validation, uploading of files
      */
     public function uploadAction ()
     { 

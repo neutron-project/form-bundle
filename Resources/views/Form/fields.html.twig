@@ -385,8 +385,8 @@
         <div id="drag-drop-area-{{ id }}" class="neutron-drag-drop" {% if form|length > 0 %}style="display:none;"{% endif %}>
             <div class="neutron-drag-drop-inside">
                 <p class="neutron-drag-drop-info" id="neutron-drag-drop-info-{{ id }}" 
-                    trans-drag="{% trans from translation_domain %}drag_drop_text{% endtrans %}"
-                    trans-no-images="{% trans from translation_domain %}no_files_text{% endtrans %}"
+                    trans-drag="{% trans from translation_domain %}drag_drop_image_text{% endtrans %}"
+                    trans-no-images="{% trans from translation_domain %}no_images_text{% endtrans %}"
                 ></p>
             </div>
         </div>
@@ -537,7 +537,7 @@
         <div id="drag-drop-area-{{ id }}" class="neutron-drag-drop" {% if form|length > 0 %}style="display:none;"{% endif %}>
             <div class="neutron-drag-drop-inside">
                 <p class="neutron-drag-drop-info" id="neutron-drag-drop-info-{{ id }}" 
-                    trans-drag="{% trans from translation_domain %}drag_drop_text{% endtrans %}"
+                    trans-drag="{% trans from translation_domain %}drag_drop_file_text{% endtrans %}"
                     trans-no-files="{% trans from translation_domain %}no_file_text{% endtrans %}"
                 ></p>
             </div>
@@ -613,7 +613,7 @@
                 </span>
 
                 <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-                {% trans from translation_domain %}muli_select_sortable.error{% endtrans %}
+                {% trans from translation_domain %}mulli_select_sortable.error{% endtrans %}
             </p>
         </div>
         <div class="neutron-grid">{{ neutron_datagrid(grid) }}</div>  

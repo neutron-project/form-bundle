@@ -1,10 +1,18 @@
 <?php
-
+/*
+ * This file is part of NeutronFormBundle
+ *
+ * (c) Nikolay Georgiev <azazen09@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Neutron\FormBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
@@ -14,8 +22,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+
     /**
-     * {@inheritDoc}
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Config\Definition\ConfigurationInterface::getConfigTreeBuilder()
      */
     public function getConfigTreeBuilder()
     {
@@ -29,6 +39,12 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
     
+    /**
+     * Recaptcha configurations
+     * 
+     * @param ArrayNodeDefinition $rootNode
+     * @return void
+     */
     private function addRecaptchaConfiguration(ArrayNodeDefinition $rootNode)
     {
         $rootNode
@@ -47,6 +63,12 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
+    /**
+     * Tinymce configurations
+     * 
+     * @param ArrayNodeDefinition $rootNode
+     * @return void
+     */
     private function addTinyMCEConfiguration(ArrayNodeDefinition $rootNode)
     {
         $rootNode
@@ -96,6 +118,12 @@ class Configuration implements ConfigurationInterface
         ;
     }
     
+    /**
+     * Plupload configurations
+     * 
+     * @param ArrayNodeDefinition $rootNode
+     * @return void
+     */
     private function addPlUploadConfiguration(ArrayNodeDefinition $rootNode)
     {
         $rootNode
@@ -104,7 +132,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('runtimes')->defaultValue('html5,flash')->end()
-                        ->scalarNode('plupload_flash_path_swf')->isRequired(true)->end()
+                        ->scalarNode('plupload_flash_path_swf')->DefaultNull()->end()
                         ->scalarNode('temporary_dir')
                             ->defaultValue('temp')
                             ->beforeNormalization()
@@ -117,7 +145,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('max_upload_size')->defaultValue('4M')->end()
                         ->scalarNode('normalize_width')->defaultValue(1000)->end()
                         ->scalarNode('normalize_height')->defaultValue(1000)->end()
-                        ->scalarNode('max_uploaded_files')->defaultValue(20)->end()
                         ->booleanNode('enable_version')->defaultFalse()->end()
                         ->arrayNode('image_options')
                             ->addDefaultsIfNotSet()

@@ -69,7 +69,6 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
             foreach ($collection as $image){
         
                 if ($image instanceof MultiImageInterface && null !== $image->getId()){
-                    $override = ($image->getHash() != $this->imageManager->getImageInfo($image)->getTemporaryImageHash());
                     $this->imageManager->copyImagesToTemporaryDirectory($image);
                 }
             }
