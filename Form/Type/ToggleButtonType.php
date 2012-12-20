@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-
 use Symfony\Component\Form\FormInterface;
 
 use Symfony\Component\Form\AbstractType;
@@ -51,6 +49,7 @@ class ToggleButtonType extends AbstractType
         );
         
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
     

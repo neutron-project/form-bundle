@@ -87,6 +87,7 @@ class TimePickerType extends AbstractType
         );
     
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'input' => 'datetime',
             'with_seconds' => false,
             'use_meridiem' => false,

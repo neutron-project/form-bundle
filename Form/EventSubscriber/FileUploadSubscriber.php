@@ -9,8 +9,6 @@
  */
 namespace Neutron\FormBundle\Form\EventSubscriber;
 
-use Neutron\FormBundle\Manager\FileManagerInterface;
-
 use Neutron\FormBundle\Model\FileInterface;
 
 use Symfony\Component\Form\Event\DataEvent;
@@ -27,22 +25,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class FileUploadSubscriber implements EventSubscriberInterface
 {
-    
-    /**
-     *  @var Neutron\FormBundle\Manager\FileManagerInterface
-     */
-    protected $fileManager;
-
-    /**
-     * Construct
-     * 
-     * @param FileManagerInterface $fileManager
-     */
-    public function __construct(FileManagerInterface $fileManager)
-    {
-        $this->fileManager = $fileManager;
-    }
-    
+     
     /**
      * Form event - removes file if scheduled.
      * 

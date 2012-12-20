@@ -68,6 +68,7 @@ class ButtonsetType extends AbstractType
     {
         $resolver->setDefaults(array(
             'multiple' => false,
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => array()
         ));
         

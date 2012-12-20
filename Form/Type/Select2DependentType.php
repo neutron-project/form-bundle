@@ -72,6 +72,7 @@ class Select2DependentType extends AbstractType
             'first_name' => 'first_name',
             'second_name' => 'second_name', 
             'widget' => 'choice',
+            'translation_domain' => 'NeutronFormBundle',
             'multiple' => false,
             'choices' => array(),
             'configs' => array(),

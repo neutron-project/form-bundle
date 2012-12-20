@@ -50,7 +50,7 @@ class ImageUploadType extends AbstractType
     protected $router;
     
     /**
-     * @var \Neutron\FormBundle\Manager\ImageManagerInterface
+     * @var \Symfony\Component\EventDispatcher\EventSubscriberInterface
      */
     protected $subscriber;
 
@@ -65,7 +65,7 @@ class ImageUploadType extends AbstractType
      * 
      * @param Session $session
      * @param Router $router
-     * @param ImageManagerInterface $imageManager
+     * @param EventSubscriberInterface $isubscriber
      * @param array $options
      */
     public function __construct(Session $session, Router $router, EventSubscriberInterface $subscriber, array $options)

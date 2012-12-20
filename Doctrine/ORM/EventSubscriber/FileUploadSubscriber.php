@@ -108,7 +108,7 @@ class FileUploadSubscriber implements EventSubscriber
                 }
 
                 if (isset($changeSet['hash'])){
-                    $this->checksum($entity, $changeSet);
+                    $this->checksum($entity, $changeSet['hash'][1]);
                     $this->scheduledForCopyFiles[] = $entity;
                 }
             }
@@ -161,18 +161,13 @@ class FileUploadSubscriber implements EventSubscriber
      * Checks if file is modified by some other user
      * 
      * @param FileInterface $entity
-     * @param array $changeSet
+     * @param string $hash
      * @throws FileHashException
      */
-    protected function checksum(FileInterface $entity, array $changeSet)
+    protected function checksum(FileInterface $entity, $hash)
     {
-        if (!isset($changeSet['hash'])){
-            return;
-        }
-        
         $currentHash = $this->fileManager->getFileInfo($entity)->getTemporaryFileHash();
-        $hash = $changeSet['hash'][1];
-    
+        
         if ($hash !== $currentHash){
             throw new FileHashException($entity->getName());
         }

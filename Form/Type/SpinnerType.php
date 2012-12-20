@@ -47,6 +47,7 @@ class SpinnerType extends AbstractType
         $defaultConfigs = array();
         
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
     

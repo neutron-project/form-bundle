@@ -58,12 +58,8 @@ class RecaptchaValidator extends ConstraintValidator
 
         if (empty($challengeField) || empty($responseField)) {
             $this->context->addViolationAtSubPath($propertyPath, $constraint->emptyMessage);
-            return false;
-        }
-        
-        if (false === $this->check($challengeField, $responseField)){ 
+        } elseif (false === $this->check($challengeField, $responseField)){ 
             $this->context->addViolationAtSubPath($propertyPath, $constraint->invalidMessage);
-            return false;
         }
     }
 
@@ -94,15 +90,10 @@ class RecaptchaValidator extends ConstraintValidator
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_HEADER, true);
         $response = curl_exec($curl);
-        
-        if ( $response === false ) {
-            return false;
-        }
-    
+
         $response = explode("\r\n\r\n", $response, 2);
 
-        return (isset($response[1]) && preg_match('/true/', $response[1]));
-            
+        return (isset($response[1]) && preg_match('/true/', $response[1]));       
     }
 
 }

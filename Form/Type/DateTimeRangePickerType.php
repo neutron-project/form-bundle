@@ -68,6 +68,7 @@ class DateTimeRangePickerType extends AbstractType
             'first_name'     => 'first_datetime',
             'second_name'    => 'second_datetime',
             'error_bubbling' => false,
+            'translation_domain' => 'NeutronFormBundle',
         ));
     }
 

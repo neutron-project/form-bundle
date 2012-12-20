@@ -54,6 +54,7 @@ class SliderType extends AbstractType
        );
         
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
         

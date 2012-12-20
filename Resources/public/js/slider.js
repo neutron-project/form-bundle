@@ -13,12 +13,12 @@ jQuery(document).ready(function(){
         var initial = parseInt(hiddenEl.val());
 
         if(!isNaN(initial)){
-        	if(initial >= options.min && initial <= options.max){
-        		options.value = initial;
-        	} else {
-        		options.value = options.min;
-        		hiddenEl.val(options.min);
-        	}
+            if(initial >= options.min && initial <= options.max){
+                options.value = initial;
+            } else {
+                options.value = options.min;
+                hiddenEl.val(options.min);
+            }
             
         } else {
             options.value = options.min;

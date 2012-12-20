@@ -98,6 +98,7 @@ class Select2Type extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'empty_value' => 'select.empty_value',
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs
         );
         

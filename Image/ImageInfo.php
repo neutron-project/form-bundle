@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\Image;
 
+use Neutron\FormBundle\Exception\ImageNotFoundException;
+
 use Neutron\FormBundle\Exception\EmptyImageException;
 
 use Neutron\FormBundle\Manager\ImageManagerInterface;
@@ -34,16 +36,13 @@ class ImageInfo implements ImageInfoInterface
     protected $manager;
     
     /**
-     * Construct
-     * 
-     * @param ImageInterface $image
-     * @param ImageManagerInterface $manager
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Image\ImageInfoInterface::setImage()
      */
-    public function __construct(ImageInterface $image, ImageManagerInterface $manager)
+    public function setImage(ImageInterface $image)
     {
         $this->validateImage($image);
         $this->image = $image;
-        $this->manager = $manager;
     }
     
     /**
@@ -62,6 +61,15 @@ class ImageInfo implements ImageInfoInterface
     public function getManager()
     {
         return $this->manager;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Image\ImageInfoInterface::setManager()
+     */
+    public function setManager(ImageManagerInterface $manager)
+    {
+        $this->manager = $manager;
     }
     
     /**
@@ -114,10 +122,12 @@ class ImageInfo implements ImageInfoInterface
      * @see \Neutron\FormBundle\Image\ImageInfoInterface::getTemporaryImageHash()
      */
     public function getTemporaryImageHash()
-    {
-        if (is_file(realpath($this->getPathOfTemporaryImage()))){
-            return md5_file($this->getPathOfTemporaryImage());
+    {  
+        if (!is_file($image = $this->getPathOfTemporaryImage())){
+            throw new ImageNotFoundException($image);
         }
+        
+        return md5_file($image);
     }
     
     /**

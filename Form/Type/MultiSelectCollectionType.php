@@ -39,7 +39,9 @@ class MultiSelectCollectionType extends AbstractType
         
         if (!$options['grid'] instanceof DataGridInterface){
             throw new \InvalidArgumentException('Option grid must be instance of DataGridInterface.');
-        } 
+        } elseif ($options['grid']->isMultiSelectEnabled() !== true){
+            throw new \InvalidArgumentException('DataGridInterface::enableMultiSelect must be set to true');
+        }
   
         $view->vars['grid'] = $options['grid'];
         $view->vars['configs'] = $options['configs'];
@@ -59,27 +61,21 @@ class MultiSelectCollectionType extends AbstractType
             'prototype' => true,
             'by_reference' => false,
             'type' => 'neutron_multi_select',
-            'class' => null,
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
         
         $resolver->setNormalizers(array(            
-            'options' => function (Options $options, $value) {
-                $value['class'] = $options->get('class');
-                
-                return $value;
-            },
             'configs' => function (Options $options, $value) use ($defaultConfigs){
                 $configs = array_replace_recursive($defaultConfigs, $value);
                 return $configs;
             }
         ));
           
-        $resolver->setRequired(array('grid', 'class'));
+        $resolver->setRequired(array('grid'));
         
         $resolver->setAllowedTypes(array(
             'grid' => array('object'),
-            'class' => array('string', 'null')
         ));
     }
 

@@ -68,7 +68,7 @@
 {% block neutron_slider_range_widget %}
 {% spaceless %}
 <div>       
-    {{ block('field_rows') }}
+    {{ form_widget(form) }}
     <span id="neutron-slider-range-tpl-{{ id }}" class="neutron-slider-range-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
     <div id="neutron-slider-range-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }} 
         {% elseif configs.height is defined  %} style="height:{{ configs.height }} 
@@ -183,10 +183,10 @@
     '_id': id,
     'placeholder': configs.placeholder|trans({}, translation_domain),
 } %}
-<span> 
+<div> 
     {{ form_widget(form) }}
     <span class="neutron-select2" data-options="{{ configs|merge(extraConfigs)|json_encode }}" style="display: none"></span>
-</span>
+</div>
     
 {% endspaceless %} 
 {% endblock neutron_select2_widget %} 

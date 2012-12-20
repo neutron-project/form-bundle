@@ -9,8 +9,6 @@
  */
 namespace Neutron\FormBundle\Form\DataTransformer;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**
@@ -34,7 +32,6 @@ class ArrayToStringTransformer implements DataTransformerInterface
 
         return implode(',', $value);
     }
-
 
     /**
      * (non-PHPdoc)

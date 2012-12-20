@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\Manager;
 
+use Neutron\FormBundle\Image\ImageInfoInterface;
+
 use Neutron\FormBundle\Model\ImageInterface;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -81,19 +83,12 @@ interface ImageManagerInterface
     public function getTempOriginalDir();
     
     /**
-     * Sets cache directory (avalanche bundle)
+     * Sets image info 
      * 
-     * @param string $cacheDir
+     * @param ImageInfoInterface $imageInfo
      * @return void
      */
-    public function setCacheDir($cacheDir);
-    
-    /**
-     * Gets cache directory (avalanche bundle)
-     * 
-     * @return string
-     */
-    public function getCacheDir();
+    public function setImageInfo(ImageInfoInterface $imageInfo);
     
     /**
      * Gets image info
@@ -176,14 +171,6 @@ interface ImageManagerInterface
      * @return void
      */
     public function removeImagesFromPermenentDirectory(ImageInterface $image);
-    
-    /**
-     * Removes images from cache directory (avalanche bundle)
-     * 
-     * @param string|null $filter
-     * @return void
-     */
-    public function removeImagesFromCacheDirectory($filter = null);
     
     /**
      * Remove unused images from temporary directory by checking mtime

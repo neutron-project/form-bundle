@@ -21,18 +21,18 @@ jQuery(document).ready(function(){
         
         if(options.ajax != undefined){
         	
-	        options.initSelection = function (element, callback) {
-	        	if(options.multiple === true){
-	            	var data = [];
-	                jQuery(element.val().split(",")).each(function () {
-	                    data.push({id: this, text: this});
-	                });
-	            } else {
-	            	var data = {id: element.val(), text: element.val()};
-	            }
-	        	
-	            callback(data);
-	        };
+            options.initSelection = function (element, callback) {
+                if(options.multiple === true){
+                    var data = [];
+                    jQuery(element.val().split(",")).each(function () {
+                        data.push({id: this, text: this});
+                    });
+                } else {
+                    var data = {id: element.val(), text: element.val()};
+                }
+
+                callback(data);
+            };
         }
         
         var evaluateFn = function(options){
@@ -60,21 +60,20 @@ jQuery(document).ready(function(){
     	var secondEl = jQuery('#' + options.id + '_' + options.second_name);   
     	
     	if(firstEl.val() != ''){
-    		buildSelectOptions(secondEl, options.dependent_source, firstEl.val(), options.multiple, options.dependent_value);
+            buildSelectOptions(secondEl, options.dependent_source, firstEl.val(), options.multiple, options.dependent_value);
     	}
     	
     	firstEl.on('change', function(event){
-    		if(event.val == ''){
-    			
-    			if(options.multiple === false){
-    				secondEl.html('<option></option>');
-    			} 
-    			
-    			secondEl.select2('val', null);
+            if(event.val == ''){
+                if(options.multiple === false){
+                    secondEl.html('<option></option>');
+                } 
+            
+                secondEl.select2('val', null);
 
-    		} else {
-    			buildSelectOptions(secondEl, options.dependent_source, event.val, options.multiple, null);   			
-    		}
+            } else {
+                buildSelectOptions(secondEl, options.dependent_source, event.val, options.multiple, null);   			
+            }
 
     	});
     });
@@ -82,28 +81,28 @@ jQuery(document).ready(function(){
 
 function buildSelectOptions(element, url, term, multiple, dependent_value)
 {
-	jQuery.ajax({
-	  type: "GET",
-	  url: url,
-	  data: { term: term }
-	}).done(function(response) {
-		element.html(createSelectOptions(jQuery.parseJSON(response), multiple));
-	}).success(function(){
-		element.select2('val', dependent_value);	
-	});	
+    jQuery.ajax({
+        type: "GET",
+        url: url,
+        data: { term: term }
+    }).done(function(response) {
+        element.html(createSelectOptions(jQuery.parseJSON(response), multiple));
+    }).success(function(){
+        element.select2('val', dependent_value);	
+    });	
 }
 
 function createSelectOptions(data, multiple)
 {
-	var html = '';
-	if(multiple === false){
-		html += '<option></option>';
-	}
-	jQuery.each(data, function(){
-		html += '<option value="'+ this.id +'">'+  this.text +'</option>';
-	});
-	
-	return html;
+    var html = '';
+    if(multiple === false){
+        html += '<option></option>';
+    }
+    jQuery.each(data, function(){
+        html += '<option value="'+ this.id +'">'+  this.text +'</option>';
+    });
+
+    return html;
 }
 
 

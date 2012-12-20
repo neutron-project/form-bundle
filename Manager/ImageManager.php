@@ -1,13 +1,15 @@
 <?php
 /*
  * This file is part of NeutronFormBundle
- *
+ * 
  * (c) Nikolay Georgiev <azazen09@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
 namespace Neutron\FormBundle\Manager;
+
+use Neutron\FormBundle\Image\ImageInfoInterface;
 
 use Neutron\FormBundle\Exception\TempImagesNotFoundException;
 
@@ -25,7 +27,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class ImageManager implements ImageManagerInterface
+class ImageManager implements ImageManagerInterface 
 {
     /**
      * @var Symfony\Component\Filesystem\Filesystem
@@ -43,9 +45,9 @@ class ImageManager implements ImageManagerInterface
     protected $tempDir;
     
     /**
-     * @var string
+     * @var \Neutron\FormBundle\Image\ImageInfoInterface
      */
-    protected $cacheDir;
+    protected $imageInfo;
     
     /**
      * (non-PHPdoc)
@@ -89,7 +91,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getWebDir()
     {
-        return realpath($this->getRootDir() . '/../web');
+        return $this->getRootDir() . '/../web';
     }
     
     /**
@@ -121,20 +123,11 @@ class ImageManager implements ImageManagerInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Manager\ImageManagerInterface::setCacheDir()
+     * @see \Neutron\FormBundle\Manager\ImageManagerInterface::setImageInfo()
      */
-    public function setCacheDir($cacheDir)
+    public function setImageInfo(ImageInfoInterface $imageInfo)
     {
-        $this->cacheDir = $cacheDir;
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Manager\ImageManagerInterface::getCacheDir()
-     */
-    public function getCacheDir()
-    {
-        return realpath($this->getWebDir() . DIRECTORY_SEPARATOR . $this->cacheDir);
+        $this->imageInfo = $imageInfo;
     }
     
     /**
@@ -143,7 +136,9 @@ class ImageManager implements ImageManagerInterface
      */
     public function getImageInfo(ImageInterface $image)
     {
-        return new ImageInfo($image, $this);
+        $this->imageInfo->setManager($this);
+        $this->imageInfo->setImage($image);
+        return $this->imageInfo;
     }
     
     /**
@@ -255,23 +250,6 @@ class ImageManager implements ImageManagerInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Manager\ImageManagerInterface::removeImagesFromCacheDirectory()
-     */
-    public function removeImagesFromCacheDirectory($filter = null)
-    {   
-        if (!$this->getFilesystem()->exists($this->getCacheDir())){
-            return;
-        }
-        
-        $dir = rtrim($this->getCacheDir() . DIRECTORY_SEPARATOR . $filter, DIRECTORY_SEPARATOR);
-        
-        if ($this->getFilesystem()->exists($dir)){
-            $this->getFilesystem()->remove($dir);
-        }        
-    }
-    
-    /**
-     * (non-PHPdoc)
      * @see \Neutron\FormBundle\Manager\ImageManagerInterface::removeUnusedImages()
      */
     public function removeUnusedImages($maxAge)
@@ -281,7 +259,7 @@ class ImageManager implements ImageManagerInterface
         if (is_dir($this->getTempDir())){
             $iteratorTemp = new \DirectoryIterator($this->getTempDir());
             
-            foreach ($iteratorTemp as $fileInfo){
+            foreach ($iteratorTemp as $fileInfo){ 
                 if ($fileInfo->isFile() && !$fileInfo->isDot()){
                     if ($delTime > $fileInfo->getMTime()){
                         $this->getFilesystem()->remove(($fileInfo->getRealPath()));

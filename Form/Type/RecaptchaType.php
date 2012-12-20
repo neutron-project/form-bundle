@@ -60,6 +60,7 @@ class RecaptchaType extends AbstractType
         $defaultConfigs = $this->options;
     
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs          
         ));
         

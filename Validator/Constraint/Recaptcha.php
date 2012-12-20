@@ -19,12 +19,12 @@ class Recaptcha extends Constraint
     /**
      * @var string
      */
-    public $emptyMessage = 'validator.captcha.empty';
+    public $emptyMessage = 'validator.recaptcha.empty';
     
     /**
      * @var string
      */
-    public $invalidMessage = 'validator.captcha.invalid';
+    public $invalidMessage = 'validator.recaptcha.invalid';
     
     /**
      * (non-PHPdoc)

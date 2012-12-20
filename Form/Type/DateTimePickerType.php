@@ -95,6 +95,7 @@ class DateTimePickerType extends AbstractType
             'user_timezone' => null,
             'datetime_format' => 'Y-m-d H:i',
             'parts' => array('year', 'month', 'day', 'hour', 'minute'),
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs
         ));
     

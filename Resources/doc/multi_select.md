@@ -268,7 +268,9 @@ public function buildForm(FormBuilderInterface $builder, array $options)
         ->add('products', 'neutron_multi_select_collection', array(
             'label' => 'form.multi_select',
             'grid' => $this->grid,
-            'class' => 'AppBundle\Entity\Product'
+            'options' => array(
+            	'data_class' => 'AppBundle\Entity\Product'
+            )
         )) 
 		// .....
     ;

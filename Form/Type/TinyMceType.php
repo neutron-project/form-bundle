@@ -81,6 +81,7 @@ class TinyMceType extends AbstractType
         $defaultConfigs = $this->options;
         
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'security' => $defaultConfigs['security'],
             'configs' => $defaultConfigs
         ));

@@ -11,8 +11,6 @@ namespace Neutron\FormBundle\Form\EventSubscriber;
 
 use Neutron\FormBundle\Model\MultiFileInterface;
 
-use Doctrine\Common\Collections\Collection;
-
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Form\Event\DataEvent;

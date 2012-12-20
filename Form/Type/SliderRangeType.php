@@ -69,6 +69,7 @@ class SliderRangeType extends AbstractType
         $resolver->setDefaults(array(
             'first_name' => 'first_slider',
             'second_name' => 'second_slider',
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaults,
         ));
     

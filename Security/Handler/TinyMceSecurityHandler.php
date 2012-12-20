@@ -54,8 +54,8 @@ class TinyMceSecurityHandler
     { 
         $authorized = false;
         
-        if ($this->securityContext->getToken()){
-            $user = $this->securityContext->getToken()->getUser();
+        if ($token = $this->securityContext->getToken()){
+            $user = $token->getUser();
 
             if ($user != 'anon.' && count(array_intersect($user->getRoles(), $authorizedRoles)) > 0) {
                 $authorized = true;

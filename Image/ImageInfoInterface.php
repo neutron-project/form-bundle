@@ -23,12 +23,29 @@ use Neutron\FormBundle\Model\ImageInterface;
  */
 interface ImageInfoInterface
 {
+    
+    /**
+     * Sets image
+     * 
+     * @param ImageInterface $image
+     * @return void
+     */
+    public function setImage(ImageInterface $image);
+    
     /**
      * Gets image entity
      * 
      * @return ImageInterface
      */
     public function getImage();
+    
+    /**
+     * Sets image manager
+     * 
+     * @param ImageManagerInterface $manager
+     * @return void
+     */
+    public function setManager(ImageManagerInterface $manager);
     
     /**
      * Gets image manager

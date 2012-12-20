@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\FormView;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\DataTransformerInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -56,7 +54,7 @@ class PlainType extends AbstractType
      * @see \Symfony\Component\Form\AbstractType::buildView()
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
-    {
+    {   
         $view->vars['value'] = $this->transform($form->getViewData(), $options);
     }
     
@@ -67,6 +65,7 @@ class PlainType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     { 
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'date_format' => \IntlDateFormatter::LONG,
             'date_pattern' => null,
             'time_format' => \IntlDateFormatter::MEDIUM,
@@ -74,9 +73,6 @@ class PlainType extends AbstractType
         
         $resolver->setNormalizers(array(
             'read_only' => function (Options $options, $value) {
-                return true;
-            },
-            'disabled' => function (Options $options, $value) {
                 return true;
             }
         ));
@@ -88,7 +84,7 @@ class PlainType extends AbstractType
      */
     public function getParent()
     {
-        return 'field';
+        return 'text';
     }
 
     /**
@@ -108,12 +104,8 @@ class PlainType extends AbstractType
      * @return string
      */
     private function transform($value, array $options)
-    {
-        if (true === $value) {
-            $value = 'true';
-        } elseif (false === $value) {
-            $value = 'false';
-        } elseif (null === $value) {
+    {   
+        if (empty($value)) {
             $value = '-----';
         } elseif (is_array($value)) {
             $value = implode(', ', $value);
@@ -122,7 +114,7 @@ class PlainType extends AbstractType
                 $this->request->getLocale(),
                 $options['date_format'],
                 $options['time_format'],
-                'UTC',
+                null,
                 \IntlDateFormatter::GREGORIAN,
                 $options['date_pattern']
             );

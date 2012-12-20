@@ -9,8 +9,6 @@
  */
 namespace Neutron\FormBundle\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Symfony\Component\Form\DataTransformerInterface;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,31 +47,12 @@ class MultiSelectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (null !== $options['class']){
-            $this->transformer->setClass($options['class']);
+        if (null !== $options['data_class']){
+            $this->transformer->setClass($options['data_class']);
             $builder->addModelTransformer($this->transformer);
         }   
     }
-    
-    /**
-     * (non-PHPdoc)
-     * @see \Symfony\Component\Form\AbstractType::setDefaultOptions()
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setRequired(array(
-            'class'
-        ));
-        
-        $resolver->setAllowedTypes(array(
-            'class' => array('string', 'null'),
-        ));
-        
-        $resolver->setDefaults(array(
-            'class' => null,        
-       ));
-    }
-    
+
     /**
      * (non-PHPdoc)
      * @see \Symfony\Component\Form\AbstractType::getParent()

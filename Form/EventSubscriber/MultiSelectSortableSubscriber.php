@@ -34,11 +34,6 @@ class MultiSelectSortableSubscriber implements EventSubscriberInterface
     protected $om;
     
     /**
-     * @var array
-     */
-    protected $snapshot = array();
-    
-    /**
      * Construct
      * 
      * @param ObjectManager $om
@@ -58,9 +53,7 @@ class MultiSelectSortableSubscriber implements EventSubscriberInterface
         $collection = $event->getData();
         
         if ($collection instanceof PersistentCollection){
-            foreach ($collection as $entity){
-                $this->snapshot[$entity->getId()] = $entity;
-            }
+            $collection->takeSnapshot();
         } 
     }
     
@@ -74,19 +67,12 @@ class MultiSelectSortableSubscriber implements EventSubscriberInterface
        $collection = $event->getData();
         
         if ($collection instanceof PersistentCollection){
-            foreach ($collection as $entity) {              
-                if (array_key_exists($entity->getId(), $this->snapshot)){
-                    unset($this->snapshot[$entity->getId()]);
-                }              
+            
+            foreach ($collection->getDeleteDiff() as $entity) {
+                $this->om->remove($entity);
             }
         }
-
-        foreach ($this->snapshot as $entity) {
-            $this->om->remove($entity);
-        }
-
     }
-
 
     /**
      * Subscription for Form Events

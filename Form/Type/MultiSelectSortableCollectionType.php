@@ -55,6 +55,18 @@ class MultiSelectSortableCollectionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (!$options['grid'] instanceof DataGridInterface){
+            throw new \InvalidArgumentException('Option grid must be instance of DataGridInterface.');
+        } elseif(!$options['grid']->isMultiSelectSortableEnabled()){
+            throw new \InvalidArgumentException(
+                sprintf('Option multiSelectSortable in DataGrid "%s" is not enabled.', $options['grid']->getName())
+            );
+        } elseif (!is_string($options['grid']->getMultiSelectSortableColumn())){
+            throw new \InvalidArgumentException(
+                sprintf('Option multiSelectSortableColumn in DataGrid "%s" is not set.', $options['grid']->getName())
+            );
+        }
+        
         $builder->addEventSubscriber($this->eventSubscriber);
     }
 
@@ -64,19 +76,6 @@ class MultiSelectSortableCollectionType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        
-        if (!$options['grid'] instanceof DataGridInterface){
-            throw new \InvalidArgumentException('Option grid must be instance of DataGridInterface.');
-        } elseif(!$options['grid']->isMultiSelectSortableEnabled()){
-            throw new \InvalidArgumentException(
-                sprintf('Option multiSelectSortable in DataGrid "%s" is not enabled.', $options['grid']->getName())
-            );
-        } elseif (!$options['grid']->getMultiSelectSortableColumn()){
-            throw new \InvalidArgumentException(
-                sprintf('Option multiSelectSortableColumn in DataGrid "%s" is not set.', $options['grid']->getName())
-            );
-        }
-  
         $view->vars['grid'] = $options['grid'];
         $view->vars['inversed_property'] = $options['options']['inversed_property'];
         $view->vars['configs'] = $options['configs'];

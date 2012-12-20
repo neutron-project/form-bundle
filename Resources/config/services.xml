@@ -43,14 +43,13 @@
         <parameter key="neutron_form.form.type.multi_file_upload_collection.class">Neutron\FormBundle\Form\Type\MultiFileUploadCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_file_upload.class">Neutron\FormBundle\Form\Type\MultiFileUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.multi_file_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiFileUploadSubscriber</parameter>
-        <parameter key="neutron_form.form.data_transformer.inversed.class">Neutron\FormBundle\Form\DataTransformer\InversedTypeTransformer</parameter>
+        <parameter key="neutron_form.form.data_transformer.doctrine_orm.class">Neutron\FormBundle\Form\DataTransformer\DoctrineORMTransformer</parameter>
         <parameter key="neutron_form.form.event_subscriber.multi_select_sortable.class">Neutron\FormBundle\Form\EventSubscriber\MultiSelectSortableSubscriber</parameter>
         <parameter key="neutron_form.form.type.inversed.class">Neutron\FormBundle\Form\Type\InversedType</parameter>
         <parameter key="neutron_form.form.type.multi_select_sortable_collection.class">Neutron\FormBundle\Form\Type\MultiSelectSortableCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_select_sortable.class">Neutron\FormBundle\Form\Type\MultiSelectSortableType</parameter>
         <parameter key="neutron_form.form.type.multi_select_collection.class">Neutron\FormBundle\Form\Type\MultiSelectCollectionType</parameter>
         <parameter key="neutron_form.form.type.multi_select.class">Neutron\FormBundle\Form\Type\MultiSelectType</parameter>
-        <parameter key="neutron_form.form.data_transformer.multi_select.class">Neutron\FormBundle\Form\DataTransformer\MultiSelectTypeTransformer</parameter>
     </parameters>
 
     <services>
@@ -148,7 +147,16 @@
 			<call method="setRootDir">
 				<argument>%kernel.root_dir%</argument>
 			</call>
+			<call method="setImageInfo">
+				<argument type="service" id="neutron_form.image.image_info" />
+			</call>
         </service>
+        
+        <service id="neutron_form.image.image_info" 
+        	class="%neutron_form.image.image_info.class%">
+        </service>
+        
+        
         
         <service id="neutron_form.manager.file_manager" 
         	class="%neutron_form.manager.file_manager.class%">
@@ -207,7 +215,6 @@
         
         <service id="neutron_form.form.event_subscriber.file_upload" 
         	class="%neutron_form.form.event_subscriber.file_upload.class%">
-			<argument type="service"  id="neutron_form.manager.file_manager" />
         </service>
         
         <service id="neutron_form.doctrine.orm.event_subscriber.file_upload" 
@@ -231,14 +238,14 @@
         	<argument type="service"  id="doctrine.orm.entity_manager" />
         </service>
         
-        <service id="neutron_form.form.data_transformer.inversed" 
-        	class="%neutron_form.form.data_transformer.inversed.class%">
+        <service id="neutron_form.form.data_transformer.doctrine_orm" 
+        	class="%neutron_form.form.data_transformer.doctrine_orm.class%">
         	<argument type="service"  id="doctrine.orm.entity_manager" />
         </service>
         
         <service id="neutron_form.form.type.inversed" 
         	class="%neutron_form.form.type.inversed.class%">
-        	<argument type="service"  id="neutron_form.form.data_transformer.inversed" />
+        	<argument type="service"  id="neutron_form.form.data_transformer.doctrine_orm" />
         	<tag name="form.type" alias="neutron_inversed" />
         </service>
         
@@ -265,15 +272,10 @@
         
         <service id="neutron_form.form.type.multi_select" 
         	class="%neutron_form.form.type.multi_select.class%">
-        	<argument type="service"  id="neutron_form.form.data_transformer.multi_select" />
+        	<argument type="service"  id="neutron_form.form.data_transformer.doctrine_orm" />
         	<tag name="form.type" alias="neutron_multi_select" />
         </service>
-        
-        <service id="neutron_form.form.data_transformer.multi_select" 
-        	class="%neutron_form.form.data_transformer.multi_select.class%">
-        	<argument type="service"  id="doctrine.orm.entity_manager" />
-        </service>
-               
+            
     </services>
 
 </container>

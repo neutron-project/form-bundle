@@ -91,6 +91,7 @@ class DatePickerType extends AbstractType
             'format' => 'Y-m-d',
             'date_timezone' => null,
             'user_timezone' => null,
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
     
         ));

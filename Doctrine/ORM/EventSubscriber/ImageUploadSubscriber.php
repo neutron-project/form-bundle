@@ -110,7 +110,7 @@ class ImageUploadSubscriber implements EventSubscriber
                 }
 
                 if (isset($changeSet['hash'])){
-                    $this->checksum($entity, $changeSet);
+                    $this->checksum($entity, $changeSet['hash'][1]);
                     $this->scheduledForCopyImages[] = $entity;
                 }
             }
@@ -162,17 +162,12 @@ class ImageUploadSubscriber implements EventSubscriber
      * Checks if images is modified by some other user
      * 
      * @param ImageInterface $entity
-     * @param array $changeSet
+     * @param string $hash
      * @throws ImageHashException
      */
-    protected function checksum(ImageInterface $entity, array $changeSet)
+    protected function checksum(ImageInterface $entity, $hash)
     {
-        if (!isset($changeSet['hash'])){
-            return;
-        }
-        
         $currentHash = $this->imageManager->getImageInfo($entity)->getTemporaryImageHash();
-        $hash = $changeSet['hash'][1];
     
         if ($hash !== $currentHash){
             throw new ImageHashException($entity->getName());

@@ -67,7 +67,7 @@ class MultiImageUploadSubscriber implements EventSubscriberInterface
         if ($collection instanceof Collection){
         
             foreach ($collection as $image){
-        
+
                 if ($image instanceof MultiImageInterface && null !== $image->getId()){
                     $this->imageManager->copyImagesToTemporaryDirectory($image);
                 }

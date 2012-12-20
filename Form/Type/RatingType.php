@@ -46,6 +46,7 @@ class RatingType extends AbstractType
         $defaultConfigs = array();
     
         $resolver->setDefaults(array(
+            'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
         ));
     
@@ -54,7 +55,7 @@ class RatingType extends AbstractType
                 $configs = array_replace_recursive($defaultConfigs, $value);
                 
                 if (!isset($configs['path'])){
-                    throw new \InvalidArgumentException($message);
+                    throw new \InvalidArgumentException('Options "configs:path" is not set');
                 }
                 
                 return $configs;
