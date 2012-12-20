@@ -9,10 +9,10 @@
  */
 namespace Neutron\FormBundle\Exception;
 
-class ImagesNotFoundException extends \DomainException implements ExceptionInterface
+class ImageEmptyException extends \InvalidArgumentException implements ExceptionInterface
 {
-    public function __construct($name)
+    public function __construct()
     {
-        parent::__construct(sprintf('Images with name "%s" are not found.', $name));
+        parent::__construct('Image name is empty.');
     }
 }

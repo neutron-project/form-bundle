@@ -9,10 +9,10 @@
  */
 namespace Neutron\FormBundle\Exception;
 
-class ImagesNotFoundException extends \DomainException implements ExceptionInterface
+class TempFileNotFoundException extends \DomainException implements ExceptionInterface
 {
     public function __construct($name)
     {
-        parent::__construct(sprintf('Images with name "%s" are not found.', $name));
+        parent::__construct(sprintf('Temporary file with name "%s" is not found.', $name));
     }
 }

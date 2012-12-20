@@ -11,8 +11,8 @@ namespace Neutron\FormBundle\Exception;
 
 class TempImagesNotFoundException extends \DomainException implements ExceptionInterface
 {
-    public function __construct()
+    public function __construct($name)
     {
-        parent::__construct('Temporary images are not found.');
+        parent::__construct(sprintf('Temporary images with name "%s" are not found.', $name));
     }
 }

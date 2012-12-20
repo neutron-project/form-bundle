@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\Manager;
 
+use Neutron\FormBundle\File\FileInfoInterface;
+
 use Neutron\FormBundle\File\FileInfo;
 
 use Neutron\FormBundle\Model\FileInterface;
@@ -76,6 +78,14 @@ interface FileManagerInterface
     public function getTempDir();
      
     /**
+     * Sets fileinfo
+     * 
+     * @param FileInfoInterface $fileInfo
+     * @return void
+     */
+    public function setFileInfo(FileInfoInterface $fileInfo);
+    
+    /**
      * Gets file info
      * 
      * @param FileInterface $file
@@ -105,15 +115,6 @@ interface FileManagerInterface
      * @return string
      */
     public function getHashOfTempFile($name);
-      
-    /**
-     * Copies file to temporary directory
-     * 
-     * @param FileInterface $file
-     * @param boolean $override
-     * @return void
-     */
-    public function copyFileToTemporaryDirectory(FileInterface $file, $override = false);
     
     /**
      * Copies file to permenent directory

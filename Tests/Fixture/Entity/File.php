@@ -16,6 +16,6 @@ class File extends AbstractFile
     
     public function getUploadDir()
     {
-        return '/media/images/main';
+        return '/media/files/main';
     }
 }

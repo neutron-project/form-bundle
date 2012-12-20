@@ -9,6 +9,8 @@
  */
 namespace Neutron\FormBundle\File;
 
+use Neutron\FormBundle\Exception\TempFileNotFoundException;
+
 use Neutron\FormBundle\Exception\FileEmptyException;
 
 use Neutron\FormBundle\Manager\FileManagerInterface;
@@ -33,17 +35,11 @@ class FileInfo implements FileInfoInterface
      */
     protected $manager;
     
-    /**
-     * Construct
-     * 
-     * @param FileInterface $file
-     * @param FileManagerInterface $manager
-     */
-    public function __construct(FileInterface $file, FileManagerInterface $manager)
+    
+    public function setFile(FileInterface $file)
     {
         $this->validateFile($file);
         $this->file = $file;
-        $this->manager = $manager;
     }
     
     /**
@@ -53,6 +49,11 @@ class FileInfo implements FileInfoInterface
     public function getFile()
     {
         return $this->file;
+    }
+    
+    public function setManager(FileManagerInterface $manager)
+    {
+        $this->manager = $manager;
     }
     
     /**
@@ -91,27 +92,33 @@ class FileInfo implements FileInfoInterface
         return $this->getPathFileUploadDir() . DIRECTORY_SEPARATOR . $this->getFile()->getName();
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \Neutron\FormBundle\File\FileInfoInterface::getTemporaryFileHash()
+     */
     public function getTemporaryFileHash()
     {
-        if (is_file(realpath($this->getPathOfTemporaryFile()))){
-            return md5_file($this->getPathOfTemporaryFile());
+        if (!$this->tempFileExists()){
+            throw new TempFileNotFoundException($this->getFile()->getName());
         }
+        
+        return md5_file($this->getPathOfTemporaryFile());
     }
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\File\FileInfoInterface::fileExist()
+     * @see \Neutron\FormBundle\File\FileInfoInterface::fileExists()
      */
-    public function fileExist()
+    public function fileExists()
     {   
         return $this->getManager()->getFilesystem()->exists($this->getPathOfFile());
     }
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\File\FileInfoInterface::tempFileExist()
+     * @see \Neutron\FormBundle\File\FileInfoInterface::tempFileExists()
      */
-    public function tempFileExist()
+    public function tempFileExists()
     { 
         return $this->getManager()->getFilesystem()->exists($this->getPathOfTemporaryFile());
     }

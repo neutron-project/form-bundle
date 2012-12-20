@@ -9,19 +9,13 @@
  */
 namespace Neutron\FormBundle\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use Symfony\Component\Console\Input\ArrayInput;
-
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-
 use Symfony\Component\Validator\Constraints\File;
-
-use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * This controller handles file upload
@@ -29,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class FileController extends Controller
+class FileController extends ContainerAware
 {
 
     /**
@@ -37,34 +31,42 @@ class FileController extends Controller
      */
     public function uploadAction ()
     { 
-        if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file')) {
+        if (!$this->getRequest()->isMethod('POST') || (null === $handle = $this->getRequest()->files->get('file'))){
+            throw new \RuntimeException('Invalid request');
+        }
 
-            $fileManager = $this->container->get('neutron_form.manager.file_manager');
-            $options = $this->container->getParameter('neutron_form.plupload.configs');
-            $handle = $this->getRequest()->files->get('file');
-            $name = uniqid() . '.' . $handle->guessExtension();
+        $fileManager = $this->container->get('neutron_form.manager.file_manager');
+        $name = uniqid() . '.' . $handle->guessExtension();
 
-            $validate = $this->validateFile($handle);
+        $validate = $this->validateFile($handle);
 
-            if ($validate !== true) {
-                return new JsonResponse(array(
-                    'success' => false,
-                    'err_msg' => $validate
-                ));
-            }
-
-            $handle->move($fileManager->getTempDir(), $name);
-            $hash = $fileManager->getHashOfTempFile($name);
-
+        if ($validate !== true) {
             return new JsonResponse(array(
-                'success' => true,
-                'name' => $name,
-                'hash' => $hash,
+                'success' => false,
+                'err_msg' => $validate
             ));
         }
+
+        $handle->move($fileManager->getTempDir(), $name);
+        $hash = $fileManager->getHashOfTempFile($name);
+
+        return new JsonResponse(array(
+            'success' => true,
+            'name'    => $name,
+            'hash'    => $hash,
+        ));
+        
     }
 
-
+    /**
+     * Gets request object
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    protected function getRequest()
+    {
+        return $this->container->get('request');
+    }
 
     /**
      * Validates file and return true on success and
@@ -99,9 +101,9 @@ class FileController extends Controller
      */
     private function getConfigs()
     {
-    	$session = $this->get('session');
+    	$session = $this->container->get('session');
     	if (!$session->has($this->getRequest()->get('neutron_id', false))){
-    		throw new \RuntimeException('Invalid request');
+    		throw new \RuntimeException('Request parameter "neutron_id" is missing');
     	}
     	
     	return $session->get($this->getRequest()->get('neutron_id'));

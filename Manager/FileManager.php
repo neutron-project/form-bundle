@@ -13,17 +13,7 @@ use Neutron\FormBundle\Exception\FileNotFoundException;
 
 use Neutron\FormBundle\Model\FileInterface;
 
-use Neutron\FormBundle\File\FileInfo;
-
 use Neutron\FormBundle\File\FileInfoInterface;
-
-use Neutron\FormBundle\Exception\TempImagesNotFoundException;
-
-use Neutron\FormBundle\Exception\ImagesNotFoundException;
-
-use Neutron\FormBundle\Model\ImageInterface;
-
-use Neutron\FormBundle\Image\ImageInfo;
 
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -51,9 +41,9 @@ class FileManager implements FileManagerInterface
     protected $tempDir;
     
     /**
-     * @var string
+     * @var \Neutron\FormBundle\File\FileInfoInterface
      */
-    protected $cacheDir;
+    protected $fileInfo;
     
     /**
      * (non-PHPdoc)
@@ -97,7 +87,7 @@ class FileManager implements FileManagerInterface
      */
     public function getWebDir()
     {
-        return realpath($this->getRootDir() . '/../web');
+        return $this->getRootDir() . '/../web';
     }
     
     /**
@@ -120,11 +110,22 @@ class FileManager implements FileManagerInterface
     
     /**
      * (non-PHPdoc)
+     * @see \Neutron\FormBundle\Manager\FileManagerInterface::setFileInfo()
+     */
+    public function setFileInfo(FileInfoInterface $fileInfo)
+    {
+        $this->fileInfo = $fileInfo;
+    }
+    
+    /**
+     * (non-PHPdoc)
      * @see \Neutron\FormBundle\Manager\FileManagerInterface::getFileInfo()
      */
     public function getFileInfo(FileInterface $file)
     {
-        return new FileInfo($file, $this);
+        $this->fileInfo->setFile($file);
+        $this->fileInfo->setManager($this);
+        return $this->fileInfo;
     }
     
     /**
@@ -133,7 +134,7 @@ class FileManager implements FileManagerInterface
      */
     public function createTemporaryDirectory()
     {
-        $this->getFilesystem()->mkdir($this->getTempOriginalDir());
+        $this->getFilesystem()->mkdir($this->getTempDir());
     }
     
     /**
@@ -156,28 +157,13 @@ class FileManager implements FileManagerInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Neutron\FormBundle\Manager\FileManagerInterface::copyFileToTemporaryDirectory()
-     */
-    public function copyFileToTemporaryDirectory(FileInterface $file, $override = false)
-    {
-        $fileInfo = $this->getFileInfo($file);
-
-        if (!$fileInfo->fileExist()){
-            throw new FileNotFoundException($file->getName());
-        }
-        
-        $this->getFilesystem()->copy($fileInfo->getPathOfFile(), $fileInfo->getPathOfTemporaryFile(), $override);
-    }
-    
-    /**
-     * (non-PHPdoc)
      * @see \Neutron\FormBundle\Manager\FileManagerInterface::copyFileToPermenentDirectory()
      */
     public function copyFileToPermenentDirectory(FileInterface $file, $override = false)
     {
         $fileInfo = $this->getFileInfo($file);
 
-        if (!$fileInfo->tempFileExist()){
+        if (!$fileInfo->tempFileExists()){
             throw new FileNotFoundException($file->getName());
         }
         

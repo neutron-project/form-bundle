@@ -9,9 +9,9 @@
  */
 namespace Neutron\FormBundle\Image;
 
-use Neutron\FormBundle\Exception\ImageNotFoundException;
+use Neutron\FormBundle\Exception\TempImagesNotFoundException;
 
-use Neutron\FormBundle\Exception\EmptyImageException;
+use Neutron\FormBundle\Exception\ImageEmptyException;
 
 use Neutron\FormBundle\Manager\ImageManagerInterface;
 
@@ -20,7 +20,7 @@ use Neutron\FormBundle\Model\ImageInterface;
 /**
  * Image info class
  *
- * @author Zender <azazen09@gmail.com>
+ * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
 class ImageInfo implements ImageInfoInterface
@@ -123,11 +123,11 @@ class ImageInfo implements ImageInfoInterface
      */
     public function getTemporaryImageHash()
     {  
-        if (!is_file($image = $this->getPathOfTemporaryImage())){
-            throw new ImageNotFoundException($image);
+        if (!$this->tempImagesExist()){
+            throw new TempImagesNotFoundException($this->getImage()->getName());
         }
         
-        return md5_file($image);
+        return md5_file($this->getPathOfTemporaryImage());
     }
     
     /**
@@ -166,7 +166,7 @@ class ImageInfo implements ImageInfoInterface
         $name = $image->getName();
         
         if (empty($name)){
-            throw new EmptyImageException();
+            throw new ImageEmptyException();
         }
     }
 }

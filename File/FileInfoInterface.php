@@ -24,11 +24,27 @@ use Neutron\FormBundle\Model\FileInterface;
 interface FileInfoInterface
 {
     /**
+     * Sets file
+     * 
+     * @param FileInterface $file
+     * @return void
+     */
+    public function setFile(FileInterface $file);
+    
+    /**
      * Gets file
      * 
      * @return \Neutron\FormBundle\File
      */
     public function getFile();
+    
+    /**
+     * Sets file manager
+     * 
+     * @param FileManagerInterface $manager
+     * @return void
+     */
+    public function setManager(FileManagerInterface $manager);
     
     /**
      * Gets file manager
@@ -70,12 +86,12 @@ interface FileInfoInterface
      * 
      * @return boolean
      */
-    public function fileExist();
+    public function fileExists();
     
     /**
      * Checks id temporary file exists
      * 
      * @return string
      */
-    public function tempFileExist();
+    public function tempFileExists();
 }

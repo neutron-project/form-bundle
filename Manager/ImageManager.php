@@ -197,7 +197,7 @@ class ImageManager implements ImageManagerInterface
         $imageInfo = $this->getImageInfo($image);
 
         if (!$imageInfo->imagesExist()){
-            throw new ImagesNotFoundException();
+            throw new ImagesNotFoundException($image->getName());
         }
         
         $this->getFilesystem()->copy($imageInfo->getPathOfOriginalImage(), $imageInfo->getPathOfTemporaryOriginalImage(), $override);
@@ -213,7 +213,7 @@ class ImageManager implements ImageManagerInterface
         $imageInfo = $this->getImageInfo($image);
         
         if (!$imageInfo->tempImagesExist()){
-            throw new TempImagesNotFoundException();
+            throw new TempImagesNotFoundException($image->getName());
         }
         
         $this->getFilesystem()->copy($imageInfo->getPathOfTemporaryOriginalImage(), $imageInfo->getPathOfOriginalImage(), $override);

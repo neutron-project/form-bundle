@@ -20,7 +20,7 @@ class ImageInfoTest extends BaseTestCase
     
     public function testInvalidImage()
     {
-        $this->setExpectedException('Neutron\FormBundle\Exception\EmptyImageException');
+        $this->setExpectedException('Neutron\FormBundle\Exception\ImageEmptyException');
         $image = new Image();
         $imageInfo = new ImageInfo();
         $imageInfo->setImage(new Image());
@@ -125,12 +125,26 @@ class ImageInfoTest extends BaseTestCase
     public function testGetTemporaryImageHash()
     {
         vfsStream::newFile('temp/test.jpg')->at($this->root);
+        
+        $filesystemMock = $this->getMock('Symfony\Component\Filesystem\Filesystem');
+        
+        $filesystemMock
+            ->expects($this->once())
+            ->method('exists')
+            ->will($this->returnValue(true))
+        ;
 
         $imageManagerMock = $this->getMock('Neutron\FormBundle\Manager\ImageManagerInterface');
         $imageManagerMock
-            ->expects($this->once())
+            ->expects($this->exactly(3))
             ->method('getTempDir')
             ->will($this->returnValue(vfsStream::url('root/temp')))
+        ;
+        
+        $imageManagerMock
+            ->expects($this->once())
+            ->method('getFileSystem')
+            ->will($this->returnValue($filesystemMock))
         ;
 
         $image = new Image();
@@ -144,13 +158,25 @@ class ImageInfoTest extends BaseTestCase
     }
     
     public function testGetTemporaryImageHashInvalid()
-    {
-        $this->setExpectedException('Neutron\FormBundle\Exception\ImageNotFoundException');
+    {       
+        $filesystemMock = $this->getMock('Symfony\Component\Filesystem\Filesystem');
+        $filesystemMock
+            ->expects($this->once())
+            ->method('exists')
+            ->will($this->returnValue(false))
+        ;
+        
         $imageManagerMock = $this->getMock('Neutron\FormBundle\Manager\ImageManagerInterface');
         $imageManagerMock
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getTempDir')
             ->will($this->returnValue('invalid.jpg'))
+        ;
+        
+        $imageManagerMock
+            ->expects($this->once())
+            ->method('getFileSystem')
+            ->will($this->returnValue($filesystemMock))
         ;
 
         $image = new Image();
@@ -160,6 +186,7 @@ class ImageInfoTest extends BaseTestCase
         $imageInfo->setManager($imageManagerMock);
         $imageInfo->setImage($image);
         
+        $this->setExpectedException('Neutron\FormBundle\Exception\TempImagesNotFoundException');
         $imageInfo->getTemporaryImageHash();
     }
     
