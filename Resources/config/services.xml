@@ -28,6 +28,7 @@
         <parameter key="neutron_form.form.type.tinymce.class">Neutron\FormBundle\Form\Type\TinyMceType</parameter>
         <parameter key="neutron_form.security.handler.tinymce.class">Neutron\FormBundle\Security\Handler\TinyMceSecurityHandler</parameter>
         <parameter key="neutron_form.manager.image_manager.class">Neutron\FormBundle\Manager\ImageManager</parameter>
+        <parameter key="neutron_form.image.image_info.class">Neutron\FormBundle\Image\ImageInfo</parameter>
         <parameter key="neutron_form.form.type.image_upload.class">Neutron\FormBundle\Form\Type\ImageUploadType</parameter>
         <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
         <parameter key="neutron_form.doctrine.orm.event_subscriber.image_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\ImageUploadSubscriber</parameter>

@@ -35,11 +35,5 @@ class ImagineCompilerPass implements CompilerPassInterface
         if(!$container->hasExtension('avalanche_imagine')){
             throw new \RuntimeException('AvalancheImagineBundle is not installed.');
         }
-           
-        $container
-            ->getDefinition('neutron_form.manager.image_manager')
-            ->addMethodCall('setCacheDir', array($container->getParameter('imagine.cache_prefix')))
-        ;
-        
     }
 }
