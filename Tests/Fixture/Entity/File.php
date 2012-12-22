@@ -3,6 +3,11 @@ namespace Neutron\FormBundle\Tests\Fixture\Entity;
 
 use Neutron\FormBundle\Entity\AbstractFile;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ */
 class File extends AbstractFile
 {
     /**

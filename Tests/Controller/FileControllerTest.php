@@ -32,7 +32,7 @@ class FileControllerTest extends BaseTestCase
         $controller = new FileController();
         $controller->setContainer($this->getContainerInvalidConfigs());
         
-        $this->setExpectedException('RuntimeException');
+        $this->setExpectedException('InvalidArgumentException');
         $controller->uploadAction();
     }
     
@@ -75,8 +75,13 @@ class FileControllerTest extends BaseTestCase
         
         $uploadedFileMock
             ->expects($this->once())
+            ->method('move')
+        ;
+        
+        $uploadedFileMock
+            ->expects($this->once())
             ->method('guessExtension')
-            ->will($this->returnValue('.txt'))
+            ->will($this->returnValue('txt'))
         ;
         
         $fileBagMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\FileBag')
@@ -129,7 +134,7 @@ class FileControllerTest extends BaseTestCase
             ->method('get')
             ->will($this->returnValue(array(
                 'maxSize' => '2M',
-                'extensions' => 'jpg,gif'   
+                'extensions' => 'pdf,txt'   
             )))
         ;
             

@@ -28,7 +28,7 @@ class RecaptchaValidatorTest extends BaseTestCase
         $context->expects($this->once())
             ->method('addViolationAtSubPath');
 
-        $result = $validator->validate(null, new Recaptcha());
+        $validator->validate(null, new Recaptcha());
     }
     
     public function testDataIsValid()

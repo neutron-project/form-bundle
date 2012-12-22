@@ -103,7 +103,7 @@ class FileController extends ContainerAware
     {
     	$session = $this->container->get('session');
     	if (!$session->has($this->getRequest()->get('neutron_id', false))){
-    		throw new \RuntimeException('Request parameter "neutron_id" is missing');
+    		throw new \InvalidArgumentException('Request parameter "neutron_id" is missing');
     	}
     	
     	return $session->get($this->getRequest()->get('neutron_id'));

@@ -20,14 +20,6 @@ class ImagineCompilerPassTest extends BaseTestCase
         );
     }
     
-    public function testProcessWithoutExtension()
-    {
-        $this->setExpectedException('\RuntimeException');
-        $container = new ContainerBuilder();
-        $container->setParameter('neutron_form.plupload.configs', 'some');
-        $imaginePass = new ImagineCompilerPass();
-        $imaginePass->process($container);
-    }
     
     public function testProcessMissingExtension()
     {

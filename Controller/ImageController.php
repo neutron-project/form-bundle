@@ -9,15 +9,13 @@
  */
 namespace Neutron\FormBundle\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\Validator\Constraints\Image;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-use Symfony\Component\Console\Input\ArrayInput;
-
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 use Imagine\Exception\RuntimeException;
 
@@ -29,15 +27,13 @@ use Imagine\Image\Point;
 
 use Imagine\Image\Box;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 /**
  * This controller handles image manipulations
  *
  * @author Nikolay Georgiev <azazen09@gmail.com>
  * @since 1.0
  */
-class ImageController extends Controller
+class ImageController extends ContainerAware
 {
 
     /**
@@ -45,35 +41,35 @@ class ImageController extends Controller
      */
     public function uploadAction ()
     {
-        if ($this->getRequest()->isMethod('POST') && $this->getRequest()->files->get('file')) {
+        
+        if (!$this->getRequest()->isMethod('POST') || (null === $handle = $this->getRequest()->files->get('file'))){
+            throw new \RuntimeException('Invalid request');
+        }
 
-            $imageManager = $this->container->get('neutron_form.manager.image_manager');
+        $imageManager = $this->container->get('neutron_form.manager.image_manager');
 
-            $handle = $this->getRequest()->files->get('file');
-            $name = uniqid() . '.' . $handle->guessExtension();
+        $name = uniqid() . '.' . $handle->guessExtension();
 
-            $validate = $this->validateImage($handle, $this->getConfigs());
+        $validate = $this->validateImage($handle, $this->getConfigs());
 
-            if ($validate !== true) {
-                return new JsonResponse(array(
-                    'success' => false,
-                    'err_msg' => $validate
-                ));
-            }
-
-            $handle->move($imageManager->getTempOriginalDir(), $name);
-            $this->normalizeImage($imageManager->getPathOfTempOriginalImage($name));
-            $imageManager->makeImageCopy($name);
-            
-            $hash = $imageManager->getHashOfTempImage($name);
-
+        if ($validate !== true) {
             return new JsonResponse(array(
-                'success' => true,
-                'name' => $name,
-                'hash' => $hash
+                'success' => false,
+                'err_msg' => $validate
             ));
         }
 
+        $handle->move($imageManager->getTempOriginalDir(), $name);
+        $this->normalizeImage($imageManager->getPathOfTempOriginalImage($name));
+        $imageManager->makeImageCopy($name);
+        
+        $hash = $imageManager->getHashOfTempImage($name);
+
+        return new JsonResponse(array(
+            'success' => true,
+            'name' => $name,
+            'hash' => $hash
+        ));
     }
 
     /**
@@ -81,50 +77,52 @@ class ImageController extends Controller
      */
     public function cropAction ()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-
-            $imageManager = $this->container->get('neutron_form.manager.image_manager');
-            $name = $this->getRequest()->get('name');
-
-            $x = $this->getRequest()->get('x', false);
-            $y = $this->getRequest()->get('y', false);
-            $w = $this->getRequest()->get('w', false);
-            $h = $this->getRequest()->get('h', false);
-
-
-            try {
-                $imagine = $this->get('imagine');
-                $image = $imagine->open($imageManager->getPathOfTempImage($name));
-            } catch (InvalidArgumentException $e) {
-                return new JsonResponse(array(
-                    'success' => false,
-                    'err_msg' => $this->get('translator')->trans('exception.image.open', array('name' => $name), 'NeutronFormBundle')
-                ));
-            }
-
-            try {
-                $image->crop(new Point($x, $y), new Box($w, $h))->save($imageManager->getPathOfTempImage($name));
-            } catch (OutOfBoundsException $e) {
-                return new JsonResponse(array(
-                    'success' => false,
-                    'err_msg' => $this->get('translator')->trans('exception.image.out_of_bounds', array('name' => $name), 'NeutronFormBundle')
-                ));
-            } catch (InvalidArgumentException $e) {
-                return new JsonResponse(array(
-                    'success' => false,
-                    'err_msg' => $this->get('translator')->trans('exception.image.crop', array('name' => $name), 'NeutronFormBundle')
-                ));
-            }
-
-            $hash = $imageManager->getHashOfTempImage($name);
-
+        $this->validateRequest();
+        
+        $imageManager = $this->container->get('neutron_form.manager.image_manager');
+        $name = $this->getRequest()->get('name');
+        
+        $x = $this->getRequest()->get('x', false);
+        $y = $this->getRequest()->get('y', false);
+        $w = $this->getRequest()->get('w', false);
+        $h = $this->getRequest()->get('h', false);
+        
+        $tempImagePath = $imageManager->getPathOfTempImage($name);
+        
+        try {
+            $imagine = $this->container->get('imagine');
+            $image = $imagine->open($tempImagePath);
+        } catch (InvalidArgumentException $e) {
             return new JsonResponse(array(
-                'success' => true,
-                'name' => $name,
-                'hash' => $hash
+                'success' => false,
+                'err_msg' => $this->container->get('translator')
+                    ->trans('exception.image.open', array('name' => $name), 'NeutronFormBundle')
             ));
-
         }
+        
+        try {
+            $image->crop(new Point($x, $y), new Box($w, $h))->save($tempImagePath);
+        } catch (OutOfBoundsException $e) {
+            return new JsonResponse(array(
+                'success' => false,
+                'err_msg' => $this->container->get('translator')
+                    ->trans('exception.image.out_of_bounds', array('name' => $name), 'NeutronFormBundle')
+            ));
+        } catch (InvalidArgumentException $e) {
+            return new JsonResponse(array(
+                'success' => false,
+                'err_msg' => $this->container->get('translator')
+                    ->trans('exception.image.crop', array('name' => $name), 'NeutronFormBundle')
+            ));
+        }
+        
+        $hash = $imageManager->getHashOfTempImage($name);
+        
+        return new JsonResponse(array(
+            'success' => true,
+            'name' => $name,
+            'hash' => $hash
+        ));
     }
 
     /**
@@ -132,22 +130,26 @@ class ImageController extends Controller
      */
     public function rotateAction ()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            $imageManager = $this->container->get('neutron_form.manager.image_manager');
-            $name = $this->getRequest()->get('name');
+        $this->validateRequest();
 
-            $imagine = $this->get('imagine');
-            $image = $imagine->open($imageManager->getPathOfTempImage($name));
-            $image->rotate(90)->save($imageManager->getPathOfTempImage($name));
-            
-            $hash = $imageManager->getHashOfTempImage($name);
+        $imageManager = $this->container->get('neutron_form.manager.image_manager');
+        $name = $this->getRequest()->get('name');
 
-            return new JsonResponse(array(
-                'success' => true,
-                'name' => $name,
-                'hash' => $hash
-            ));
-        }
+        $imagine = $this->container->get('imagine');
+        $tempImagePath = $imageManager->getPathOfTempImage($name);
+        
+        $image = $imagine->open($tempImagePath);
+        
+        $image->rotate(90)->save($tempImagePath);
+        
+        $hash = $imageManager->getHashOfTempImage($name);
+
+        return new JsonResponse(array(
+            'success' => true,
+            'name' => $name,
+            'hash' => $hash
+        ));
+        
     }
 
     /**
@@ -155,20 +157,42 @@ class ImageController extends Controller
      */
     public function resetAction ()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) {
+        $this->validateRequest();
 
-            $imageManager = $this->container->get('neutron_form.manager.image_manager');
-            $name = $this->getRequest()->get('name', false);
+        $imageManager = $this->container->get('neutron_form.manager.image_manager');
+        $name = $this->getRequest()->get('name');
 
-            $imageManager->makeImageCopy($name);         
+        $imageManager->makeImageCopy($name);         
 
-            $hash = $imageManager->getHashOfTempImage($name);
+        $hash = $imageManager->getHashOfTempImage($name);
 
-            return new JsonResponse(array(
-                'success' => true,
-                'name' => $name,
-                'hash' => $hash
-            ));
+        return new JsonResponse(array(
+            'success' => true,
+            'name' => $name,
+            'hash' => $hash
+        ));
+        
+    }
+    
+    /**
+     * Gets request object
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    protected function getRequest()
+    {
+        return $this->container->get('request');
+    }
+    
+    /**
+     * Checks if ajax request
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function validateRequest()
+    {
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            throw new \InvalidArgumentException('Request must be ajax');
         }
     }
 
@@ -207,7 +231,7 @@ class ImageController extends Controller
     private function normalizeImage ($imagePath)
     {
         $options = $this->container->getParameter('neutron_form.plupload.configs');
-        $imagine = $this->get('imagine');
+        $imagine = $this->container->get('imagine');
         $image = $imagine->open($imagePath);
         $size = $image->getSize();
         $box = new \Imagine\Image\Box($size->getWidth(), $size->getHeight());
@@ -227,9 +251,9 @@ class ImageController extends Controller
      */
     private function getConfigs()
     {
-        $session = $this->get('session');
+        $session = $this->container->get('session');
         if (!$session->has($this->getRequest()->get('neutron_id', false))){
-            throw new \RuntimeException('Invalid request');
+            throw new \InvalidArgumentException('Request parameter "neutron_id" is missing');
         }
         
         return $session->get($this->getRequest()->get('neutron_id'));

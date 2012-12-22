@@ -28,11 +28,7 @@ class ImagineCompilerPass implements CompilerPassInterface
      */
     public function process (ContainerBuilder $container)
     {
-        if (!$container->hasParameter('neutron_form.plupload.configs')) {
-            return;
-        }
-
-        if(!$container->hasExtension('avalanche_imagine')){
+        if(!$container->hasExtension('avalanche_imagine') && $container->hasParameter('neutron_form.plupload.configs')){
             throw new \RuntimeException('AvalancheImagineBundle is not installed.');
         }
     }

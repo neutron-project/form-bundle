@@ -6,6 +6,7 @@
  
     <parameters>
         <parameter key="neutron_form.controller.file.class">Neutron\FormBundle\Controller\FileController</parameter>
+        <parameter key="neutron_form.controller.image.class">Neutron\FormBundle\Controller\ImageController</parameter>
         <parameter key="neutron_form.form.type.autocomplete.class">Neutron\FormBundle\Form\Type\AutocompleteType</parameter>
         <parameter key="neutron_form.form.type.spinner.class">Neutron\FormBundle\Form\Type\SpinnerType</parameter>
         <parameter key="neutron_form.form.type.toggle_button.class">Neutron\FormBundle\Form\Type\ToggleButtonType</parameter>
@@ -58,6 +59,12 @@
     <services>
     
         <service id="neutron_form.controller.file" class="%neutron_form.controller.file.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+    
+        <service id="neutron_form.controller.image" class="%neutron_form.controller.image.class%">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>

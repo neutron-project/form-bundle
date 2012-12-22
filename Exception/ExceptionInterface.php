@@ -10,6 +10,4 @@
 namespace Neutron\FormBundle\Exception;
 
 interface ExceptionInterface
-{
-    
-}
+{}
