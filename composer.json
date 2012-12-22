@@ -1,12 +1,12 @@
 {
     "name":         "neutron/form-bundle",
     "description":  "This bundle provides jqueryui based form elements",
-    "keywords":     ["form", "jqueryui", "jQuery", "Symfony", "file upload", "image upload", "tinymce", "inputlimiter", "select2"],
+    "keywords":     ["form", "jqueryui", "jQuery", "Symfony", "plupload", "tinymce", "inputlimiter", "select2"],
     "type":         "symfony-bundle",
     "license":      "MIT",
     "authors":      [
         {
-            "name":     "Nikolay Georgiev",
+            "name":  "Nikolay Georgiev",
             "email": "azazen09@gmail.com"
         }
     ],
