@@ -51,7 +51,7 @@ class DateTimeRangePickerType extends AbstractType
         $view->vars['configs'] = array(
             'first_name' => $options['first_name'], 
             'second_name' => $options['second_name'],
-        );
+        ); 
     }
     
     /**

@@ -29,6 +29,9 @@ jQuery(document).ready(function(){
     	var firstEl = jQuery('#' + options.id + '_' + options.first_name);
     	var secondEl = jQuery('#' + options.id + '_' + options.second_name);
     	
+    	firstEl.datepicker( "option", 'maxDate', new Date(firstEl.val()));
+    	secondEl.datepicker( "option", 'minDate', new Date(secondEl.val()));
+    	
     	var onSelect = function(selectedDate) { 
             var date = new Date(selectedDate);
             

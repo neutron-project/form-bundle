@@ -52,36 +52,7 @@ then put the sources somewhere in the web folder. EX: *web/jquery*
 
 *Note:* Each form element requires its own javascript library.
 
-
-### Step 5) In your twig layout template add the following code
-
-*Notice:* I use *smoothness* for this example.
-
-``` jinja
-{% block stylesheets %}           
-    {% stylesheets
-       'jquery/css/smoothness/jquery-ui.css' 
-       filter='cssrewrite'
-	%}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
-{% endblock %}
-
-{% block javascripts %}
-    {% javascripts
-        'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
-                                                                                                              
-	%}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-{% endblock %}
-```
-
-### Step 6) Securing Specific URL Patterns
+### Step 5) Securing Specific URL Patterns
 
 NeutronFromBundle uses ajax/post requests to upload, crop, rotate and reset images and files.
 
@@ -102,9 +73,6 @@ security:
         - { path: ^/_neutron_form/image-reset, roles: ROLE_ADMIN }
         - { path: ^/_neutron_form/file-upload, roles: ROLE_ADMIN }
 ```
-
-**Note:** This way is very flexible but you have to secure every url.
-
 Or you can secure *^/admin* section and then prefix the bundle routing.
 
 ``` yaml
@@ -117,11 +85,11 @@ neutron_form:
 ```
 [For more information go to symfony documentation](http://symfony.com/doc/current/book/security.html#securing-specific-url-patterns)
 
-
+<a name="list"></a>
 **List of all form elements**
 
-* [Autocomplete](autocomple.md)
-* [Buttonset](autocomple.md)
+* [Autocomplete](autocomplete.md)
+* [Buttonset](buttonset.md)
 * [Toggle button](toggle_button.md)
 * [Slider](slider.md)
 * [Slider Range](slider_range.md)
@@ -141,6 +109,6 @@ neutron_form:
 * [Tinymce](tinymce.md)
 * [MultiSelectSortable](multi_select_sortable.md)
 * [MultiSelect](multi_select.md)
-* [PlUpload](multi_plupload.md)
+* [Plupload](plupload.md)
 
 [back to top](#top)

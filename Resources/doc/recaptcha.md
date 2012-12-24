@@ -1,7 +1,7 @@
 Recaptcha
 =========
 
-This element is a recaptcha element.
+A ReCAPTCHA is a program that protects websites against bots by generating and grading tests that humans can pass but current computer programs cannot.
 
 See [demo](http://www.google.com/recaptcha/learnmore)
 
@@ -32,7 +32,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
         ->add('recaptcha', 'neutron_recaptcha', array(
             'label' => 'Recaptcha',
             'constraints' => array(
-                new Neutron\FormBundle\Validator\Constraint\Recaptcha()   
+                new \Neutron\FormBundle\Validator\Constraint\Recaptcha()   
             ),
             'configs' => array(
                 'theme' => 'red',
@@ -44,6 +44,8 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 ```
 
 **Important:** You must add recaptcha constraint.
+
+**Note:** All configs are passed as json object to the widget.
 
 in the twig template add following code:
 
@@ -64,12 +66,15 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ``
-Option *configs* is converted to json object and passed to widget options.
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [API documentation](https://developers.google.com/recaptcha/intro)
 
-**Note:** You must install jQuery.
-
 That's it.
 
-
+[back to index](index.md#list)

@@ -72,11 +72,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
+```
+
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [API documentation](http://www.tinymce.com/wiki.php)
-
-**Note:** You must install jQuery.
 
 Default configuration:
 
@@ -102,7 +107,7 @@ neutron_form:
 ### Filemanager
 
 I could not find any open source filemanager which can be easily integrated into Symfony 2 application.
-The one I found is not secure but do the job. You can see it [here](http://www.phpletter.com/Demo/Tinymce-Ajax-File-Manager/)
+The one I found is not secure but do the job. You can test it [here](http://www.phpletter.com/Demo/Tinymce-Ajax-File-Manager/)
 I modified it a bit in order to work with *Symfony 2*.
 
 **Important:** I highly recommend not to use it in production!
@@ -110,7 +115,8 @@ I modified it a bit in order to work with *Symfony 2*.
 
 #####Instalation:
 
-Step 1) Download the file manager from [here](). Put the source in *plugin folder* of tinymce editor.
+Step 1) Download the file manager from [here](https://github.com/neutron-project/ajax-file-manager). 
+Put the source in *plugin folder* of tinymce editor.
 
 Step 2) Create folder */media/filemanager* in the web root (Probably you will need to set proper permissions).
 
@@ -132,4 +138,4 @@ Check the paths!
 
 That's it.
 
-
+[back to index](index.md#list)

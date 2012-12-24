@@ -1,7 +1,7 @@
 ColorPicker
 ===========
 
-This element is a jQuery colorpicker widget.
+The colorpicker is a jQuery widget.
 
 See [demo](http://www.eyecon.ro/colorpicker/#about)
 
@@ -24,16 +24,16 @@ public function buildForm(FormBuilderInterface $builder, array $options)
     ;
 }
 ```
+**Note:** All configs are passed as json object to the widget.
 
-in the twig template add following code:
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
-       'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
-       'jquery/plugins/colorpicker/css/colorpicker.css'
+    	'bundles/neutronform/css/form_widgets.css'
+        'jquery/plugins/colorpicker/css/colorpicker.css'
         filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -45,8 +45,6 @@ in the twig template add following code:
 
     {% javascripts
         'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/colorpicker/js/colorpicker.js'
         'bundles/neutronform/js/colorpicker.js'
     %}
@@ -57,13 +55,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
-Option *configs* is converted to json object and passed to jQuery widget options.
+```
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://www.eyecon.ro/colorpicker/#implement)
 
-**Note:** You must install jQueryUI.
-
 That's it.
 
-
+[back to index](index.md#list)

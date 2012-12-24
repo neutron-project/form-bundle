@@ -33,7 +33,6 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 You can set the options of each element by using *first_options* and *second_options*.
 
-
 Controller should return json object with the following structure:
 
 ``` php
@@ -48,4 +47,4 @@ $data = array(
 
 That's it.
 
-
+[back to index](index.md#list)

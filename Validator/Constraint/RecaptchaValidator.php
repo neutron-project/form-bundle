@@ -24,7 +24,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 class RecaptchaValidator extends ConstraintValidator
 {
     /**
-     * 
      * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;

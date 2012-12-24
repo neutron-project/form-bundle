@@ -25,16 +25,17 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
          filter='cssrewrite'
-   %}
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -58,8 +59,14 @@ in the twig template add following code:
 
 ```
 
-**Note:** You must install jQueryUI.
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 That's it.
+
+[back to index](index.md#list)
 
 

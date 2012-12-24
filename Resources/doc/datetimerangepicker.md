@@ -1,7 +1,7 @@
 DateTimeRangePicker
 ===================
 
-This is a jQuery datetimepicker with two datetime range text fields.
+The DateTimeRangePicker is a jQuery widget with two datetime range text fields.
 
 See [demo](http://trentrichardson.com/examples/timepicker/)
 
@@ -29,6 +29,8 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** Each datetime field has the same options as datetimepicker. Use *options* to pass options to both fields or *first_option*, *second_option*.
 
+**Note:** All configs are passed as json object to the widget.
+
 in the twig template add following code:
 
 ``` jinja
@@ -36,7 +38,6 @@ in the twig template add following code:
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
        'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'
         filter='cssrewrite'
     %}
@@ -53,7 +54,6 @@ in the twig template add following code:
         'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'
 		'jquery/plugins/timepicker/jquery-ui-sliderAccess.js'
-		'jquery/plugins/timepicker/localization/*' 
         'bundles/neutronform/js/datetimepicker.js'
    
     %}
@@ -65,20 +65,22 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ```
-Option *configs* is converted to json object and passed to jQuery widget options.
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://api.jqueryui.com/datepicker/)
 
 [Add-on API documentation](http://trentrichardson.com/examples/timepicker/)
 
-**Note:** You must install jQueryUI and [timepicker add-on](https://github.com/trentrichardson/jQuery-Timepicker-Addon).
+**Note:** DateTimeRangePicker is locale aware. 
 
-**Note:** Datetimerangepicker is locale aware. 
-
-**Note:** If you do not want to use localization just remove *'jquery/plugins/timepicker/localization/*'*. 
-
-**Limitations** The only available format is *Y-m-d H:i:s*.
+**Limitations** The only available format is *Y-m-d H:i:s* and *Y-m-d H:i*.
 
 That's it.
 
+[back to index](index.md#list)
 

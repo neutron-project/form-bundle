@@ -1,7 +1,7 @@
-Datetimepicker
+DateTimePicker
 ==============
 
-This is an add-on to jQuery datepicker which adds a timepicker. 
+The DateTimePicker is an add-on to jQuery datepicker widget. 
 
 See [demo](http://trentrichardson.com/examples/timepicker/)
 
@@ -28,14 +28,15 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+n the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
        'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'
         filter='cssrewrite'
     %}
@@ -63,16 +64,20 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ```
-Option *configs* is converted to json object and passed to jQuery widget options.
+
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://api.jqueryui.com/datepicker/)
 
 [Add-on API documentation](http://trentrichardson.com/examples/timepicker/)
 
-**Note:** You must install jQueryUI and [timepicker add-on](https://github.com/trentrichardson/jQuery-Timepicker-Addon).
-
-**Limitations** The only available format is *Y-m-d H:i:s*.
+**Limitations** The only available format is *Y-m-d H:i:s* or *Y-m-d H:i*.
 
 That's it.
 
-
+[back to index](index.md#list)

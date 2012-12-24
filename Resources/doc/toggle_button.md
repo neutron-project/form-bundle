@@ -1,7 +1,7 @@
 Toggle button
 =============
 
-It is a jQuery toggle button.
+The toogle button is a jQuery widget.
 
 See [demo](http://jqueryui.com/button/#checkbox)
 
@@ -25,17 +25,17 @@ public function buildForm(FormBuilderInterface $builder, array $options)
     ;
 }
 ```
+**Note:** All configs are passed as json object to the widget.
 
-in the twig template add following code:
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
-         filter='cssrewrite'
-   %}
+       filter='cssrewrite'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -58,10 +58,15 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ```
-Option *configs* is converted to json object and  passed to jQuery widget options.
 
-**Note:** You must install jQueryUI.
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 That's it.
+
+[back to index](index.md#list)
 
 

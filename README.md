@@ -1,6 +1,6 @@
 NeutronFormBundle
 =================
-The `NeutronFormBundle` adds some extra types to Symfony 2 Form Component. 
+The `NeutronFormBundle` adds some extra form types to Symfony 2 Form Component. 
 
 Features include:
 
@@ -22,7 +22,7 @@ Features include:
 - recaptcha
 - select 2
 - select 2 dependent field
-- tinymce (this ajaxfilemanager)
+- tinymce (with ajaxfilemanager)
 - image upload (plupload, Jcrop, colorbox)  full integration with Doctrine ORM
 - multi image upload (plupload, Jcrop, colorbox)  full integration with Doctrine ORM
 - file upload (plupload and jQueryUI sortable)  full integration with Doctrine ORM

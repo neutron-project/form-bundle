@@ -93,13 +93,18 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ``
+Run the following command:
 
-All configs are passed as json object to jQuery autocomplete widget,
+``` bash
+$ php app/console assetic:dump
+```
+
+**Note:** All configs are passed as json object to jQuery autocomplete widget,
 
 [Complete api](http://api.jqueryui.com/autocomplete/)
 
-**Note:** You must install jQueryUI.
 
 That's it.
 
+[back to index](index.md#list)
 

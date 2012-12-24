@@ -17,7 +17,6 @@ jQuery(document).ready(function(){
             .setDefaults(jQuery.datepicker.regional[(lang == 'en') ? 'en-GB' : lang]);
 
         jQuery('#' + options.id).datetimepicker(options);
-
     });
     
     // Searching for datetimerangepicker elements
@@ -27,18 +26,21 @@ jQuery(document).ready(function(){
     	var firstEl = jQuery('#' + options.id + '_' + options.first_name);
     	var secondEl = jQuery('#' + options.id + '_' + options.second_name);
     	
+    	firstEl.datetimepicker( "option", 'maxDate', new Date(firstEl.val()));
+    	secondEl.datetimepicker( "option", 'minDate', new Date(secondEl.val()));
+   
     	var onSelect = function(selectedDate) { 
             var date = new Date(selectedDate);
             
             if(this.id == options.id + '_' + options.first_name){
-                secondEl.datepicker( "option", 'minDate', date );
+                secondEl.datetimepicker( "option", 'minDate', date );
             } else {
-                firstEl.datepicker( "option", 'maxDate', date );
+                firstEl.datetimepicker( "option", 'maxDate', date );
             }
         };
         
-        firstEl.datepicker( "option", 'onSelect', onSelect);
-        secondEl.datepicker( "option", 'onSelect', onSelect);      
+        firstEl.datetimepicker( "option", 'onSelect', onSelect);
+        secondEl.datetimepicker( "option", 'onSelect', onSelect);      
     });
 });
 

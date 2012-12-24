@@ -66,9 +66,9 @@ class DateTimePickerType extends AbstractType
 
     /**
      * (non-PHPdoc)
-     * @see Symfony\Component\Form.AbstractType::buildView()
+     * @see \Symfony\Component\Form\AbstractType::finishView()
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options)
     {   
         $view->vars['configs'] = $options['configs'];   
     }
@@ -81,7 +81,7 @@ class DateTimePickerType extends AbstractType
     {
     
         $defaultConfigs = array(
-            'showOn' => 'button',
+            'showOn'     => 'button',
             'dateFormat' => 'yy-mm-dd',
             'timeFormat' => 'HH:mm',
             'showSecond' => false,
@@ -103,16 +103,18 @@ class DateTimePickerType extends AbstractType
             'datetime_format' => function (Options $options, $value) {
                 if ($options->has('with_seconds') && $options->get('with_seconds') === true){
                     return ($options->get('use_meridiem') === true) ? 'Y-m-d h:i:s a' : 'Y-m-d H:i:s';
-                } else {
-                    return ($options->get('use_meridiem') === true) ? 'Y-m-d h:i a' : 'Y-m-d H:i';
-                } 
+                }
+                
+                return ($options->get('use_meridiem') === true) ? 'Y-m-d h:i a' : 'Y-m-d H:i';
+                
             },
             'parts' => function (Options $options, $value){
                 if ($options->has('with_seconds') && $options->get('with_seconds') === true){
                     return  array('year', 'month', 'day', 'hour', 'minute', 'second');
-                } else {
-                    return array('year', 'month', 'day', 'hour', 'minute');
-                }
+                } 
+                
+                return array('year', 'month', 'day', 'hour', 'minute');
+                
             },
             'configs' => function (Options $options, $value) use ($defaultConfigs) {
                 $configs = array_replace_recursive($defaultConfigs, $value);

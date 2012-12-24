@@ -1,7 +1,7 @@
 Slider
 ======
 
-This element is a jQuery slider.
+The slider is a jQuery widget.
 
 See [demo](http://jqueryui.com/slider/)
 
@@ -30,15 +30,16 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** *__value__* is replaced by the current value of the slider.
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
-        filter='cssrewrite'
+       filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -61,13 +62,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
-Option *configs* is converted to json object and passed to jQuery widget options.
+```
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://api.jqueryui.com/slider/)
 
-**Note:** You must install jQueryUI.
-
 That's it.
 
-
+[back to index](index.md#list)

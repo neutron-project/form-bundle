@@ -1,7 +1,7 @@
 DateRangePicker
 ===============
 
-This is a jQuery datepicker with two date range text fields.
+This datepicker is a jQuery widget with two date range text fields.
 
 See [demo](http://jqueryui.com/datepicker/#date-range)
 
@@ -29,6 +29,8 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** Each date field has the same options as datepicker. Use *options* to pass options to both fields or *first_option*, *second_option*.
 
+**Note:** All configs are passed as json object to the widget.
+
 in the twig template add following code:
 
 ``` jinja
@@ -38,7 +40,7 @@ in the twig template add following code:
        'jquery/css/smoothness/jquery-ui.css' 
        'bundles/neutronform/css/form_widgets.css'
          filter='cssrewrite'
-   %}
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -61,7 +63,12 @@ in the twig template add following code:
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
 ```
-Option *configs* is converted to json object and passed to jQuery widget options.
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://api.jqueryui.com/datepicker/)
 
@@ -73,4 +80,4 @@ Option *configs* is converted to json object and passed to jQuery widget options
 
 That's it.
 
-
+[back to index](index.md#list)

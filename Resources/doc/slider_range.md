@@ -1,7 +1,7 @@
-Slider Range
-============
+SliderRange
+===========
 
-This element is a jQuery slider range.
+The SliderRange is a jQuery widget slider range element.
 
 See [demo](http://jqueryui.com/slider/#range)
 
@@ -30,14 +30,15 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** *__value_1__* and *__value_2__* are replaced by the current value of the range slider.
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
         filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -61,13 +62,19 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
-Option *configs* is converted to json object and passed to jQuery widget options.
+```
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
+
 
 [jQuery API documentation](http://api.jqueryui.com/slider/)
 
-**Note:** You must install jQueryUI.
-
 That's it.
+
+[back to index](index.md#list)
 
 

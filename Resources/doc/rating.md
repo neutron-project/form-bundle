@@ -1,7 +1,7 @@
 Rating
 ======
 
-This element is a jQuery raty widget.
+The raty is a jQuery widget.
 
 See [demo](http://wbotelhos.com/raty)
 
@@ -30,14 +30,15 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Important:** Option *path* is required otherwise widget can not find its images!
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
         filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -61,13 +62,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
-Option *configs* is converted to json object and passed to jQuery widget options.
+```
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [API documentation](http://wbotelhos.com/raty)
 
-**Note:** You must install jQueryUI.
-
 That's it.
 
-
+[back to index](index.md#list)

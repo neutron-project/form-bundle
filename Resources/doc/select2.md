@@ -1,7 +1,8 @@
 Select2
 =======
 
-Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results. See [demo](http://ivaynberg.github.com/select2/)
+Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results. 
+See [demo](http://ivaynberg.github.com/select2/)
 
 ### Usage with *select* element:
 
@@ -35,7 +36,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** when you set *multiple* option it also sets that option th the *select2 widget*.
 
-*Important:* *configs* option is passed to *selec2 widget* as json object. It supports even javascript closures.
+*Important:* *configs* option is passed to *selec2 widget* as json object. It supports also javascript closures.
 
 [Complete documentaton](http://ivaynberg.github.com/select2/)
 
@@ -127,10 +128,13 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
+```
+Run the following command:
 
-**Note:** You must install jQuery.
+``` bash
+$ php app/console assetic:dump
+```
 
 That's it.
 
-
+[back to index](index.md#list)
