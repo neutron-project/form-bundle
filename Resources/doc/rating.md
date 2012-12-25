@@ -35,23 +35,11 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 In the twig template add following code:
 
 ``` jinja
-{% block stylesheets %}
-            
-    {% stylesheets
-       'jquery/css/smoothness/jquery-ui.css' 
-        filter='cssrewrite'
-    %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
-{% endblock %}
 
 {% block javascripts %}
 
     {% javascripts
         'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/raty/js/jquery.raty.js'
         'bundles/neutronform/js/rating.js'
     %}

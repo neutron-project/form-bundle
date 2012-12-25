@@ -31,7 +31,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** All configs are passed as json object to the widget.
 
-in the twig template add following code:
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
@@ -72,11 +72,9 @@ $ php app/console assetic:dump
 
 [jQuery API documentation](http://api.jqueryui.com/datepicker/)
 
-**Note:** You must install jQueryUI.
-
 **Note:** Datepicker is locale aware. 
 
-**Limitations** The only available format is *Y-m-d*.
+**Limitations:** The only available format is *Y-m-d*.
 
 That's it.
 

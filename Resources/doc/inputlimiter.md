@@ -1,7 +1,7 @@
 InputLimiter
 ============
 
-This element is a jQuery inputlimiter widget.
+The input limiter is a jQuery widget.
 
 See [demo](http://rustyjeans.com/jquery-inputlimiter/demo.htm)
 
@@ -27,16 +27,16 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-in the twig template add following code:
+**Note:** All configs are passed as json object to the widget.
+
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
             
     {% stylesheets
-       'jquery/css/smoothness/jquery-ui.css' 
-       'bundles/neutronform/css/form_widgets.css'
        'jquery/plugins/inputlimiter/jquery.inputlimiter.1.0.css'
-        filter='cssrewrite'
+       filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -47,8 +47,6 @@ in the twig template add following code:
 
     {% javascripts
         'jquery/js/jquery.js'
-        'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/inputlimiter/jquery.inputlimiter.1.3.1.js'
         'bundles/neutronform/js/input-limiter.js'
     %}
@@ -59,16 +57,20 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
-Option *configs* is converted to json object and passed to jQuery widget options.
+```
+
+
+Run the following command:
+
+``` bash
+$ php app/console assetic:dump
+```
 
 [jQuery API documentation](http://rustyjeans.com/jquery-plugins/input-limiter#options)
 
 **Note:** Widget translations are located in *Resources/translations/NeutronFormBundle.[lang].xlf*. 
-Overwrite them by setting *translation_domain* form type option.
-
-**Note:** You must install jQueryUI.
+Overwrite them by setting *translation_domain* in form type option.
 
 That's it.
 
-
+[back to index](index.md#list)

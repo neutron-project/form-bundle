@@ -7,9 +7,9 @@ See [demo](http://www.tinymce.com/tryit/full.php)
 
 ### Let's grab the source
 
-[download](http://www.tinymce.com/download/download.php)
+[download from here](http://www.tinymce.com/download/download.php)
 
-**Important:** Download jQuery package.
+**Important:** Grab jQuery package.
 
 Put the download folder *tinymce* in web root under */jquery/plugins/*.
 

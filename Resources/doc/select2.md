@@ -36,12 +36,12 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 **Note:** when you set *multiple* option it also sets that option th the *select2 widget*.
 
-*Important:* *configs* option is passed to *selec2 widget* as json object. It supports also javascript closures.
+**Important:** *configs* option is passed to *selec2 widget* as json object. It supports also javascript closures.
 
 [Complete documentaton](http://ivaynberg.github.com/select2/)
 
 
-*** Usage with ajax
+### Usage with ajax
 
 **Important:** There is one major problem with ajax *select2 widget*. Label has to be same as value. 
 This is due to the fact that *select2 widget* uses text/hidden form element and stores only the values not the labels of the selected items.

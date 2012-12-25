@@ -34,7 +34,7 @@ In the twig template add following code:
             
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
-         filter='cssrewrite'
+       filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}

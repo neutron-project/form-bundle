@@ -28,7 +28,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-**Note:** *__value__* is replaced by the current value of the slider.
+**Note:** __value__ is replaced by the current value of the slider.
 
 **Note:** All configs are passed as json object to the widget.
 

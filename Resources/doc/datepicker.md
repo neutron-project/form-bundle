@@ -27,7 +27,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
     ;
 }
 ```
-*Note:* All configs are passed as json object to the widget.
+**Note:** All configs are passed as json object to the widget.
 
 In the twig template add following code:
 
@@ -71,7 +71,7 @@ $ php app/console assetic:dump
 
 **Note:** Datepicker is locale aware. 
 
-**Limitations** The only available format is *Y-m-d*.
+**Limitations:** The only available format is *Y-m-d*.
 
 That's it.
 

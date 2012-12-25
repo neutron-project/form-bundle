@@ -50,7 +50,7 @@ neutron_form:
 You need to download latest version of [jQuery](http://jquery.com/), [jqueryui](http://jqueryui.com/) 
 then put the sources somewhere in the web folder. EX: *web/jquery*
 
-*Note:* Each form element requires its own javascript library.
+**Note:** Each form element requires its own javascript library.
 
 ### Step 5) Securing Specific URL Patterns
 

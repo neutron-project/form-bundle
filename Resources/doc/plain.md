@@ -34,8 +34,11 @@ You have the following options if *DateTime* instance. These are the default opt
 
 In the twig template add following code:
 
+``` jinja
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
+
+```
 
 That's it.
 
-
+[back to index](index.md#list)

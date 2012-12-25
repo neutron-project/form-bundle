@@ -7,7 +7,7 @@ When you select from the master dropdown then dependent dropdown is populated. D
 
 **Limitations:** Only *choice type* is available for now.
 
-*** Usage:
+### Usage:
 
 ``` php
 <?php

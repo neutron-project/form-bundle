@@ -59,9 +59,9 @@ $data = array(
 );
 ```
 
-In *AjaxController* you get parameter *term* which will help you to buid the query.
+In *AjaxController* you get parameter *term* which will help you to build the query.
 
-in the twig template add following code:
+In the twig template add following code:
 
 ``` jinja
 {% block stylesheets %}
@@ -69,8 +69,8 @@ in the twig template add following code:
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
        'bundles/neutronform/css/form_widgets.css'
-         filter='cssrewrite'
-   %}
+       filter='cssrewrite'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -92,17 +92,16 @@ in the twig template add following code:
 
 {% form_theme form with ['NeutronFormBundle:Form:fields.html.twig'] %}
 
-``
+```
 Run the following command:
 
 ``` bash
 $ php app/console assetic:dump
 ```
 
-**Note:** All configs are passed as json object to jQuery autocomplete widget,
+**Note:** All configs are passed as json object to jQuery autocomplete widget.
 
 [Complete api](http://api.jqueryui.com/autocomplete/)
-
 
 That's it.
 

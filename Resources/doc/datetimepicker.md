@@ -38,7 +38,7 @@ n the twig template add following code:
     {% stylesheets
        'jquery/css/smoothness/jquery-ui.css' 
        'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'
-        filter='cssrewrite'
+       filter='cssrewrite'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -76,7 +76,7 @@ $ php app/console assetic:dump
 
 [Add-on API documentation](http://trentrichardson.com/examples/timepicker/)
 
-**Limitations** The only available format is *Y-m-d H:i:s* or *Y-m-d H:i*.
+**Limitations:** The only available format is *Y-m-d H:i:s* or *Y-m-d H:i*.
 
 That's it.
 
