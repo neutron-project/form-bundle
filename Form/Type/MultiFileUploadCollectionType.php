@@ -111,6 +111,7 @@ class MultiFileUploadCollectionType extends AbstractType
         $resolver->setDefaults(array(
             'allow_add' => true,
             'allow_delete' => true,
+            'prototype'    => true,
             'error_bubbling' => false,
             'translation_domain' => 'NeutronFormBundle',
             'configs' => $defaultConfigs,
