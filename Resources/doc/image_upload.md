@@ -39,7 +39,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 }
 ```
 
-*Important:* Configs *'minWidth', 'minHeight', 'maxSize', 'extensions'* are required.
+**Important:** Configs *'minWidth', 'minHeight', 'maxSize', 'extensions'* are required.
 
 
 ### Doctrine integration.
@@ -75,7 +75,7 @@ class Image extends AbstractImage
 }
 ```
 
-*Note:* Method *ImageInterface::getUploadDir()* must return the path where image will be moved after entity is saved to DB (executed in postFlush event).
+**Note:** Method *ImageInterface::getUploadDir()* must return the path where image will be moved after entity is saved to DB (executed in postFlush event).
 
 Create *Product* entity:
 
@@ -169,7 +169,7 @@ When you do flush the image will be moved to permenent directory.
 
 The form is a standard symfony class.
 
-*Note:* If you want to validate the image data use the standard symfony validators (Image mimetype is validated on upload and it is done by the bundle).
+**Note:** If you want to validate the image data use the standard symfony validators (Image mimetype is validated on upload and it is done by the bundle).
 
 ##### Image version uses optimistic lock  [more info](http://docs.doctrine-project.org/en/2.0.x/reference/transactions-and-concurrency.html#optimistic-locking):
 By default versioning is disabled. You can enable it
@@ -182,7 +182,7 @@ neutron_form:
 		enable_version: true
 ```
 
-When you flush the entity you have to use try/catch statement. EX:
+When you flush the entity you have to use try/catch statement.
 
 ``` php
 try{
@@ -191,7 +191,7 @@ try{
 	return 'some message';
 } catch (\Neutron\FormBundle\Exception\ImageHashException $e) {
 	// this exception is thrown when temporary image hash is different than the image you try to save.
-	// this can happen if someoneelse has changed the image in the temp directory.
+	// this can happen if someone else has changed the image in the temp directory.
 	return 'some message';
 }
 ```
@@ -220,3 +220,4 @@ In the twig template use the following twig function:
 
 That's it.
  
+[back to index](index.md)

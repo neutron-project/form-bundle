@@ -27,7 +27,7 @@ class MultiSelectCollectionTypeTest extends TypeTestCase
         $form = $this->factory->create('neutron_multi_select_collection', null, array(
             'grid' => $this->createMockDataGrid(),
             'options' => array(
-                'data_class' => 'Neutron\FormBundle\Tests\Fixture\Entity\Project'        
+                'class' => 'Neutron\FormBundle\Tests\Fixture\Entity\Project'        
             ),
         ));
         

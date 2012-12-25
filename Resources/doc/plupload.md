@@ -7,7 +7,7 @@ Plupload
 - [neutron_multi_image_upload](multi_image_upload.md)
 - [neutron_multi_file_upload](multi_file_upload.md)
 
-*Theory of operation:* User uploads an image/file to the web directory of the server in the temp folder (you can change the temp folder in the configs). 
+**Theory of operation:** User uploads an image/file to the web directory of the server in the temp folder (you can change the temp folder in the configs). 
 Image/FIle is validated and normalized (by default image could be maximum 1000px width or 1000px height. You can change it in the configs).
 There user makes the manipulation and when ready submits the form. If form is valid and entity is flushed the image is moved from temporary to permenent folder.
 It is handled in the backgroud by the bundle.
@@ -15,11 +15,9 @@ It always keeps original image and changes can be reverted at any time.
 When user perform updates  the image is copied from permenent to temporary directory. All manipulations are done on the temporary image. 
 If image hash is changed then on *postFlush*  overrides the image in the permenent directory. If user replaces or deletes the image then it is removed from the permenent directory.
 
-*Note:* Plupload supports html5(recommended) and flash only.
+**Note:** Plupload supports html5(recommended) and flash only.
 
-### Instalation :
-
-*Important:* You have to install *jquery* and *jqueryui*
+### Instalation.
 
 ###### Step 1) Download jquery plugins:
 - plupload (https://github.com/moxiecode/plupload)
@@ -46,26 +44,25 @@ neutron_form:
 ##### Step 3) in the twig template include the following assets.
 
 ``` jinja
-    {% block stylesheets %}
+	{% block stylesheets %}
                 
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'jquery/plugins/jcrop/css/jquery.Jcrop.css'
-           'jquery/plugins/colorbox/example1/colorbox.css'
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
+		{% stylesheets
+			'jquery/css/smoothness/jquery-ui.css' 
+            'jquery/plugins/jcrop/css/jquery.Jcrop.css'
+            'jquery/plugins/colorbox/example1/colorbox.css'
+            'bundles/neutronform/css/form_widgets.css'
+            filter='cssrewrite'
+        %}
+			<link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
-    {% endblock %}
+	{% endblock %}
     
 {% block javascripts %}
 
 	{% javascripts
-        'jquery/js/jquery.js'
+		'jquery/js/jquery.js'
         'jquery/js/jquery-ui.js'
-        'jquery/i18n/jquery-ui-i18n.js'
         'jquery/plugins/plupload/js/plupload.js'                    
         'jquery/plugins/plupload/js/plupload.html5.js'                    
         'jquery/plugins/plupload/js/plupload.flash.js'                    
@@ -108,14 +105,14 @@ There are five urls:
 
 ### Doctrine ORM integration. The implementation is different for every type. 
 
-### Cleaning the temp directory.
+##### Cleaning the temp directory.
 
 On some circumstances temporary images and files are not deleted. You can delete them by running the following command:
 
 ``` bash
 $ php app/console neutron:form:remove-unused-files 7200
 ```
-*Note:* this command will delete all images and files older than 7200 seconds. You can set a crone job to do that.
+**Note:** this command will delete all images and files older than 7200 seconds. You can set a crone job to do that.
 
 
 ### All available configs:

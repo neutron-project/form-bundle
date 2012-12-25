@@ -5,8 +5,8 @@ MultiSelect
 It provides the following functionalities:
 
 - search in big sets
-- add/remove rows by checking the checkboxes
-- easy and transparent integration with doctrine orm
+- add/remove rows by checkboxes
+- easy and transparent integration with Doctrine ORM
 
 Imagine that you have *Category* and *Product* entities. You want to add some products to a category. The solution is *NeutronMultiSelect*.
 
@@ -98,7 +98,7 @@ class Category
 }
 ```
 
-As you see we have one-to-many unidirectional association with *Product* entity.
+As you see we have one-to-many unidirectional association with *Product* entity (It works with any type of associations).
 
 ##### Let's create the *Product*
 
@@ -269,26 +269,26 @@ public function buildForm(FormBuilderInterface $builder, array $options)
             'label' => 'form.multi_select',
             'grid' => $this->grid,
             'options' => array(
-            	'data_class' => 'AppBundle\Entity\Product'
+            	'class' => 'AppBundle\Entity\Product'
             )
         )) 
 		// .....
     ;
 }
-``
+```
 It's a standard symfony form.
 
 ##### Let's create the view.
 
 ``` jinja
-    {% block stylesheets %}
+	{% block stylesheets %}
                 
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'jquery/plugins/jqgrid/css/ui.jqgrid.css' 
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
+		{% stylesheets
+			'jquery/css/smoothness/jquery-ui.css' 
+            'jquery/plugins/jqgrid/css/ui.jqgrid.css' 
+            'bundles/neutronform/css/form_widgets.css'
+            filter='cssrewrite'
+        %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
@@ -297,7 +297,7 @@ It's a standard symfony form.
 {% block javascripts %}
 
 	{% javascripts
-        'jquery/js/jquery.js'
+		'jquery/js/jquery.js'
         'jquery/js/jquery-ui.js'
         'jquery/i18n/jquery-ui-i18n.js'
 		'jquery/plugins/jqgrid/js/i18n/grid.locale-en.js'
@@ -327,4 +327,6 @@ $ php app/console assetic:dump
 
 Use standard symfony validators to validate the form.
 
-We're done. All you need is to check the checkboxes. The rest is handled by the bundle.
+That's it.
+
+[back to index](index.md)

@@ -35,7 +35,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 ### Doctrine ORM integration
 
-##### Create *MultiImage* entity by extending  *AbstractMultiImage* class.
+Create *MultiImage* entity by extending  *AbstractMultiImage* class.
 
 ``` php
 <?php
@@ -66,7 +66,7 @@ class MultiImage extends AbstractMultiImage
 }
 ```
 
-*Note:* Method *ImageInterface::getUploadDir()* must return the path where image will be moved after entity is saved to DB (executed in postFlush event).
+**Note:** Method *ImageInterface::getUploadDir()* must return the path where image will be moved after entity is saved to DB (executed in postFlush event).
 
 ##### Create *Product* entity:
 
@@ -180,7 +180,7 @@ When you do flush all images will be moved to permenent directory.
 
 The form is a standard symfony class.
 
-*Note:* If you want to validate the images data use the standard symfony validators (Image mimetype is validated on upload and it is done by the bundle).
+**Note:** If you want to validate the images data use the standard symfony validators (Image mimetype is validated on upload and it is done by the bundle).
 
 ##### Rendering images. 
 To render the image we are going to use avalanche bundle.
@@ -207,3 +207,5 @@ In the twig template use the following twig function:
 ```
 
 That's it.
+
+[back to index](index.md)

@@ -7,7 +7,7 @@ Before you start see [plupload doc](plupload.md)
 
 ### Usage :
 
-##### In your form do the following:
+In your form do the following:
 
 ``` php
 <?php
@@ -33,7 +33,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 ```
 ### Doctrine ORM integration
 
-##### Create *MultiFile* entity by extending  *AbstractMultiFile* class.
+Create *MultiFile* entity by extending  *AbstractMultiFile* class.
 
 ``` php
 <?php
@@ -64,9 +64,9 @@ class MultiFile extends AbstractMultiFile
 }
 ```
 
-*Note:* Method *FileInterface::getUploadDir()* must return the path where file will be moved after entity is saved to DB (executed in postFlush event).
+**Note:** Method *FileInterface::getUploadDir()* must return the path where file will be moved after entity is saved to DB (executed in postFlush event).
 
-##### Create *Product* entity:
+Create *Product* entity:
 
 ``` php
 <?php
@@ -177,6 +177,8 @@ When you do flush all files will be moved to permenent directory.
 
 The form is a standard symfony class.
 
-*Note:* If you want to validate the files data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
+**Note:** If you want to validate the files data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
 
 That's it.
+
+[back to index](index.md)

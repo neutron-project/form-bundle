@@ -13,7 +13,7 @@ Before you start see [plupload doc](plupload.md)
 
 ### Usage :
 
-##### In your form do the following:
+In your form do the following:
 
 ``` php
 <?php
@@ -164,7 +164,7 @@ When you do flush the file will be moved to permenent directory.
 
 The form is a standard symfony class.
 
-*Note:* If you want to validate the file data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
+**Note:** If you want to validate the file data use the standard symfony validators (File mimetype is validated on upload and it is done by the bundle).
 
 ##### File version uses optimistic lock  [more info](http://docs.doctrine-project.org/en/2.0.x/reference/transactions-and-concurrency.html#optimistic-locking):
 By default versioning is disabled. You can enable it
@@ -176,7 +176,7 @@ neutron_form:
     plupload: 
 		enable_version: true
 ```
-When you flush the entity you have to use try/catch statement. EX:
+When you flush the entity you have to use try/catch statement. 
 
 ``` php
 try{
@@ -188,3 +188,5 @@ try{
 
 
 That's it.
+
+[back to index](index.md)

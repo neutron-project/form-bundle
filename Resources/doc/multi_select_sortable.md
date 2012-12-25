@@ -1,7 +1,8 @@
 MultiSelectSortable
 ===================
 
-MultiSelectSortable is based on jqueryui and jqgrid.It provides the following functionalities:
+MultiSelectSortable is based on jQueryUI and [jqgrid](http://trirand.com/blog/jqgrid/jqgrid.html). 
+It provides the following functionalities:
 
 - search in big sets
 - drag and drop rows in sortable container
@@ -84,8 +85,6 @@ class ShowCase
             $this->projectReferences->add($projectReference);
             $projectReference->setShowCase($this);
         }
-    
-        return $this;
     }
     
     
@@ -94,8 +93,6 @@ class ShowCase
         if ($this->projectReferences->contains($projectReference)){
             $this->projectReferences->removeElement($projectReference);
         }
-    
-        return $this;
     }
 }
 ```
@@ -345,20 +342,20 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 		// .....
     ;
 }
-``
+```
 It's a standard symfony form.
 
 ##### Let's create the view.
 
 ``` jinja
-    {% block stylesheets %}
+	{% block stylesheets %}
                 
-        {% stylesheets
-           'jquery/css/smoothness/jquery-ui.css' 
-           'jquery/plugins/jqgrid/css/ui.jqgrid.css' 
-           'bundles/neutronform/css/form_widgets.css'
-             filter='cssrewrite'
-       %}
+		{% stylesheets
+			'jquery/css/smoothness/jquery-ui.css' 
+            'jquery/plugins/jqgrid/css/ui.jqgrid.css' 
+            'bundles/neutronform/css/form_widgets.css'
+            filter='cssrewrite'
+        %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
@@ -373,7 +370,7 @@ It's a standard symfony form.
 		'jquery/plugins/jqgrid/js/i18n/grid.locale-en.js'
         'jquery/plugins/jqgrid/js/jquery.jqGrid.src.js'
         'bundles/neutrondatagrid/js/init-datagrid.js'                                                                                                                                                                         
-        'bundles/neutronform/js/multi-select-sortable-upload.js'                                                                                                                                  
+        'bundles/neutronform/js/multi-select-sortable.js'                                                                                                                                  
 	%}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
@@ -397,4 +394,6 @@ $ php app/console assetic:dump
 
 Use standard symfony validators to validate the form.
 
-We're done. All you need is to drag and drop rows. The rest is done by the bundle.
+We're done. All you need is to drag and drop rows inside the sortable container. The rest is done by the bundle.
+
+[back to index](index.md)
