@@ -19,7 +19,6 @@
     "require": {
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
         "neutron/datagrid-bundle": ">=1.0.1,<2.0-dev",
-        "imagine/Imagine": "v0.3.0",
         "avalanche123/imagine-bundle": "v2.1"
     },
     "require-dev": {
