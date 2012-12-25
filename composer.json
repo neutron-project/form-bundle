@@ -1,25 +1,31 @@
 {
     "name":         "neutron/form-bundle",
-    "description":  "This bundle provides extra form types",
-    "keywords":     ["form", "autocomplete", "jQuery", "Symfony"],
+    "description":  "This bundle provides extra form types empowered by jQuery",
+    "keywords":     ["form", "jqueryui", "jQuery", "Symfony", "plupload", "tinymce", "inputlimiter", "select2", "recaptcha"],
     "type":         "symfony-bundle",
     "license":      "MIT",
     "authors":      [
         {
-            "name":     "Nikolay Georgiev",
+            "name":  "Nikolay Georgiev",
             "email": "azazen09@gmail.com"
         }
     ],
     "extra": {
-	    "branch-alias": {
-	        "dev-master": "1.0.*-dev"
-	    }
+        "branch-alias": {
+            "dev-master": "1.0.*-dev"
+        }
     },
     "minimum-stability": "dev",
-    "require":      {
-        "symfony/framework-bundle": ">=2.1,<2.3-dev"
+    "require": {
+        "symfony/framework-bundle": ">=2.1,<2.3-dev",
+        "neutron/datagrid-bundle": ">=1.0.1,<2.0-dev",
+        "imagine/Imagine": "v0.4.1",
+        "avalanche123/imagine-bundle": "v2.1"
     },
-    "autoload":     {
+    "require-dev": {
+        "neutron/component-bundle": "*"
+    },
+    "autoload": {
         "psr-0": { "Neutron\\FormBundle": "" }
     },
     "target-dir": "Neutron/FormBundle"

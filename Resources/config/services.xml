@@ -3,18 +3,312 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <!--
+ 
     <parameters>
-        <parameter key="neutron_form.example.class">Neutron\FormBundle\Example</parameter>
+        <parameter key="neutron_form.controller.file.class">Neutron\FormBundle\Controller\FileController</parameter>
+        <parameter key="neutron_form.controller.image.class">Neutron\FormBundle\Controller\ImageController</parameter>
+        <parameter key="neutron_form.form.type.autocomplete.class">Neutron\FormBundle\Form\Type\AutocompleteType</parameter>
+        <parameter key="neutron_form.form.type.spinner.class">Neutron\FormBundle\Form\Type\SpinnerType</parameter>
+        <parameter key="neutron_form.form.type.toggle_button.class">Neutron\FormBundle\Form\Type\ToggleButtonType</parameter>
+        <parameter key="neutron_form.form.type.buttonset.class">Neutron\FormBundle\Form\Type\ButtonsetType</parameter>
+        <parameter key="neutron_form.form.type.plain.class">Neutron\FormBundle\Form\Type\PlainType</parameter>
+        <parameter key="neutron_form.form.type.slider.class">Neutron\FormBundle\Form\Type\SliderType</parameter>
+        <parameter key="neutron_form.form.type.slider_range.class">Neutron\FormBundle\Form\Type\SliderRangeType</parameter>
+        <parameter key="neutron_form.form.type.datepicker.class">Neutron\FormBundle\Form\Type\DatePickerType</parameter>
+        <parameter key="neutron_form.form.type.daterangepicker.class">Neutron\FormBundle\Form\Type\DateRangePickerType</parameter>
+        <parameter key="neutron_form.form.type.timepicker.class">Neutron\FormBundle\Form\Type\TimePickerType</parameter>
+        <parameter key="neutron_form.form.type.datetimepicker.class">Neutron\FormBundle\Form\Type\DateTimePickerType</parameter>
+        <parameter key="neutron_form.form.type.datetimerangepicker.class">Neutron\FormBundle\Form\Type\DateTimeRangePickerType</parameter>
+        <parameter key="neutron_form.form.type.colorpicker.class">Neutron\FormBundle\Form\Type\ColorPickerType</parameter>
+        <parameter key="neutron_form.form.type.input_limiter.class">Neutron\FormBundle\Form\Type\InputLimiterType</parameter>
+        <parameter key="neutron_form.form.type.rating.class">Neutron\FormBundle\Form\Type\RatingType</parameter>
+        <parameter key="neutron_form.form.type.recaptcha.class">Neutron\FormBundle\Form\Type\RecaptchaType</parameter>
+        <parameter key="neutron_form.validator.constraint.recaptcha.class">Neutron\FormBundle\Validator\Constraint\RecaptchaValidator</parameter>
+        <parameter key="neutron_form.form.type.select2.class">Neutron\FormBundle\Form\Type\Select2Type</parameter>
+        <parameter key="neutron_form.form.type.select2_dependent.class">Neutron\FormBundle\Form\Type\Select2DependentType</parameter>
+        <parameter key="neutron_form.form.data_transformer.array_to_string.class">Neutron\FormBundle\Form\DataTransformer\ArrayToStringTransformer</parameter>
+        <parameter key="neutron_form.form.type.tinymce.class">Neutron\FormBundle\Form\Type\TinyMceType</parameter>
+        <parameter key="neutron_form.security.handler.tinymce.class">Neutron\FormBundle\Security\Handler\TinyMceSecurityHandler</parameter>
+        <parameter key="neutron_form.manager.image_manager.class">Neutron\FormBundle\Manager\ImageManager</parameter>
+        <parameter key="neutron_form.image.image_info.class">Neutron\FormBundle\Image\ImageInfo</parameter>
+        <parameter key="neutron_form.file.file_info.class">Neutron\FormBundle\File\FileInfo</parameter>
+        <parameter key="neutron_form.form.type.image_upload.class">Neutron\FormBundle\Form\Type\ImageUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.doctrine.orm.event_subscriber.image_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.twig.extension.form.class">Neutron\FormBundle\Twig\Extension\FormExtension</parameter>
+        <parameter key="neutron_form.form.type.multi_image_upload_collection.class">Neutron\FormBundle\Form\Type\MultiImageUploadCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_image_upload.class">Neutron\FormBundle\Form\Type\MultiImageUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.multi_image_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.event_subscriber.image_upload.class">Neutron\FormBundle\Form\EventSubscriber\ImageUploadSubscriber</parameter>
+        <parameter key="neutron_form.manager.file_manager.class">Neutron\FormBundle\Manager\FileManager</parameter>
+        <parameter key="neutron_form.form.type.file_upload.class">Neutron\FormBundle\Form\Type\FileUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.file_upload.class">Neutron\FormBundle\Form\EventSubscriber\FileUploadSubscriber</parameter>
+        <parameter key="neutron_form.doctrine.orm.event_subscriber.file_upload.class">Neutron\FormBundle\Doctrine\ORM\EventSubscriber\FileUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.type.multi_file_upload_collection.class">Neutron\FormBundle\Form\Type\MultiFileUploadCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_file_upload.class">Neutron\FormBundle\Form\Type\MultiFileUploadType</parameter>
+        <parameter key="neutron_form.form.event_subscriber.multi_file_upload.class">Neutron\FormBundle\Form\EventSubscriber\MultiFileUploadSubscriber</parameter>
+        <parameter key="neutron_form.form.data_transformer.doctrine_orm.class">Neutron\FormBundle\Form\DataTransformer\DoctrineORMTransformer</parameter>
+        <parameter key="neutron_form.form.event_subscriber.multi_select_sortable.class">Neutron\FormBundle\Form\EventSubscriber\MultiSelectSortableSubscriber</parameter>
+        <parameter key="neutron_form.form.type.inversed.class">Neutron\FormBundle\Form\Type\InversedType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_sortable_collection.class">Neutron\FormBundle\Form\Type\MultiSelectSortableCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_sortable.class">Neutron\FormBundle\Form\Type\MultiSelectSortableType</parameter>
+        <parameter key="neutron_form.form.type.multi_select_collection.class">Neutron\FormBundle\Form\Type\MultiSelectCollectionType</parameter>
+        <parameter key="neutron_form.form.type.multi_select.class">Neutron\FormBundle\Form\Type\MultiSelectType</parameter>
     </parameters>
 
     <services>
-        <service id="neutron_form.example" class="%neutron_form.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+    
+        <service id="neutron_form.controller.file" class="%neutron_form.controller.file.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
+    
+        <service id="neutron_form.controller.image" class="%neutron_form.controller.image.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+    
+        <service id="neutron_form.form.type.autocomplete" class="%neutron_form.form.type.autocomplete.class%">
+            <tag name="form.type" alias="neutron_autocomplete" />
+        </service>
+        
+        <service id="neutron_form.form.type.spinner" class="%neutron_form.form.type.spinner.class%">
+            <tag name="form.type" alias="neutron_spinner" />
+        </service>
+        
+        <service id="neutron_form.form.type.toggle_button" class="%neutron_form.form.type.toggle_button.class%">
+            <tag name="form.type" alias="neutron_toggle_button" />
+        </service>
+    
+        <service id="neutron_form.form.type.buttonset" class="%neutron_form.form.type.buttonset.class%" abstract="true" />
+        
+        <service id="neutron_form.form.type.plain" class="%neutron_form.form.type.plain.class%" scope="request">
+            <argument type="service" id="request" />
+            <tag name="form.type" alias="neutron_plain" />
+        </service>
+        
+        <service id="neutron_form.form.type.slider" class="%neutron_form.form.type.slider.class%">
+            <tag name="form.type" alias="neutron_slider" />
+        </service>
+        
+        <service id="neutron_form.form.type.slider_range" class="%neutron_form.form.type.slider_range.class%">
+            <tag name="form.type" alias="neutron_slider_range" />
+        </service>
+        
+        <service id="neutron_form.form.type.datepicker" class="%neutron_form.form.type.datepicker.class%">
+            <tag name="form.type" alias="neutron_datepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.daterangepicker" class="%neutron_form.form.type.daterangepicker.class%">
+            <tag name="form.type" alias="neutron_daterangepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.timepicker" class="%neutron_form.form.type.timepicker.class%">
+            <tag name="form.type" alias="neutron_timepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.datetimepicker" class="%neutron_form.form.type.datetimepicker.class%">
+            <tag name="form.type" alias="neutron_datetimepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.datetimerangepicker" class="%neutron_form.form.type.datetimerangepicker.class%">
+            <tag name="form.type" alias="neutron_datetimerangepicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.colorpicker" class="%neutron_form.form.type.colorpicker.class%">
+            <tag name="form.type" alias="neutron_colorpicker" />
+        </service>
+        
+        <service id="neutron_form.form.type.input_limiter" class="%neutron_form.form.type.input_limiter.class%">
+            <tag name="form.type" alias="neutron_input_limiter" />
+        </service>
+        
+        <service id="neutron_form.form.type.rating" class="%neutron_form.form.type.rating.class%">
+            <tag name="form.type" alias="neutron_rating" />
+        </service>
+        
+        <service id="neutron_form.form.type.recaptcha" class="%neutron_form.form.type.recaptcha.class%" />
+        
+        <service id="neutron_form.validator.constraint.recaptcha" class="%neutron_form.validator.constraint.recaptcha.class%" scope="request">
+            <argument type="service" id="request" />
+        </service>
+        
+        <service id="neutron_form.form.type.select2" class="%neutron_form.form.type.select2.class%">
+            <argument type="service" id="neutron_form.form.data_transformer.array_to_string" />
+            <tag name="form.type" alias="neutron_select2" />
+        </service>
+        
+        <service id="neutron_form.form.type.select2_dependent" class="%neutron_form.form.type.select2_dependent.class%">
+            <tag name="form.type" alias="neutron_select2_dependent" />
+        </service>
+        
+        <service id="neutron_form.form.data_transformer.array_to_string" class="%neutron_form.form.data_transformer.array_to_string.class%" />
+
+     	<service id="neutron_form.form.type.tinymce" class="%neutron_form.form.type.tinymce.class%">
+            <argument type="service"  id="neutron_form.security.handler.tinymce" />
+        </service>
+
+     	<service id="neutron_form.security.handler.tinymce" class="%neutron_form.security.handler.tinymce.class%">
+            <argument type="service"  id="security.context" />
+            <argument type="service"  id="session" />
+        </service>
+        
+        <service id="neutron_form.manager.image_manager" 
+            class="%neutron_form.manager.image_manager.class%">
+            
+            <call method="setFilesystem">
+                <argument type="service"  id="filesystem" />
+            </call>
+            <call method="setRootDir">
+                <argument>%kernel.root_dir%</argument>
+            </call>
+            <call method="setImageInfo">
+                <argument type="service" id="neutron_form.image.image_info" />
+            </call>
+        </service>
+        
+        <service id="neutron_form.image.image_info" 
+            class="%neutron_form.image.image_info.class%">
+        </service>
+        
+        <service id="neutron_form.file.file_info" class="%neutron_form.file.file_info.class%" />
+     
+
+        <service id="neutron_form.manager.file_manager" 
+            class="%neutron_form.manager.file_manager.class%">
+            
+            <call method="setFilesystem">
+                <argument type="service"  id="filesystem" />
+            </call>
+            <call method="setRootDir">
+                <argument>%kernel.root_dir%</argument>
+            </call>
+            <call method="setFileInfo">
+                <argument type="service" id="neutron_form.file.file_info" />
+            </call>
+        </service>
+        
+        <service id="neutron_form.form.type.image_upload" 
+            class="%neutron_form.form.type.image_upload.class%">
+            
+            <argument type="service"  id="session" />
+            <argument type="service"  id="router" />
+            <argument type="service"  id="neutron_form.form.event_subscriber.image_upload" />
+        </service>
+        
+        <service id="neutron_form.doctrine.orm.event_subscriber.image_upload" 
+            class="%neutron_form.doctrine.orm.event_subscriber.image_upload.class%" >
+            
+            <argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+        
+        <service id="neutron_form.twig.extension.form" 
+            class="%neutron_form.twig.extension.form.class%" >
+            
+            <argument type="service"  id="service_container" />
+        </service>
+     
+        <service id="neutron_form.form.type.multi_image_upload_collection" 
+            class="%neutron_form.form.type.multi_image_upload_collection.class%">
+            <argument type="service"  id="session" />
+            <argument type="service"  id="router" />
+            <argument type="service"  id="neutron_form.form.event_subscriber.multi_image_upload" />
+        </service>
+     
+        <service id="neutron_form.form.type.multi_image_upload" class="%neutron_form.form.type.multi_image_upload.class%" />
+                
+        <service id="neutron_form.form.event_subscriber.multi_image_upload" 
+            class="%neutron_form.form.event_subscriber.multi_image_upload.class%">
+            
+            <argument type="service"  id="doctrine.orm.entity_manager" />
+            <argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+                
+        <service id="neutron_form.form.event_subscriber.image_upload" 
+            class="%neutron_form.form.event_subscriber.image_upload.class%">
+            
+            <argument type="service"  id="neutron_form.manager.image_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.file_upload" 
+            class="%neutron_form.form.type.file_upload.class%">
+            
+            <argument type="service"  id="session" />
+            <argument type="service"  id="router" />
+            <argument type="service"  id="neutron_form.form.event_subscriber.file_upload" />
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.file_upload" 
+            class="%neutron_form.form.event_subscriber.file_upload.class%">
+        </service>
+        
+        <service id="neutron_form.doctrine.orm.event_subscriber.file_upload" 
+            class="%neutron_form.doctrine.orm.event_subscriber.file_upload.class%">
+            
+            <argument type="service"  id="neutron_form.manager.file_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_file_upload_collection" 
+            class="%neutron_form.form.type.multi_file_upload_collection.class%">
+            
+            <argument type="service"  id="session" />
+            <argument type="service"  id="router" />
+            <argument type="service"  id="neutron_form.form.event_subscriber.multi_file_upload" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_file_upload" 
+        	class="%neutron_form.form.type.multi_file_upload.class%">
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.multi_file_upload" 
+            class="%neutron_form.form.event_subscriber.multi_file_upload.class%">
+            <argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.data_transformer.doctrine_orm" 
+            class="%neutron_form.form.data_transformer.doctrine_orm.class%">
+            <argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.inversed" class="%neutron_form.form.type.inversed.class%">
+            <argument type="service"  id="neutron_form.form.data_transformer.doctrine_orm" />
+            <tag name="form.type" alias="neutron_inversed" />
+        </service>
+        
+        <service id="neutron_form.form.event_subscriber.multi_select_sortable" 
+            class="%neutron_form.form.event_subscriber.multi_select_sortable.class%">
+            
+            <argument type="service"  id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_sortable_collection" 
+            class="%neutron_form.form.type.multi_select_sortable_collection.class%">
+            
+            <argument type="service"  id="neutron_form.form.event_subscriber.multi_select_sortable" />
+     	    <tag name="form.type" alias="neutron_multi_select_sortable_collection" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_sortable" 
+            class="%neutron_form.form.type.multi_select_sortable.class%">
+            
+            <tag name="form.type" alias="neutron_multi_select_sortable" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select_colection" 
+            class="%neutron_form.form.type.multi_select_collection.class%">
+            
+            <tag name="form.type" alias="neutron_multi_select_collection" />
+        </service>
+        
+        <service id="neutron_form.form.type.multi_select" 
+            class="%neutron_form.form.type.multi_select.class%">
+            
+            <argument type="service"  id="neutron_form.form.data_transformer.doctrine_orm" />
+            <tag name="form.type" alias="neutron_multi_select" />
+        </service>
+            
     </services>
-    -->
+
 </container>

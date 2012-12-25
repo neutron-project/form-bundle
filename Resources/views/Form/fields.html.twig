@@ -1,0 +1,648 @@
+{% block neutron_autocomplete_widget %}
+{% spaceless %}
+<div>
+    {{ form_widget(form) }}
+    <span class="neutron-autocomplete" style="display:none" data-options="{{ configs|merge({'id': id})|json_encode }}"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_autocomplete_widget %}
+
+{% block neutron_spinner_widget %}
+{% spaceless %}
+<div>
+    {{ form_widget(form) }}
+    <span class="neutron-spinner" style="display:none" data-options="{{ configs|merge({'id': id, 'culture': app.request.locale })|json_encode }}"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_spinner_widget %}
+
+{% block neutron_buttonset_widget %} 
+{% spaceless %}
+<div> 
+    {{ form_widget(form) }}
+    <span class="neutron-buttonset" data-options="{{ configs|merge({'id':id})|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_buttonset_widget %} 
+
+{% block neutron_toggle_button_widget %} 
+{% spaceless %}
+
+{% set extra = {
+    'id': id,
+    'checked_label': configs.checked_label|trans({}, translation_domain),
+    'unchecked_label': configs.unchecked_label|trans({}, translation_domain),
+} %}
+
+<div> 
+    {{ form_widget(form) }}
+    <span class="neutron-toggle-button" data-options="{{ configs|merge(extra)|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_toggle_button_widget %} 
+
+{% block neutron_plain_widget %} 
+{% spaceless %}   
+<div>
+    <p>{{ value|trans({}, translation_domain)|escape }}</p>
+</div>
+{% endspaceless %} 
+{% endblock neutron_plain_widget %} 
+
+{% block neutron_slider_widget %} 
+{% spaceless %} 
+<div> 
+    {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
+    <span id="neutron-slider-tpl-{{ id }}" class="neutron-slider-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
+    <div id="neutron-slider-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }}
+        {% elseif configs.height is defined %} style="height:{{ configs.height }} 
+        {% endif %}" >
+    </div>
+    <span class="neutron-slider" data-options="{{ configs|merge({'id': id})|json_encode}}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_slider_widget %}
+
+{% block neutron_slider_range_widget %}
+{% spaceless %}
+<div>       
+    {{ form_widget(form) }}
+    <span id="neutron-slider-range-tpl-{{ id }}" class="neutron-slider-range-tpl">{{ configs.tpl|trans({}, translation_domain) }}</span>
+    <div id="neutron-slider-range-{{ id }}" {% if configs.width is defined %} style="width:{{ configs.width }} 
+        {% elseif configs.height is defined  %} style="height:{{ configs.height }} 
+        {% endif %}" >
+    </div>
+    <span class="neutron-slider-range" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_slider_range_widget %}
+
+{% block neutron_datepicker_widget %} 
+{% spaceless %} 
+<span>
+    {{ form_widget(form) }}
+    <span class="neutron-datepicker" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display: none"></span>
+</span>
+{% endspaceless %} 
+{% endblock neutron_datepicker_widget %} 
+
+{% block neutron_daterangepicker_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form[configs.first_name]) }}
+    {{ form_widget(form[configs.second_name]) }}
+    <span class="neutron-daterangepicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_daterangepicker_widget %} 
+
+{% block neutron_timepicker_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form) }}
+    <span class="neutron-timepicker" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_timepicker_widget %} 
+
+{% block neutron_datetimepicker_widget %} 
+{% spaceless %} 
+<span>
+    {{ form_widget(form) }}
+    <span class="neutron-datetimepicker" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display: none"></span>
+</span>
+{% endspaceless %} 
+{% endblock neutron_datetimepicker_widget %} 
+
+{% block neutron_datetimerangepicker_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form[configs.first_name]) }}
+    {{ form_widget(form[configs.second_name]) }}
+    <span class="neutron-datetimerangepicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_datetimerangepicker_widget %} 
+
+{% block neutron_colorpicker_widget %}
+{% spaceless %}
+<div>
+    
+    {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
+    <div id="neutron-colorpicker-widget-{{ id }}" class="colorSelector"><div style="background-color: #ffffff;"></div></div>
+    <span class="neutron-colorpicker" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_colorpicker_widget %}
+
+{% block neutron_input_limiter_widget %}
+{% spaceless %}
+{% set extraConfigs = {
+    'id': id,
+    'remText': 'remText'|trans({}, translation_domain),
+    'limitText': 'limitText'|trans({}, translation_domain),
+} %}
+<div>
+    {{ form_widget(form) }} 
+    <span class="neutron-input-limiter" data-options="{{ configs|merge(extraConfigs)|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_input_limiter_widget %}
+
+{% block neutron_rating_widget %}
+{% spaceless %}
+<div>
+    {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
+    <div id="neutron-rating-widget-{{ id }}"></div>
+    <span class="neutron-rating" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+</div>   
+{% endspaceless %}
+{% endblock neutron_rating_widget %}
+
+{% block neutron_recaptcha_widget %}
+{% spaceless %}
+<div>
+    <div id="{{ id }}" style="display: none;"></div>
+  
+    <noscript>
+        <iframe src="{{ configs.server_url }}/noscript?k={{ configs.public_key }}" width="500" height="300" frameborder="0"></iframe>
+        <br />
+        <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+        <input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
+    </noscript>
+    <span class="neutron-recaptcha" data-options="{{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_recaptcha_widget %}
+
+{% block neutron_select2_widget %} 
+{% spaceless %}
+{% set extraConfigs = {
+    '_id': id,
+    'placeholder': configs.placeholder|trans({}, translation_domain),
+} %}
+<div> 
+    {{ form_widget(form) }}
+    <span class="neutron-select2" data-options="{{ configs|merge(extraConfigs)|json_encode }}" style="display: none"></span>
+</div>
+    
+{% endspaceless %} 
+{% endblock neutron_select2_widget %} 
+
+{% block neutron_select2_dependent_widget %} 
+{% spaceless %} 
+<div>
+    {{ form_widget(form[configs.first_name]) }} &nbsp;&nbsp;
+    {{ form_widget(form[configs.second_name]) }}
+    <span class="neutron-select2-dependent" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display: none"></span>
+</div>
+{% endspaceless %} 
+{% endblock neutron_select2_dependent_widget %} 
+
+{% block neutron_tinymce_widget %}
+{% spaceless %}
+<div>
+   {{ form_widget(form) }} 
+   <span class="neutron-tinymce" data-options=" {{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_tinymce_widget %}
+
+{% block neutron_image_upload_widget %}
+{% spaceless %}
+<div>    
+    {{ form_widget(form) }} 
+    <div class="neutron-image-upload-main" style="display:none">
+        {{ block('neutron_image_upload_container') }} 
+        {{ block('neutron_image_upload_crop') }}
+        {{ block('neutron_upload_meta') }}
+    </div>
+    
+    <span class="neutron-image-upload" data-options="{{ configs|json_encode }}" style="display:none"></span>
+</div>
+{% endspaceless %}
+{% endblock neutron_image_upload_widget %}
+
+{% block neutron_image_upload_container %}
+{% spaceless %}
+<div id="neutron-image-upload-container-{{ id }}">
+    <div class="ui-state-error" style="width:300px; padding:5px; display:none">
+        <span style="float:right">
+            <a href="#close" id="neutron-upload-error-cancel-{{ id }}">
+                <img src="/bundles/neutronform/images/cancel.png" />
+            </a>
+        </span>
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <span class="neutron-imageupload-error">&nbsp</span>
+        </p>
+    </div>
+   
+    <div  id="neutron-progressbar-{{ id }}" style="width:350px; height:10px; display: none" ></div>
+    
+    <div class="neutron-progress-info" style="display:none">
+        <div class="ui-widget">
+            <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
+                <span style="float:right" id="neutron-upload-remove-image-{{id}}">
+                    <a href="#remove">
+                        <img src="/bundles/neutronform/images/cancel.png" />
+                    </a>
+                </span>
+                <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                <span>{% trans from translation_domain %}upload_progress{% endtrans %}: <strong>0%</strong></span>
+                <br/>
+                <span id="neutron-image-info-{{ id }}">__image_name__ (__image_size__)</span>
+            </div>
+        </div>
+    </div>
+        
+    <div class="neutron-image">
+        <img id="neutron-image-{{ id }}" src="/bundles/neutronform/images/noImage.png" />
+    </div>
+    
+    {{ block('neutron_image_controls') }}
+</div>
+
+{% endspaceless %}
+{% endblock neutron_image_upload_container %}
+
+{% block neutron_image_controls %}
+{% spaceless %}
+<div class="neutron-controls">
+    <button id="neutron-image-btn-upload-{{ id }}" class="ui-icon ui-icon-newwin neutron-image-upload-button" 
+        title="{% trans from translation_domain %}button_upload_title{% endtrans %}"></button> &nbsp;
+    {% if configs.image_options.enabled_button %}
+        <a id="neutron-image-btn-enabled-{{ id }}" 
+            class="ui-icon {% if (configs.enabled_value)  %} ui-icon-bullet  {% else %} ui-icon-radio-on {% endif %} neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_title_enabled{% endtrans %}"></a>  &nbsp;
+    {% endif %}
+    {% if configs.image_options.view_button %}
+        <a id="neutron-image-btn-view-{{ id }}" class="ui-icon ui-icon-zoomin neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_view_title{% endtrans %}"></a>  &nbsp;
+    {% endif %}
+    {% if configs.image_options.crop_button %}
+        <a id="neutron-image-btn-crop-{{ id }}" class="ui-icon ui-icon-scissors neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_crop_title{% endtrans %}"></a>  &nbsp;
+    {% endif %}
+    {% if configs.image_options.meta_button %}
+        <a id="neutron-meta-btn-edit-{{ id }}" class="ui-icon ui-icon-pencil neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_edit_meta_title{% endtrans %}"></a>  &nbsp;
+    {% endif %}  
+    {% if configs.image_options.rotate_button %}
+        <a id="neutron-image-btn-rotate-{{ id }}" class="ui-icon ui-icon-arrowrefresh-1-s neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_rotate_title{% endtrans %}"></a> &nbsp;
+    {% endif %}
+    {% if configs.image_options.reset_button %}
+        <a id="neutron-image-btn-reset-{{ id }}" class="ui-icon ui-icon-cancel neutron-image-upload-button" 
+            title="{% trans from translation_domain %}button_reset_title{% endtrans %}"></a>  &nbsp;
+    {% endif %} 
+    <a id="neutron-image-btn-remove-{{ id }}" class="ui-icon ui-icon-trash neutron-image-upload-button" 
+        title="{% trans from translation_domain %}button_remove_title{% endtrans %}"></a>  &nbsp;
+</div>
+{% endspaceless %}
+{% endblock neutron_image_controls %}
+
+{% block neutron_image_upload_crop %}
+{% spaceless %}
+<div id="neutron-dlg-image-crop-{{ id }}" style="display:none" 
+    title="{% trans from translation_domain %}dialog_crop_title{% endtrans %}">
+   
+    <div id="neutron-image-crop-{{ id }}" class="neutron-image"></div>
+
+    <div style="float:right">
+        <input type="hidden" id="x-{{ id }}"/>
+        <input type="hidden" id="y-{{ id }}"/>
+        <input type="hidden" id="w-{{ id }}"/>
+        <input type="hidden" id="h-{{ id }}"/>
+        
+        <a id="neutron-crop-dlg-cancel-btn-{{ id }}" class="neutron-image-upload-button">
+            {% trans from translation_domain %}dialog_crop_button_cancel{% endtrans %}</a>
+        <a id="neutron-crop-dlg-save-btn-{{ id }}" class="neutron-image-upload-button">
+            {% trans from translation_domain %}dialog_crop_button_crop{% endtrans %}</a>  &nbsp;    
+    </div>
+</div>  
+{% endspaceless %}
+{% endblock neutron_image_upload_crop %}
+
+{% block neutron_upload_meta %}
+{% spaceless %}
+<div id="neutron-dlg-meta-edit-{{ id }}" class="neutron-form" 
+    title="{% trans from translation_domain %}dialog_edit_meta_title{% endtrans %}">
+   <div>
+       <label for="neutron_meta_title-{{ id }}" class="neutron-form-label">
+           {% trans from translation_domain %}dialog_edit_meta_label_title{% endtrans %}
+       </label>
+       <input type="text" id="neutron-meta-title-{{ id }}" class="neutron-form-text" />
+   </div>
+   
+   <div>
+       <label for="neutron-meta-caption-{{ id }}" class="neutron-form-label" >
+           {% trans from translation_domain %}dialog_edit_meta_label_caption{% endtrans %}
+       </label>
+       <input type="text" id="neutron-meta-caption-{{ id }}" class="neutron-form-text" />
+   </div>
+   
+   <div>
+       <label for="neutron-meta-description-{{ id }}" class="neutron-form-label">
+           {% trans from translation_domain %}dialog_edit_meta_label_description{% endtrans %}
+       </label>
+       <textarea id="neutron-meta-description-{{ id }}" class="neutron-form-text" rows="5" ></textarea>
+   </div>
+   
+   <div style="float:right">
+       <a id="neutron-edit-dlg-done-btn-{{ id }}" class="neutron-image-upload-button">
+           {% trans from translation_domain %}dialog_edit_meta_button_done{% endtrans %}
+       </a>
+   </div>
+   
+</div>
+{% endspaceless %}
+{% endblock neutron_upload_meta %}
+
+{% block neutron_multi_image_upload_collection_widget %}
+{% spaceless %}
+<div>
+    <div class="neutron-multi-image-upload-main" style="display:none">
+        <div id="neutron-multi-image-upload-error-{{ id }}" 
+            class="neutron-multi-image-upload-error" style="display:none">
+    
+            <div class="ui-state-error" style="width:340px; padding:5px;">         
+                <span style="float:right">
+                    <a href="#close" id="neutron-multi-upload-error-cancel-{{ id }}">
+                        <img src="/bundles/neutronform/images/cancel.png" />
+                    </a>
+                </span>
+    
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                <span class="neutron-imageupload-error">&nbsp;</span>       
+            </div>
+        </div>
+    	
+        <div id="multi-image-progress-{{ id }}"></div>
+    
+        <div id="drag-drop-area-{{ id }}" class="neutron-drag-drop" {% if form|length > 0 %}style="display:none;"{% endif %}>
+            <div class="neutron-drag-drop-inside">
+                <p class="neutron-drag-drop-info" id="neutron-drag-drop-info-{{ id }}" 
+                    trans-drag="{% trans from translation_domain %}drag_drop_image_text{% endtrans %}"
+                    trans-no-images="{% trans from translation_domain %}no_images_text{% endtrans %}"
+                ></p>
+            </div>
+        </div>
+                   
+        <ul id="neutron-multi-image-upload-container-{{ id }}" class="neutron-sortable">
+            {% for key, child in form %}
+                <li data-index="{{ key }}">
+                    {{ form_widget(child) }}
+                    <img src="{{ configs.dir~form[key].name.get('value') }}" 
+                        width="{{ configs.minWidth }}" height="{{ configs.minHeight }}" />
+                </li>
+            {% endfor %}
+        </ul>
+            
+        <div id="neutron-progressbar-prototype-{{ id }}" style="display:none">
+            <div id="__id__"  class="neutron-progressbar-multi-image" style="width:350px; height:10px;" ></div>
+            <div class="neutron-progress-info">
+                <div class="ui-widget">
+                    <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
+                        <span style="float:right">
+                            <a href="#remove" id="neutron-multi-upload-remove-image-__id__">
+                                <img src="/bundles/neutronform/images/cancel.png" />
+                            </a>
+                        </span>
+                        <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                        <span>{% trans from translation_domain %}upload_progress{% endtrans %}: <strong>0%</strong></span>
+                        <br/>
+                        <span>__image_name__ (__image_size__)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+        <span data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|json_encode }}"
+            class="neutron-multi-image-upload" style="display:none"></span>
+        
+        <div style="clear:both;"></div> 
+        {{ block('neutron_image_controls') }}
+        {{ block('neutron_image_upload_crop') }}
+        {{ block('neutron_upload_meta') }}
+    </div>
+</div>
+{% endspaceless %}
+{% endblock neutron_multi_image_upload_collection_widget %}
+
+{% block neutron_file_upload_widget %}
+{% spaceless %}
+<div>
+    {{ form_widget(form) }} 
+    <span class="neutron-file-upload" data-options="{{ configs|json_encode}}" style="display:none"></span>
+    
+    <span class="neutron-file-upload-main" style="display:none">
+        <div id="neutron-file-error-{{ id }}" class="ui-state-error" 
+             style="width:300px; padding:10px; margin-bottom: 5px; display:none">
+            <span style="float:right">
+                <a href="#close" id="neutron-upload-error-cancel-{{ id }}">
+                    <img src="/bundles/neutronform/images/cancel.png" />
+                </a>
+            </span>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                <span class="neutron-fileupload-error">&nbsp</span>
+        	</p>
+        </div>
+                    
+        <div  id="neutron-progressbar-{{ id }}" style="width:350px; height:10px; display: none" ></div>
+       
+        <div class="neutron-progress-info" style="display:none">
+            <div class="ui-widget">
+                <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
+                    <span style="float:right" id="neutron-upload-remove-file-{{id}}">
+                        <a href="#remove">
+                            <img src="/bundles/neutronform/images/cancel.png" />
+                        </a>
+                    </span>
+                    <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                    <span>{% trans from translation_domain %}upload_progress{% endtrans %}: <strong>0%</strong></span>
+                    <br/>
+                    <span id="neutron-file-info-{{ id }}">__file_name__ (__file_size__)</span>
+                </div>
+            </div>
+        </div>
+                    
+        <div id="neutron-upload-file-{{ id }}" class="ui-state-highlight ui-corner-all" style="width:440px;padding:5px;"> 
+            
+            <p id="neutron-file-empty-{{ id }}" {% if form.name.get('value') %}style="display:none"{% endif %}>
+                <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                {% trans from translation_domain %}no_file_uploaded{% endtrans %}
+            </p>
+            
+            <p id="neutron-file-name-{{ id }}" {% if form.originalName.get('value') is empty %}style="display:none"{% endif %}>
+                <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                <strong>{% trans from translation_domain %}filename{% endtrans %}: </strong>
+                <span class="neutron-file-name">{{ form.originalName.get('value') }}</span>
+            </p>
+    
+        </div>
+        
+        {{ block('neutron_file_upload_controls') }}
+        {{ block('neutron_upload_meta') }}  
+    </span>
+</div>
+
+{% endspaceless %}
+{% endblock neutron_file_upload_widget %}
+
+{% block neutron_file_upload_controls %}
+{% spaceless %}
+<div class="neutron-controls">
+    <button id="neutron-file-btn-upload-{{ id }}" class="ui-icon ui-icon-newwin neutron-file-upload-button" 
+        title="{% trans from translation_domain %}button_upload_title{% endtrans %}"></button> &nbsp;
+    {% if configs.file_options.enabled_button %}
+        <a id="neutron-file-btn-enabled-{{ id }}" 
+        class="ui-icon {% if (configs.enabled_value)  %} ui-icon-bullet {% else %} ui-icon-radio-on {% endif %} neutron-file-upload-button" 
+            title="{% trans from translation_domain %}button_title_enabled{% endtrans %}"></a>  &nbsp;
+    {% endif %}
+    {% if configs.file_options.meta_button %}
+        <a id="neutron-meta-btn-edit-{{ id }}" class="ui-icon ui-icon-pencil neutron-file-upload-button" 
+            title="{% trans from translation_domain %}button_edit_meta_title{% endtrans %}"></a>  &nbsp;
+    {% endif %}
+    <a id="neutron-file-btn-remove-{{ id }}" class="ui-icon ui-icon-trash neutron-file-upload-button" 
+        title="{% trans from translation_domain %}button_remove_title{% endtrans %}"></a>  &nbsp;
+</div>
+{% endspaceless %}
+{% endblock neutron_file_upload_controls %}
+
+{% block neutron_multi_file_upload_collection_widget %}
+{% spaceless %}
+<div> 	   
+    <div class="neutron-multi-file-upload-main" style="display:none">
+        <div id="neutron-multi-file-upload-error-{{ id }}" class="neutron-multi-file-upload-error" style="display:none">
+            <div class="ui-state-error" style="width:340px; padding:5px;">
+                <p>
+                    <span style="float:right">
+                        <a href="#close" id="neutron-multi-upload-error-cancel-{{ id }}">
+                            <img src="/bundles/neutronform/images/cancel.png" />
+                        </a>
+                    </span>
+    
+                    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                    <span class="neutron-fileupload-error">&nbsp;</span>
+                </p>
+            </div>
+        </div>
+    	
+        <div id="multi-file-progress-{{ id }}"></div>
+    
+        <div id="drag-drop-area-{{ id }}" class="neutron-drag-drop" {% if form|length > 0 %}style="display:none;"{% endif %}>
+            <div class="neutron-drag-drop-inside">
+                <p class="neutron-drag-drop-info" id="neutron-drag-drop-info-{{ id }}" 
+                    trans-drag="{% trans from translation_domain %}drag_drop_file_text{% endtrans %}"
+                    trans-no-files="{% trans from translation_domain %}no_file_text{% endtrans %}"
+                ></p>
+            </div>
+        </div>
+            
+            
+        <ul id="neutron-multi-file-upload-container-{{ id }}" class="neutron-sortable">
+            {% for key, child in form %}
+                <li data-index="{{ key }}">
+                    {{ form_widget(child) }}
+                    <div class="ui-state-highlight" style="width:340px;height:70px;padding:5px;"> 
+                        <p>
+                            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                            <strong>{% trans from translation_domain %}filename{% endtrans %}: </strong>
+                            <span class="neutron-file-name">{{ form[key].originalName.get('value') }}</span>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+            
+        <div id="neutron-multi-file-prototype-{{ id }}" style="display:none">
+            <div class="ui-state-highlight" style="width:340px;height:70px;padding:5px;"> 
+                <p>
+                    <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                    <strong>{% trans from translation_domain %}filename{% endtrans %}: </strong>
+                    <span class="neutron-file-name">__name__</span>
+                </p>
+            </div>
+        </div>
+    	
+        <div id="neutron-progressbar-prototype-{{ id }}" style="display:none">
+            <div id="__id__"  class="neutron-progressbar-multi-file" style="width:350px; height:10px;" ></div>
+            <div class="neutron-progress-info">
+                <div class="ui-widget">
+                    <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
+                        <span style="float:right">
+                            <a href="#remove" id="neutron-multi-upload-remove-file-__id__">
+                                <img src="/bundles/neutronform/images/cancel.png" />
+                            </a>
+                        </span>
+                        <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                        <span>{% trans from translation_domain %}upload_progress{% endtrans %}: <strong>0%</strong></span>
+                        <br/>
+                        <span>__file_name__ (__file_size__)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <span data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|json_encode}}"
+            class="neutron-multi-file-upload" style="display:none"></span>
+        <div style="clear:both;"></div> 
+        
+        {{ block('neutron_file_upload_controls') }}
+        {{ block('neutron_upload_meta') }}
+    </div>
+</div>
+
+{% endspaceless %}
+{% endblock neutron_multi_file_upload_collection_widget %}
+
+{% block neutron_multi_select_sortable_collection_widget %}
+{% spaceless %}
+<div>  
+    <div data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|merge({'id': id})|json_encode|e }}" class="multi-select-sortable-container">           
+        <div id="multi-select-sortable-error-{{ id }}" class="ui-state-error" style="width:600px; padding:5px; margin:5px; display:none" >
+            <p>
+                <span style="float:right">
+                    <a href="#close" id="neutron-multi-select-sortable-error-cancel-{{ id }}">
+                        <img src="/bundles/neutronform/images/cancel.png" />
+                    </a>
+                </span>
+
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                {% trans from translation_domain %}multi_select_sortable.error{% endtrans %}
+            </p>
+        </div>
+        <div class="neutron-grid">{{ neutron_datagrid(grid) }}</div>  
+        <div id="multi-select-sortable-{{ id }}" class="multi-select-sortable" style="display:none">
+            <p class="desc">{% trans from translation_domain %}multi_select_sortable.description{% endtrans %}</p>
+            {% for key, child in form %}
+                <div id="multi-select-element-{{ child[inversed_property].vars.value }}" data-index="{{ key }}" class="ui-state-default multi-select-element">
+                    {{ child.vars.data.label }}
+                    <a class="delete-btn" href="#" style="float:right"></a>
+                    {{ form_widget(child) }}                
+                </div>
+            {% endfor %}
+        </div>        
+    </div>    
+</div>
+{% endspaceless %}
+{% endblock neutron_multi_select_sortable_collection_widget %}
+
+{% block neutron_multi_select_collection_widget %}
+{% spaceless %}
+<div>  
+    <div data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|merge({'id': id})|json_encode}}" class="neutron-multi-select">           
+        {{ neutron_datagrid(grid) }}
+        <div id="neutron-multi-select-form-{{ id }}">
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    </div>    
+</div>
+{% endspaceless %}
+{% endblock neutron_multi_select_collection_widget %}
