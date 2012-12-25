@@ -31,6 +31,10 @@ public function registerBundles()
     $bundles = array(
         // ...
         new Neutron\FormBundle\NeutronFormBundle(),
+        // if you use form types which require neutron/datagrid-bundle
+        new Neutron\DataGridBundle\NeutronDataGridBundle(),
+        // if you use plupload
+        new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
     );
     // ...
 }
@@ -43,6 +47,11 @@ public function registerBundles()
 neutron_form:
     resource: "@NeutronDataGridBundle/Resources/config/routing.xml"
     prefix:   / 
+    
+# if you use plupload
+_imagine:
+    resource: .
+    type:     imagine
 ```
 
 ### Step 4) Download jQuery, jQueryUI 
