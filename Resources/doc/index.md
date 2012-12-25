@@ -15,7 +15,7 @@ Add on composer.json (see http://getcomposer.org/)
 
     "require" :  {
         // ...
-        "neutron-project/form-bundle":"dev-master",
+        "neutron/form-bundle":"dev-master",
     }
 
 ### Step 2) Register the bundle
@@ -48,7 +48,6 @@ neutron_form:
     resource: "@NeutronDataGridBundle/Resources/config/routing.xml"
     prefix:   / 
     
-# if you use plupload
 _imagine:
     resource: .
     type:     imagine
