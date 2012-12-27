@@ -143,7 +143,7 @@ jQuery(document).ready(function(){
         } else {
             jQuery('#neutron-image-' + options.id)
             .attr({
-                'src': options.dir + jQuery('#' + options.name_id).val() 
+                'src': options.base_url + options.dir + jQuery('#' + options.name_id).val() 
                     +  '?t=' + new Date().getTime(), 
                 width: options.minWidth, 
                 height: options.minHeight
@@ -239,7 +239,7 @@ jQuery(document).ready(function(){
                 jQuery('#' + options.hash_id).val(data.hash);
                 jQuery('#neutron-image-' + options.id).fadeOut(function(){
                     jQuery(this).attr({
-                        'src': options.dir 
+                        'src': options.base_url + options.dir 
                             + data.name +  '?t=' + new Date().getTime(), 
                         width: options.minWidth, 
                         height: options.minHeight
@@ -283,7 +283,7 @@ jQuery(document).ready(function(){
             disableButtons();
             jQuery('#neutron-image-' + options.id).fadeOut(function(){
                 jQuery(this).attr({
-                    'src': '/bundles/neutronform/images/noImage.png'
+                    'src': options.base_url + 'bundles/neutronform/images/noImage.png'
                 })
                 .removeAttr('width').removeAttr('height');
             }).fadeIn(function(){
@@ -366,7 +366,7 @@ jQuery(document).ready(function(){
 
                     jQuery('#neutron-dlg-image-crop-' + options.id).dialog('open');
                 });
-            }).attr({src : options.dir 
+            }).attr({src : options.base_url + options.dir 
                     + jQuery('#' + options.name_id).val() +  '?t=' + new Date().getTime()});
             
             return false;
@@ -389,7 +389,7 @@ jQuery(document).ready(function(){
                 } else if(response.success === true) {
                     jQuery('#neutron-image-' + options.id).fadeOut(function(){
                         jQuery(this).attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight
@@ -459,7 +459,7 @@ jQuery(document).ready(function(){
 
                     jQuery('#neutron-image-' + options.id).fadeOut(function(){
                         jQuery(this).attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight
@@ -492,7 +492,7 @@ jQuery(document).ready(function(){
                     jQuery('#' + options.hash_id).val(response.hash);
                     jQuery('#neutron-image-' + options.id).fadeOut(function(){
                         jQuery(this).attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight

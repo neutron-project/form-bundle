@@ -146,7 +146,6 @@ class FileUploadType extends AbstractType
                 }
 
                 $configs['upload_url'] = $router->generate('neutron_form_media_file_upload');
-                $configs['dir'] = '/' . $defaultOptions['temporary_dir'] . '/';
 
                 return $configs;
             }

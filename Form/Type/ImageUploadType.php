@@ -155,7 +155,7 @@ class ImageUploadType extends AbstractType
                 $configs['crop_url'] = $router->generate('neutron_form_media_image_crop');
                 $configs['rotate_url'] = $router->generate('neutron_form_media_image_rotate');
                 $configs['reset_url'] = $router->generate('neutron_form_media_image_reset');
-                $configs['dir'] = '/' . $defaultOptions['temporary_dir'] . '/';
+                $configs['dir'] = $defaultOptions['temporary_dir'] . '/';
                 
                 return $configs;
             }

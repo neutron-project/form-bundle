@@ -156,7 +156,7 @@
 <div>
     {{ form_widget(form, { 'attr': {'style': 'display:none'} }) }}
     <div id="neutron-rating-widget-{{ id }}"></div>
-    <span class="neutron-rating" data-options="{{ configs|merge({'id': id})|json_encode }}" style="display:none"></span>
+    <span class="neutron-rating" data-options="{{ configs|merge({'id': id, 'path': asset(configs.path)})|json_encode }}" style="display:none"></span>
 </div>   
 {% endspaceless %}
 {% endblock neutron_rating_widget %}
@@ -205,7 +205,7 @@
 {% spaceless %}
 <div>
    {{ form_widget(form) }} 
-   <span class="neutron-tinymce" data-options=" {{ configs|merge({'id': id, 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
+   <span class="neutron-tinymce" data-options=" {{ configs|merge({'id': id, 'base_url': asset(''), 'lang': app.request.locale})|json_encode }}" style="display:none"></span>
 </div>
 {% endspaceless %}
 {% endblock neutron_tinymce_widget %}
@@ -220,7 +220,7 @@
         {{ block('neutron_upload_meta') }}
     </div>
     
-    <span class="neutron-image-upload" data-options="{{ configs|json_encode }}" style="display:none"></span>
+    <span class="neutron-image-upload" data-options="{{ configs|merge({'base_url': asset('')})|json_encode }}" style="display:none"></span>
 </div>
 {% endspaceless %}
 {% endblock neutron_image_upload_widget %}
@@ -231,7 +231,7 @@
     <div class="ui-state-error" style="width:300px; padding:5px; display:none">
         <span style="float:right">
             <a href="#close" id="neutron-upload-error-cancel-{{ id }}">
-                <img src="/bundles/neutronform/images/cancel.png" />
+                <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
             </a>
         </span>
         <p>
@@ -247,7 +247,7 @@
             <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
                 <span style="float:right" id="neutron-upload-remove-image-{{id}}">
                     <a href="#remove">
-                        <img src="/bundles/neutronform/images/cancel.png" />
+                        <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                     </a>
                 </span>
                 <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
@@ -259,7 +259,7 @@
     </div>
         
     <div class="neutron-image">
-        <img id="neutron-image-{{ id }}" src="/bundles/neutronform/images/noImage.png" />
+        <img id="neutron-image-{{ id }}" src="{{ asset('bundles/neutronform/images/noImage.png') }}" />
     </div>
     
     {{ block('neutron_image_controls') }}
@@ -371,7 +371,7 @@
             <div class="ui-state-error" style="width:340px; padding:5px;">         
                 <span style="float:right">
                     <a href="#close" id="neutron-multi-upload-error-cancel-{{ id }}">
-                        <img src="/bundles/neutronform/images/cancel.png" />
+                        <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                     </a>
                 </span>
     
@@ -395,7 +395,7 @@
             {% for key, child in form %}
                 <li data-index="{{ key }}">
                     {{ form_widget(child) }}
-                    <img src="{{ configs.dir~form[key].name.get('value') }}" 
+                    <img src="{{ asset(configs.dir~form[key].name.get('value')) }}" 
                         width="{{ configs.minWidth }}" height="{{ configs.minHeight }}" />
                 </li>
             {% endfor %}
@@ -408,7 +408,7 @@
                     <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
                         <span style="float:right">
                             <a href="#remove" id="neutron-multi-upload-remove-image-__id__">
-                                <img src="/bundles/neutronform/images/cancel.png" />
+                                <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                             </a>
                         </span>
                         <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
@@ -420,7 +420,7 @@
             </div>
         </div>
                 
-        <span data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|json_encode }}"
+        <span data-prototype="{{ form_widget(form.get('prototype')) | e }}" data-options="{{ configs|merge({'base_url': asset('')})|json_encode }}"
             class="neutron-multi-image-upload" style="display:none"></span>
         
         <div style="clear:both;"></div> 
@@ -443,7 +443,7 @@
              style="width:300px; padding:10px; margin-bottom: 5px; display:none">
             <span style="float:right">
                 <a href="#close" id="neutron-upload-error-cancel-{{ id }}">
-                    <img src="/bundles/neutronform/images/cancel.png" />
+                    <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                 </a>
             </span>
             <p>
@@ -459,7 +459,7 @@
                 <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
                     <span style="float:right" id="neutron-upload-remove-file-{{id}}">
                         <a href="#remove">
-                            <img src="/bundles/neutronform/images/cancel.png" />
+                            <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                         </a>
                     </span>
                     <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
@@ -522,7 +522,7 @@
                 <p>
                     <span style="float:right">
                         <a href="#close" id="neutron-multi-upload-error-cancel-{{ id }}">
-                            <img src="/bundles/neutronform/images/cancel.png" />
+                            <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                         </a>
                     </span>
     
@@ -576,7 +576,7 @@
                     <div class="ui-state-highlight ui-corner-all" style="width:340px;padding:5px;"> 
                         <span style="float:right">
                             <a href="#remove" id="neutron-multi-upload-remove-file-__id__">
-                                <img src="/bundles/neutronform/images/cancel.png" />
+                                <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                             </a>
                         </span>
                         <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
@@ -608,7 +608,7 @@
             <p>
                 <span style="float:right">
                     <a href="#close" id="neutron-multi-select-sortable-error-cancel-{{ id }}">
-                        <img src="/bundles/neutronform/images/cancel.png" />
+                        <img src="{{ asset('bundles/neutronform/images/cancel.png') }}" />
                     </a>
                 </span>
 

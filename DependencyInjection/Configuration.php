@@ -77,8 +77,24 @@ class Configuration implements ConfigurationInterface
                     ->canBeUnset()
                     ->children()
                         ->booleanNode('filemanager')->defaultFalse()->end()
-                        ->scalarNode('tiny_mce_path_js')->isRequired(true)->end()
-                        ->scalarNode('ajaxfilemanager_path_php')->defaultValue(null)->end()
+                        ->scalarNode('tiny_mce_path_js')
+                            ->isRequired(true)
+                            ->beforeNormalization()
+                                ->always()
+                                ->then(function($v) {
+                                    return trim($v, '/');
+                                })
+                            ->end()
+                        ->end()
+                        ->scalarNode('ajaxfilemanager_path_php')
+                            ->defaultValue(null)
+                            ->beforeNormalization()
+                                ->always()
+                                ->then(function($v) {
+                                    return trim($v, '/');
+                                })
+                            ->end()
+                        ->end()
                         ->variableNode('security')
                             ->defaultValue(array('ROLE_SUPER_ADMIN', 'ROLE_ADMIN'))->end()
                         ->scalarNode('theme')
@@ -132,7 +148,15 @@ class Configuration implements ConfigurationInterface
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('runtimes')->defaultValue('html5,flash')->end()
-                        ->scalarNode('plupload_flash_path_swf')->DefaultNull()->end()
+                        ->scalarNode('plupload_flash_path_swf')
+                            ->defaultNull()
+                            ->beforeNormalization()
+                                ->always()
+                                ->then(function($v) {
+                                    return trim($v, '/');
+                                })
+                            ->end()
+                        ->end()
                         ->scalarNode('temporary_dir')
                             ->defaultValue('temp')
                             ->beforeNormalization()

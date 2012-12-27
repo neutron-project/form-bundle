@@ -225,7 +225,7 @@ jQuery(document).ready(function(){
                 var elm = prototype.replace(/__name__/g, elementIdx);
 
                 collectionHolder.append(jQuery('<li data-index="'+ elementIdx +'"><img src="'+ 
-                    options.dir + data.name +'" width="'+ options.minWidth +'"  height="'
+                    options.base_url + options.dir + data.name +'" width="'+ options.minWidth +'"  height="'
                     + options.minHeight +'" /></li>').append(elm));
 
                 var formElm = collectionHolder.find('[data-index="'+ elementIdx +'"]').find(':hidden');
@@ -386,7 +386,7 @@ jQuery(document).ready(function(){
 
                     jQuery('#neutron-dlg-image-crop-' + options.id).dialog('open');
                 });
-            }).attr({src : options.dir + name +  '?t=' + new Date().getTime()});
+            }).attr({src : options.base_url + options.dir + name +  '?t=' + new Date().getTime()});
             
             return false;
 
@@ -412,7 +412,7 @@ jQuery(document).ready(function(){
                 } else if(response.success === true) {
                     image.fadeOut(function(){
                         image.attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight
@@ -485,7 +485,7 @@ jQuery(document).ready(function(){
                     hash.val(response.hash);
                     image.fadeOut(function(){
                        jQuery(this).attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight
@@ -517,7 +517,7 @@ jQuery(document).ready(function(){
                     hash.val(response.hash);
                     image.fadeOut(function(){
                         jQuery(this).attr({
-                            'src': options.dir + response.name +  
+                            'src': options.base_url + options.dir + response.name +  
                             '?t=' + new Date().getTime(), 
                             width: options.minWidth, 
                             height: options.minHeight

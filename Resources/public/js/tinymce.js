@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
         var element = jQuery('#' + options.id);
         element.tinymce({
             // Location of TinyMCE script
-            script_url : options.tiny_mce_path_js,
+            script_url : options.base_url + options.tiny_mce_path_js,
 
             // General options
             theme : options.theme,
@@ -52,7 +52,7 @@ jQuery(document).ready(function(){
 
                 tinyMCE.activeEditor.windowManager.open(
                 {
-                    url: options.ajaxfilemanager_path_php + "?editor=tinymce&language=" + options.lang,
+                    url: options.base_url + options.ajaxfilemanager_path_php + "?editor=tinymce&language=" + options.lang,
                     width: 782,
                     height: 460,
                     inline : "yes",
@@ -65,7 +65,7 @@ jQuery(document).ready(function(){
             },
 
             // Example content CSS (should be your site CSS)
-            content_css : options.content_css,
+            content_css : options.content_css ? options.base_url + options.content_css : null,
             relative_urls : false,
             convert_urls : true,    
             language : options.lang

@@ -131,7 +131,6 @@ class MultiFileUploadCollectionType extends AbstractType
                 }
 
                 $configs['upload_url'] = $router->generate('neutron_form_media_file_upload');
-                $configs['dir'] = '/' . $defaultOptions['temporary_dir'] . '/';
                 $configs['enabled_value'] = false;
 
                 return $configs;
