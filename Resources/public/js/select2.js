@@ -86,7 +86,7 @@ function buildSelectOptions(element, url, term, multiple, dependent_value)
         url: url,
         data: { term: term }
     }).done(function(response) {
-        element.html(createSelectOptions(jQuery.parseJSON(response), multiple));
+        element.html(createSelectOptions(response, multiple));
     }).success(function(){
         element.select2('val', dependent_value);	
     });	
