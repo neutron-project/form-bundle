@@ -99,7 +99,7 @@ jQuery(document).ready(function(){
         // Colorbox handler
         jQuery('#neutron-image-btn-view-' + options.id).click(function(){ 
             jQuery.colorbox({
-                href: options.dir + jQuery('#' + options.name_id).val() + '?t=' + new Date().getTime(), 
+                href: options.base_url + options.dir + jQuery('#' + options.name_id).val() + '?t=' + new Date().getTime(), 
                 title: jQuery('#' + options.title_id).val()
             });
             return false;

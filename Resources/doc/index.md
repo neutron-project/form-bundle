@@ -45,7 +45,7 @@ public function registerBundles()
 # app/config/routing.yaml
 # needed for plupload
 neutron_form:
-    resource: "@NeutronDataGridBundle/Resources/config/routing.xml"
+    resource: "@NeutronFormBundle/Resources/config/routing.xml"
     prefix:   / 
     
 _imagine:
