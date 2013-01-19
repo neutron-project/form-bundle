@@ -68,7 +68,7 @@ class ImageUploadSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getData();
         
-        if ($entity instanceof ImageInterface && null === $entity->getId() && true === $entity->isScheduledForDeletion()){
+        if ($entity instanceof ImageInterface && null === $entity->getId() && null === $entity->getName()){
             $event->setData(null);
         }
     }
