@@ -26,8 +26,8 @@ class ArrayToStringTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {   
-        if (null === $value || !is_array($value)) {
-            return null;
+        if (empty($value) || !is_array($value)) { 
+            return null; 
         }
 
         return implode(',', $value);
@@ -41,8 +41,10 @@ class ArrayToStringTransformer implements DataTransformerInterface
     {
         if (is_array($value)) {
             return $value;
+        } elseif (empty($value)){
+            return array();
         }
-
+        
         return explode(',', $value);
     }
 }
