@@ -32,7 +32,7 @@ class ImagineCompilerPass implements CompilerPassInterface
             if($container->hasDefinition('liip_imagine.gd')) {
                 $container->setAlias('imagine', 'liip_imagine.gd');
             } else {
-                $defination = new Definition("Imagine\\Gd\\Imagine");
+                $definition = new Definition("Imagine\\Gd\\Imagine");
                 $container->setDefinition('imagine', $defination);
             }
         }
