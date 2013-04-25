@@ -28,8 +28,13 @@ class ImagineCompilerPass implements CompilerPassInterface
      */
     public function process (ContainerBuilder $container)
     {
-        if(!$container->hasExtension('avalanche_imagine') && $container->hasParameter('neutron_form.plupload.configs')){
-            throw new \RuntimeException('AvalancheImagineBundle is not installed.');
+        if(!$container->hasAlias('imagine') && !$container->hasDefinition('imagine')) {
+            if($container->hasDefinition('liip_imagine.gd')) {
+                $container->setAlias('imagine', 'liip_imagine.gd');
+            } else {
+                $defination = new Definition("Imagine\\Gd\\Imagine");
+                $container->setDefinition('imagine', $defination);
+            }
         }
     }
 }
