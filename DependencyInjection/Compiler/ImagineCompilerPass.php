@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
+use Symfony\Component\DependencyInjection\Definition;
+
 
 /**
  * Default implementation of CompilerPassInterface
@@ -33,7 +35,7 @@ class ImagineCompilerPass implements CompilerPassInterface
                 $container->setAlias('imagine', 'liip_imagine.gd');
             } else {
                 $definition = new Definition("Imagine\\Gd\\Imagine");
-                $container->setDefinition('imagine', $defination);
+                $container->setDefinition('imagine', $definition);
             }
         }
     }
