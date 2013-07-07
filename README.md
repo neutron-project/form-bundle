@@ -1,5 +1,10 @@
 NeutronFormBundle
 =================
+
+*This bundle is move to [ThraceFormBundle](https://github.com/thrace-project/form-bundle)*.
+It will be not supported anymore under *Neutron* namespace. 
+
+
 The `NeutronFormBundle` adds some extra form types to Symfony 2 Form Component. 
 
 Features include:
