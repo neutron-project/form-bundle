@@ -1,7 +1,7 @@
 NeutronFormBundle
 =================
 
-*This bundle is move to [ThraceFormBundle](https://github.com/thrace-project/form-bundle)*.
+*This bundle is moved to [ThraceFormBundle](https://github.com/thrace-project/form-bundle)*.
 It will be not supported anymore under *Neutron* namespace. 
 
 
