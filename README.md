@@ -4,6 +4,8 @@ NeutronFormBundle
 *This bundle is moved to [ThraceFormBundle](https://github.com/thrace-project/form-bundle)*.
 It will be not supported anymore under *Neutron* namespace. 
 
+*For managing uploads (plupload) please refer to [ThraceMediaBundle](https://github.com/thrace-project/media-bundle)*
+
 
 The `NeutronFormBundle` adds some extra form types to Symfony 2 Form Component. 
 
